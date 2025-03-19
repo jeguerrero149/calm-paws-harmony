@@ -129,7 +129,15 @@
 
 @layer components {
   .glass-card {
-    @apply bg-white/30 dark:bg-black/20 backdrop-blur-md border border-white/20 dark:border-white/10 shadow-lg;
+    @apply bg-white/30 dark:bg-black/20 backdrop-blur-md border border-white/20 dark:border-white/10 shadow-lg relative overflow-hidden;
+  }
+
+  .glass-card::before {
+    @apply content-[''] absolute -inset-0.5 bg-gradient-to-br from-calmpets-cyan/30 to-calmpets-magenta/30 rounded-[inherit] opacity-0 transition-opacity duration-300;
+  }
+
+  .glass-card:hover::before {
+    @apply opacity-100;
   }
 
   .neon-border {
@@ -145,7 +153,39 @@
   }
 
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-cyan-magenta-gradient;
+    @apply bg-clip-text text-transparent bg-cyan-magenta-gradient relative;
+  }
+  
+  .gradient-text::after {
+    @apply content-[''] absolute -inset-0.5 bg-gradient-to-r from-calmpets-cyan/20 to-calmpets-magenta/20 rounded-md -z-10 opacity-0 transition-opacity duration-300;
+  }
+  
+  .gradient-text:hover::after {
+    @apply opacity-100;
+  }
+
+  .btn-dynamic {
+    @apply relative overflow-hidden transition-all duration-300 transform hover:-translate-y-1;
+  }
+  
+  .btn-dynamic::before {
+    @apply content-[''] absolute inset-0 bg-gradient-to-r from-calmpets-cyan to-calmpets-magenta opacity-0 transition-opacity duration-300;
+  }
+  
+  .btn-dynamic:hover::before {
+    @apply opacity-20;
+  }
+  
+  .card-dynamic {
+    @apply relative overflow-hidden transition-all duration-300 transform hover:-translate-y-1;
+  }
+  
+  .card-dynamic::after {
+    @apply content-[''] absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-calmpets-cyan to-calmpets-magenta transform scale-x-0 origin-left transition-transform duration-300;
+  }
+  
+  .card-dynamic:hover::after {
+    @apply scale-x-100;
   }
 }
 
@@ -184,4 +224,14 @@
 .blur-load > img {
   opacity: 0;
   transition: opacity 250ms ease-in-out;
+}
+
+/* Custom animation for skewed elements */
+@keyframes float-skew {
+  0%, 100% { transform: translateY(0) skew(0deg, 0deg); }
+  50% { transform: translateY(-10px) skew(-5deg, 0deg); }
+}
+
+.animate-float-skew {
+  animation: float-skew 6s ease-in-out infinite;
 }
