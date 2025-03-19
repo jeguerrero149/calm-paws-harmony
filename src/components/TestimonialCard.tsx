@@ -81,7 +81,7 @@ const TestimonialCard = ({
           ) : (
             <div className="h-12 w-12 rounded-full bg-gradient-to-r from-calmpets-cyan to-calmpets-magenta flex items-center justify-center text-white font-medium text-lg transform transition-transform duration-300 group-hover:scale-110 relative">
               <div className="absolute inset-0 rounded-full bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-              <span className="relative z-10" data-text={name.charAt(0)} className="glitch-text">{name.charAt(0)}</span>
+              <span className="relative z-10 glitch-text" data-text={name.charAt(0)}>{name.charAt(0)}</span>
             </div>
           )}
         </div>
