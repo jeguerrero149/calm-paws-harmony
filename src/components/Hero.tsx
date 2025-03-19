@@ -44,7 +44,7 @@ const Hero = () => {
 
               {/* Main heading */}
               <h1 className="text-balance text-4xl md:text-5xl lg:text-6xl font-bold leading-tight animate-reveal-up">
-                Next-Level <span className="gradient-text">Chill</span> para Perros <span className="gradient-text">Estresados</span>
+                Next-Level <span className="gradient-text">Chill</span> for <span className="gradient-text">Stressed-out</span> Dogs
               </h1>
 
               {/* Description */}
