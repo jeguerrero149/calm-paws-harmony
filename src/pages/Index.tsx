@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Heart, Shield, Star, Zap, Award, Dog, Users, CircleCheck } from 'lucide-react';
@@ -256,28 +257,28 @@ const Index = () => {
                 label: "de perros sufren ansiedad",
                 description: "Según estudios recientes",
                 icon: <Dog size={24} className="text-calmpets-cyan" />,
-                accentColor: "cyan"
+                accentColor: "cyan" as const
               },
               {
                 value: "85%",
                 label: "de efectividad",
                 description: "En reducción de ansiedad",
                 icon: <Star size={24} className="text-calmpets-magenta" />,
-                accentColor: "magenta"
+                accentColor: "magenta" as const
               },
               {
                 value: "10k+",
                 label: "mascotas ayudadas",
                 description: "En el último año",
                 icon: <Dog size={24} className="text-calmpets-cyan" />,
-                accentColor: "cyan"
+                accentColor: "cyan" as const
               },
               {
                 value: "500+",
                 label: "veterinarios recomiendan",
                 description: "Nuestros productos",
                 icon: <Users size={24} className="text-calmpets-magenta" />,
-                accentColor: "magenta"
+                accentColor: "magenta" as const
               }
             ].map((stat, index) => (
               <div
