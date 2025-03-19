@@ -1,7 +1,6 @@
-
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Heart, Shield, Star, Zap, Award, Dog, Paw, Users, CircleCheck } from 'lucide-react';
+import { ArrowRight, Heart, Shield, Star, Zap, Award, Dog, Users, CircleCheck } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import Hero from '@/components/Hero';
 import ProductCard from '@/components/ProductCard';
@@ -270,7 +269,7 @@ const Index = () => {
                 value: "10k+",
                 label: "mascotas ayudadas",
                 description: "En el último año",
-                icon: <Paw size={24} className="text-calmpets-cyan" />,
+                icon: <Dog size={24} className="text-calmpets-cyan" />,
                 accentColor: "cyan"
               },
               {
