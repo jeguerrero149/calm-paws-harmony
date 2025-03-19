@@ -1,8 +1,22 @@
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+}
+
+/* Aumentar la legibilidad en dispositivos móviles */
+@media screen and (max-width: 768px) {
+  body {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  
+  h1, h2, h3 {
+    word-break: break-word;
+    hyphens: auto;
+  }
 }
 
 .logo {
@@ -39,4 +53,59 @@
 
 .read-the-docs {
   color: #888;
+}
+
+/* Mejoras para legibilidad */
+p, li, a {
+  font-size: 1rem;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+}
+
+/* Mejoras de accesibilidad para lectores de pantalla */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Mejoras para el contraste de textos */
+@media (prefers-color-scheme: dark) {
+  body {
+    color: rgba(255, 255, 255, 0.95);
+  }
+  
+  p, li {
+    color: rgba(255, 255, 255, 0.85);
+  }
+  
+  .low-contrast {
+    color: rgba(255, 255, 255, 0.7);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  body {
+    color: rgba(0, 0, 0, 0.9);
+  }
+  
+  p, li {
+    color: rgba(0, 0, 0, 0.8);
+  }
+  
+  .low-contrast {
+    color: rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* Mejoras para el foco en elementos interactivos */
+a:focus, button:focus, input:focus, select:focus, textarea:focus {
+  outline: 3px solid rgba(55, 232, 232, 0.5);
+  outline-offset: 2px;
 }

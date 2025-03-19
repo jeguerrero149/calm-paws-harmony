@@ -1,6 +1,5 @@
 
 import { Star } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 interface TestimonialCardProps {
   id: string;
