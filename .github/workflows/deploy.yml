@@ -1,0 +1,33 @@
+name: Deploy Vite to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Se ejecutará cuando hagas un push a la rama main
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v3
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Instalar dependencias
+        run: npm install
+
+      - name: Compilar el proyecto
+        run: npm run build
+
+      - name: Desplegar a GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: dist
