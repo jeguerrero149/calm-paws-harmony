@@ -83,9 +83,7 @@ const Hero = () => {
               {/* Description with more vibrant approach */}
               <p className="text-gray-600 dark:text-gray-300 text-xl max-w-xl mx-auto lg:mx-0 animate-reveal-up transform skew-x-3" style={{
               animationDelay: '100ms'
-            }}>
-                Formulado con ingredientes naturales como valeriana, manzanilla y lavanda para calmar a tu mejor amigo sin efectos secundarios.
-              </p>
+            }}>Formulas naturales y sin efectos secundarios para calmar a tu mejor amigo cuando más lo necesita. </p>
 
               {/* CTA buttons with extreme dynamic design */}
               <div className="flex flex-col sm:flex-row items-center gap-6 justify-center lg:justify-start pt-4 animate-reveal-up" style={{
