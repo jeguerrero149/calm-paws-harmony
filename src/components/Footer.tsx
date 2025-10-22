@@ -143,7 +143,7 @@ const Footer = () => {
               </div>
               <div>
                 <div className="font-sans text-sm opacity-70">Ubicación</div>
-                <p className="font-sans font-semibold">Buenos Aires, Argentina</p>
+                <p className="font-sans font-semibold">Medellín, Colombia</p>
               </div>
             </div>
           </div>
