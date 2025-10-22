@@ -1,66 +1,86 @@
-
-import { cn } from "@/lib/utils";
+import { LucideIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface StatsCardProps {
   value: string;
   label: string;
   description?: string;
-  icon: React.ReactNode;
-  accentColor?: "cyan" | "magenta" | "gradient";
-  index: number;
+  icon?: LucideIcon | React.ReactNode;
+  accentColor?: 'cyan' | 'magenta' | 'gradient';
+  index?: number;
 }
 
-const StatsCard = ({ 
-  value, 
-  label, 
-  description, 
-  icon, 
-  accentColor = "gradient",
-  index
-}: StatsCardProps) => {
-  const getColorClasses = () => {
-    switch (accentColor) {
-      case "cyan":
-        return "from-calmpets-cyan/20 to-calmpets-cyan/5 text-calmpets-cyan";
-      case "magenta":
-        return "from-calmpets-magenta/20 to-calmpets-magenta/5 text-calmpets-magenta";
-      case "gradient":
-      default:
-        return "from-calmpets-cyan/10 to-calmpets-magenta/10 text-foreground";
-    }
+const StatsCard = ({ value, label, description, icon: Icon, accentColor = 'cyan', index = 0 }: StatsCardProps) => {
+  const rotations = ['-rotate-2', 'rotate-1', '-rotate-1', 'rotate-2'];
+  const rotation = rotations[index % rotations.length];
+  
+  const bgColors = {
+    cyan: 'bg-pelambre-indigo',
+    magenta: 'bg-pelambre-magenta',
+    gradient: 'bg-pelambre-bittersweet',
   };
+
+  const accentElements = {
+    cyan: 'bg-pelambre-lemon',
+    magenta: 'bg-pelambre-indigo',
+    gradient: 'bg-pelambre-magenta',
+  };
+
+  const bgColor = bgColors[accentColor];
+  const accentBg = accentElements[accentColor];
 
   return (
     <div 
       className={cn(
-        "edgy-card p-6 bg-gradient-to-br transition-all duration-300 hover:shadow-lg transform hover:translate-y-[-5px] relative overflow-hidden group animate-reveal-up noise-overlay",
-        getColorClasses()
+        "pelambre-border rounded-2xl p-8 transition-all duration-500 hover:rotate-0 hover:scale-105 hover:shadow-2xl group",
+        bgColor,
+        rotation
       )}
-      style={{ animationDelay: `${index * 150}ms` }}
+      style={{
+        animationDelay: `${index * 0.1}s`
+      }}
     >
-      {/* Dynamic corner cuts */}
-      <div className="absolute top-0 right-0 w-0 h-0 border-t-[25px] border-r-[25px] border-t-transparent border-r-white/20 dark:border-r-black/40"></div>
-      <div className="absolute bottom-0 left-0 w-0 h-0 border-b-[15px] border-l-[15px] border-b-transparent border-l-white/20 dark:border-l-black/40"></div>
-      
-      {/* Diagonal decorative lines */}
-      <div className="absolute -right-8 top-[30%] w-16 h-[2px] bg-calmpets-cyan/20 rotate-45 transform group-hover:scale-150 transition-transform duration-500"></div>
-      <div className="absolute -left-8 bottom-[30%] w-16 h-[2px] bg-calmpets-magenta/20 -rotate-45 transform group-hover:scale-150 transition-transform duration-500"></div>
-      
-      <div className="flex items-start relative z-10">
-        <div className="mr-4 p-3 bg-white dark:bg-calmpets-dark/40 rounded-lg shadow-md transform transition-all duration-300 group-hover:rotate-6 group-hover:scale-110 group-hover:translate-y-[-5px]">
-          {icon}
+      {/* Decorative Corner Element */}
+      <div className={cn(
+        "absolute top-4 right-4 w-12 h-12 rotate-45 opacity-20",
+        accentBg
+      )} />
+
+      <div className="relative space-y-4 text-white">
+        {/* Icon */}
+        {Icon && (
+          <div className={cn(
+            "inline-flex items-center justify-center w-16 h-16 rounded-full border-4 border-black transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110",
+            accentBg,
+            accentColor === 'gradient' ? 'text-white' : 'text-black'
+          )}>
+            {typeof Icon === 'function' ? <Icon className="w-8 h-8" strokeWidth={3} /> : Icon}
+          </div>
+        )}
+
+        {/* Value */}
+        <div className="font-display text-7xl md:text-8xl leading-none">
+          {value}
         </div>
-        <div>
-          <h3 className="font-display text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-calmpets-cyan via-current to-calmpets-magenta animate-jitter">{value}</h3>
-          <p className="font-medium text-base transform transition-transform duration-300 group-hover:translate-x-2">{label}</p>
-          {description && (
-            <p className="text-gray-600 dark:text-gray-400 text-sm mt-1 transform transition-transform duration-300 group-hover:translate-x-1">{description}</p>
-          )}
+
+        {/* Label */}
+        <div className="font-display text-2xl md:text-3xl uppercase tracking-wide">
+          {label}
         </div>
+
+        {/* Description */}
+        {description && (
+          <p className="font-sans text-lg opacity-90 pt-2 max-w-xs">
+            {description}
+          </p>
+        )}
+
+        {/* Diagonal Line Accent */}
+        <div className={cn(
+          "absolute bottom-4 left-4 w-20 h-1 rotate-45",
+          accentBg
+        )} />
       </div>
-      
-      {/* Dynamic background elements */}
-      <div className="absolute -bottom-6 -right-6 w-12 h-12 rounded-full bg-gradient-to-br from-calmpets-cyan/10 to-calmpets-magenta/10 blur-md transform scale-0 group-hover:scale-100 transition-transform duration-700"></div>
     </div>
   );
 };

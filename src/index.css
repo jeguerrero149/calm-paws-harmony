@@ -244,6 +244,27 @@
     z-index: 10;
     pointer-events: none;
   }
+
+  .pelambre-border {
+    border: 4px solid #000000;
+    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.15);
+  }
+
+  .pelambre-border-thin {
+    border: 2px solid #000000;
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  .text-outline-black {
+    -webkit-text-stroke: 2px #000000;
+    text-stroke: 2px #000000;
+    color: transparent;
+    paint-order: stroke fill;
+  }
+
+  .text-shadow-bold {
+    text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
+  }
 }
 
 /* Custom scrollbar */
