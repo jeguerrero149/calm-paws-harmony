@@ -1,7 +1,7 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -9,83 +9,83 @@
 
 @layer base {
   :root {
-    --background: 0 0% 98%;
-    --foreground: 240 10% 3.9%;
+    --background: 45 15% 97%;
+    --foreground: 30 8% 20%;
 
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card-foreground: 30 8% 20%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
+    --popover-foreground: 30 8% 20%;
 
-    --primary: 190 98% 56%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 30 65% 55%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 315 95% 66%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 200 25% 45%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
+    --muted: 45 10% 92%;
+    --muted-foreground: 30 5% 45%;
 
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+    --accent: 35 80% 60%;
+    --accent-foreground: 30 8% 20%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 190 98% 56%;
+    --border: 45 10% 85%;
+    --input: 45 10% 85%;
+    --ring: 30 65% 55%;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 45 15% 97%;
+    --sidebar-foreground: 30 8% 20%;
+    --sidebar-primary: 30 65% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 45 10% 92%;
+    --sidebar-accent-foreground: 30 8% 20%;
+    --sidebar-border: 45 10% 85%;
+    --sidebar-ring: 30 65% 55%;
   }
 
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+    --background: 30 15% 12%;
+    --foreground: 45 10% 95%;
 
-    --card: 240 10% 5.9%;
-    --card-foreground: 0 0% 98%;
+    --card: 30 12% 16%;
+    --card-foreground: 45 10% 95%;
 
-    --popover: 240 10% 5.9%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 30 12% 16%;
+    --popover-foreground: 45 10% 95%;
 
-    --primary: 190 98% 56%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 30 65% 55%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 315 95% 66%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 200 25% 45%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+    --muted: 30 10% 22%;
+    --muted-foreground: 45 8% 65%;
 
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 30 10% 22%;
+    --accent-foreground: 45 10% 95%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 65% 45%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 190 98% 56%;
+    --border: 30 10% 22%;
+    --input: 30 10% 22%;
+    --ring: 30 65% 55%;
 
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-background: 30 15% 12%;
+    --sidebar-foreground: 45 10% 95%;
+    --sidebar-primary: 30 65% 55%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 30 10% 22%;
+    --sidebar-accent-foreground: 45 10% 95%;
+    --sidebar-border: 30 10% 22%;
+    --sidebar-ring: 30 65% 55%;
   }
 }
 
@@ -133,7 +133,7 @@
   }
 
   .glass-card::before {
-    @apply content-[''] absolute -inset-0.5 bg-gradient-to-br from-calmpets-cyan/30 to-calmpets-magenta/30 rounded-[inherit] opacity-0 transition-opacity duration-300;
+    @apply content-[''] absolute -inset-0.5 bg-gradient-to-br from-primary/30 to-secondary/30 rounded-[inherit] opacity-0 transition-opacity duration-300;
   }
 
   .glass-card:hover::before {
@@ -141,7 +141,7 @@
   }
 
   .neon-border {
-    @apply relative before:absolute before:inset-0 before:rounded-[inherit] before:p-[1px] before:bg-gradient-to-r before:from-calmpets-cyan before:to-calmpets-magenta before:-z-10;
+    @apply relative before:absolute before:inset-0 before:rounded-[inherit] before:p-[1px] before:bg-gradient-to-r before:from-primary before:to-secondary before:-z-10;
   }
 
   .hover-scale {
@@ -153,11 +153,11 @@
   }
 
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-cyan-magenta-gradient relative;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary relative;
   }
   
   .gradient-text::after {
-    @apply content-[''] absolute -inset-0.5 bg-gradient-to-r from-calmpets-cyan/20 to-calmpets-magenta/20 rounded-md -z-10 opacity-0 transition-opacity duration-300;
+    @apply content-[''] absolute -inset-0.5 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-md -z-10 opacity-0 transition-opacity duration-300;
   }
   
   .gradient-text:hover::after {
@@ -169,7 +169,7 @@
   }
   
   .btn-dynamic::before {
-    @apply content-[''] absolute inset-0 bg-gradient-to-r from-calmpets-cyan to-calmpets-magenta opacity-0 transition-opacity duration-300;
+    @apply content-[''] absolute inset-0 bg-gradient-to-r from-primary to-secondary opacity-0 transition-opacity duration-300;
   }
   
   .btn-dynamic:hover::before {
@@ -181,7 +181,7 @@
   }
   
   .card-dynamic::after {
-    @apply content-[''] absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-calmpets-cyan to-calmpets-magenta transform scale-x-0 origin-left transition-transform duration-300;
+    @apply content-[''] absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-secondary transform scale-x-0 origin-left transition-transform duration-300;
   }
   
   .card-dynamic:hover::after {
@@ -195,7 +195,7 @@
   }
 
   .edgy-card::before {
-    @apply content-[''] absolute inset-0 bg-gradient-to-br from-calmpets-cyan/40 to-calmpets-magenta/40 opacity-0 transition-opacity duration-300;
+    @apply content-[''] absolute inset-0 bg-gradient-to-br from-primary/40 to-secondary/40 opacity-0 transition-opacity duration-300;
   }
 
   .edgy-card:hover::before {
@@ -217,12 +217,12 @@
 
   .split-background {
     @apply relative overflow-hidden;
-    background: linear-gradient(110deg, transparent 25%, rgba(55, 232, 232, 0.1) 25%, rgba(246, 89, 250, 0.1) 75%, transparent 75%);
+    background: linear-gradient(110deg, transparent 25%, hsl(var(--primary) / 0.1) 25%, hsl(var(--secondary) / 0.1) 75%, transparent 75%);
   }
 
   .diagonal-split {
     @apply relative overflow-hidden;
-    background: linear-gradient(135deg, white 50%, rgba(55, 232, 232, 0.05) 50%);
+    background: linear-gradient(135deg, white 50%, hsl(var(--primary) / 0.05) 50%);
   }
 
   .text-outline {
@@ -257,14 +257,14 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, rgba(55, 232, 232, 0.5), rgba(246, 89, 250, 0.5));
+  background: linear-gradient(135deg, hsl(var(--primary) / 0.5), hsl(var(--secondary) / 0.5));
   border-radius: 8px;
   border: 3px solid transparent;
   background-clip: content-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, rgba(55, 232, 232, 0.8), rgba(246, 89, 250, 0.8));
+  background: linear-gradient(135deg, hsl(var(--primary) / 0.8), hsl(var(--secondary) / 0.8));
   background-clip: content-box;
 }
 
@@ -342,12 +342,12 @@
 
 .glitch-text:hover::before {
   animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
-  color: #37E8E8;
+  color: hsl(var(--primary));
   z-index: -1;
 }
 
 .glitch-text:hover::after {
   animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
-  color: #F659FA;
+  color: hsl(var(--secondary));
   z-index: -2;
 }
