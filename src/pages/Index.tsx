@@ -247,9 +247,7 @@ const Index = () => {
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className={cn("text-center mb-12 transition-all duration-1000 transform", isVisible.testimonials ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10")}>
             <h2 className="font-display text-4xl font-bold mb-4">Lo que dicen nuestros clientes</h2>
-            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              Historias reales de dueños de mascotas que han transformado la vida de sus compañeros con CalmPets.
-            </p>
+            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Historias reales de dueños de mascotas que han transformado la vida de sus compañeros con FIL.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
