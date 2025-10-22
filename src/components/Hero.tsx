@@ -44,10 +44,10 @@ const Hero = () => {
 
             {/* Main Headline */}
             <h1 className="font-display text-6xl md:text-7xl lg:text-8xl uppercase leading-tight tracking-tight">
-              <span className="inline-block rotate-2 text-primary drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]" style={{ textShadow: '3px 3px 0 rgba(0,0,0,0.2)' }}>Snacks</span>{' '}
-              <span className="inline-block -rotate-1 text-foreground font-black drop-shadow-lg">Para</span>{' '}
-              <span className="inline-block rotate-1 text-secondary font-black drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]" style={{ textShadow: '3px 3px 0 rgba(0,0,0,0.2)' }}>Perros</span>{' '}
-              <span className="inline-block -rotate-2 text-accent font-black drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]" style={{ textShadow: '3px 3px 0 rgba(0,0,0,0.2)' }}>Cool</span>
+              <span className="inline-block rotate-2 text-pelambre-bittersweet drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]" style={{ textShadow: '3px 3px 0 rgba(0,0,0,0.2)' }}>Snacks</span>{' '}
+              <span className="inline-block -rotate-1 text-pelambre-violet font-black drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]" style={{ textShadow: '3px 3px 0 rgba(0,0,0,0.2)' }}>Para</span>{' '}
+              <span className="inline-block rotate-1 text-pelambre-lemon font-black drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]" style={{ textShadow: '3px 3px 0 rgba(0,0,0,0.2)' }}>Perros</span>{' '}
+              <span className="inline-block -rotate-2 text-pelambre-magenta font-black drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]" style={{ textShadow: '3px 3px 0 rgba(0,0,0,0.2)' }}>Cool</span>
             </h1>
 
             {/* Description */}
