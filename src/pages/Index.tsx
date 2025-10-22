@@ -131,10 +131,8 @@ const Index = () => {
                 <span className="px-4 py-1.5 bg-calmpets-cyan/10 text-calmpets-cyan rounded-full text-sm font-medium inline-block mb-4">
                   100% Natural
                 </span>
-                <h2 className="font-display text-4xl font-bold mb-6">¿Por qué elegir CalmPets?</h2>
-                <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-xl mx-auto lg:mx-0">
-                  En CalmPets combinamos la ciencia y lo natural para crear productos que realmente funcionan para la ansiedad canina, sin efectos secundarios.
-                </p>
+                <h2 className="font-display text-4xl font-bold mb-6">¿Por qué elegir FIL?</h2>
+                <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-xl mx-auto lg:mx-0 font-bold">En FIL combinamos la ciencia y lo natural para crear productos que realmente funcionan para la ansiedad canina, sin efectos secundarios.</p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
