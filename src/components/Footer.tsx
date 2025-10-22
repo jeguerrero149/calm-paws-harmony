@@ -1,48 +1,70 @@
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Twitter, Mail, Phone, MapPin, ArrowUp } from 'lucide-react';
 import isotipo from '@/assets/pelambre-isotipo.png';
-
 const Footer = () => {
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   };
-
-  const footerLinks = [
-    {
-      title: "Productos",
-      links: [
-        { name: "Snacks Calmantes", path: "/products" },
-        { name: "Juguetes", path: "/products" },
-        { name: "Accesorios", path: "/products" },
-        { name: "Ofertas", path: "/products" },
-      ]
-    },
-    {
-      title: "Empresa",
-      links: [
-        { name: "Nosotros", path: "/about" },
-        { name: "Contacto", path: "/contact" },
-        { name: "Blog", path: "/about" },
-      ]
-    },
-    {
-      title: "Soporte",
-      links: [
-        { name: "FAQ", path: "/about" },
-        { name: "Envíos", path: "/about" },
-        { name: "Devoluciones", path: "/about" },
-      ]
-    }
-  ];
-
-  const socialLinks = [
-    { icon: Facebook, href: "#", label: "Facebook", color: "bg-pelambre-indigo" },
-    { icon: Instagram, href: "#", label: "Instagram", color: "bg-pelambre-magenta" },
-    { icon: Twitter, href: "#", label: "Twitter", color: "bg-pelambre-lemon" },
-  ];
-
-  return (
-    <footer className="relative bg-pelambre-violet text-white overflow-hidden">
+  const footerLinks = [{
+    title: "Productos",
+    links: [{
+      name: "Snacks Calmantes",
+      path: "/products"
+    }, {
+      name: "Juguetes",
+      path: "/products"
+    }, {
+      name: "Accesorios",
+      path: "/products"
+    }, {
+      name: "Ofertas",
+      path: "/products"
+    }]
+  }, {
+    title: "Empresa",
+    links: [{
+      name: "Nosotros",
+      path: "/about"
+    }, {
+      name: "Contacto",
+      path: "/contact"
+    }, {
+      name: "Blog",
+      path: "/about"
+    }]
+  }, {
+    title: "Soporte",
+    links: [{
+      name: "FAQ",
+      path: "/about"
+    }, {
+      name: "Envíos",
+      path: "/about"
+    }, {
+      name: "Devoluciones",
+      path: "/about"
+    }]
+  }];
+  const socialLinks = [{
+    icon: Facebook,
+    href: "#",
+    label: "Facebook",
+    color: "bg-pelambre-indigo"
+  }, {
+    icon: Instagram,
+    href: "#",
+    label: "Instagram",
+    color: "bg-pelambre-magenta"
+  }, {
+    icon: Twitter,
+    href: "#",
+    label: "Twitter",
+    color: "bg-pelambre-lemon"
+  }];
+  return <footer className="relative bg-pelambre-violet text-white overflow-hidden">
       {/* Top Section with Asymmetric Blocks */}
       <div className="absolute top-0 left-0 w-1/3 h-32 bg-pelambre-indigo -skew-x-12 transform -translate-x-8" />
       <div className="absolute top-0 right-0 w-1/4 h-24 bg-pelambre-lemon" />
@@ -53,13 +75,9 @@ const Footer = () => {
           <div className="lg:col-span-2 space-y-6">
             <div className="flex items-center gap-4">
               <div className="pelambre-border bg-white p-3 rounded-2xl rotate-6 hover:rotate-0 transition-transform duration-300">
-                <img 
-                  src={isotipo} 
-                  alt="Pelambre" 
-                  className="h-16 w-16"
-                />
+                <img src={isotipo} alt="Pelambre" className="h-16 w-16" />
               </div>
-              <span className="font-display text-4xl uppercase">Pelambre</span>
+              <span className="font-display text-4xl uppercase">FIL</span>
             </div>
             
             <p className="font-sans text-lg max-w-sm">
@@ -69,41 +87,27 @@ const Footer = () => {
             {/* Social Links */}
             <div className="flex gap-3">
               {socialLinks.map((social, index) => {
-                const Icon = social.icon;
-                return (
-                  <a
-                    key={index}
-                    href={social.href}
-                    aria-label={social.label}
-                    className={`pelambre-border ${social.color} w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 hover:rotate-12 hover:scale-110 active:scale-95`}
-                  >
+              const Icon = social.icon;
+              return <a key={index} href={social.href} aria-label={social.label} className={`pelambre-border ${social.color} w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 hover:rotate-12 hover:scale-110 active:scale-95`}>
                     <Icon className={`w-5 h-5 ${social.color === 'bg-pelambre-lemon' ? 'text-black' : 'text-white'}`} strokeWidth={2.5} />
-                  </a>
-                );
-              })}
+                  </a>;
+            })}
             </div>
           </div>
 
           {/* Links Sections */}
-          {footerLinks.map((section, index) => (
-            <div key={index} className="space-y-4">
+          {footerLinks.map((section, index) => <div key={index} className="space-y-4">
               <h3 className="font-display text-2xl uppercase text-pelambre-lemon">
                 {section.title}
               </h3>
               <ul className="space-y-2">
-                {section.links.map((link, linkIndex) => (
-                  <li key={linkIndex}>
-                    <Link
-                      to={link.path}
-                      className="font-sans text-base hover:text-pelambre-lemon transition-colors duration-300 hover:translate-x-1 inline-block"
-                    >
+                {section.links.map((link, linkIndex) => <li key={linkIndex}>
+                    <Link to={link.path} className="font-sans text-base hover:text-pelambre-lemon transition-colors duration-300 hover:translate-x-1 inline-block">
                       {link.name}
                     </Link>
-                  </li>
-                ))}
+                  </li>)}
               </ul>
-            </div>
-          ))}
+            </div>)}
         </div>
 
         {/* Contact Info */}
@@ -166,18 +170,12 @@ const Footer = () => {
       </div>
 
       {/* Scroll to Top Button */}
-      <button
-        onClick={scrollToTop}
-        className="fixed bottom-8 right-8 pelambre-border bg-pelambre-bittersweet text-white w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 hover:rotate-12 hover:scale-110 active:scale-95 shadow-2xl z-50 group"
-        aria-label="Scroll to top"
-      >
+      <button onClick={scrollToTop} className="fixed bottom-8 right-8 pelambre-border bg-pelambre-bittersweet text-white w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 hover:rotate-12 hover:scale-110 active:scale-95 shadow-2xl z-50 group" aria-label="Scroll to top">
         <ArrowUp className="w-6 h-6 group-hover:-translate-y-1 transition-transform" strokeWidth={3} />
       </button>
 
       {/* Bottom Accent */}
       <div className="h-4 bg-pelambre-lemon" />
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;
