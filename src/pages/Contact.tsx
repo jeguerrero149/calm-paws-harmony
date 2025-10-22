@@ -353,7 +353,7 @@ const Contact = () => {
                 <MapPin size={48} className="mx-auto mb-4 text-calmpets-magenta" />
                 <h3 className="font-display font-semibold text-xl">Mapa Interactivo</h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Aquí iría un mapa de Google Maps mostrando la ubicación de CalmPets
+                  Aquí iría un mapa de Google Maps mostrando la ubicación de FIL
                 </p>
               </div>
             </div>

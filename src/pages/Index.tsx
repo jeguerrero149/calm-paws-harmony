@@ -67,7 +67,7 @@ const Index = () => {
     id: "1",
     name: "Carolina Méndez",
     rating: 5,
-    comment: "Mi perro Toby sufría de ansiedad severa durante tormentas. Después de probar los snacks de CalmPets, noto una diferencia impresionante en su comportamiento. ¡Ahora duerme tranquilo incluso con truenos!",
+    comment: "Mi perro Toby sufría de ansiedad severa durante tormentas. Después de probar los snacks de FIL, noto una diferencia impresionante en su comportamiento. ¡Ahora duerme tranquilo incluso con truenos!",
     petName: "Toby",
     petType: "Labrador",
     date: "15 mayo, 2023"
@@ -76,7 +76,7 @@ const Index = () => {
     name: "Dr. Ramón Gutiérrez",
     position: "Veterinario Comportamental",
     rating: 5,
-    comment: "Como especialista en comportamiento animal, he recomendado CalmPets a muchos de mis pacientes con excelentes resultados. Su formulación natural es efectiva sin los efectos secundarios de medicamentos convencionales.",
+    comment: "Como especialista en comportamiento animal, he recomendado FIL a muchos de mis pacientes con excelentes resultados. Su formulación natural es efectiva sin los efectos secundarios de medicamentos convencionales.",
     date: "3 junio, 2023"
   }, {
     id: "3",
@@ -168,7 +168,7 @@ const Index = () => {
               <div className="relative w-full max-w-md aspect-square">
                 <div className="absolute inset-0 bg-gradient-to-br from-calmpets-cyan/20 to-calmpets-magenta/20 rounded-full animate-rotate-slow opacity-70 blur-md"></div>
                 <div className="absolute inset-[15%] bg-white dark:bg-calmpets-dark rounded-full shadow-xl overflow-hidden p-2">
-                  <img src="public/lovable-uploads/56a6cdab-20a0-4d14-92c1-72a7ddbae9fa.png" alt="Perro relajado con CalmPets" className="w-full h-full object-cover rounded-full" />
+                  <img src="public/lovable-uploads/56a6cdab-20a0-4d14-92c1-72a7ddbae9fa.png" alt="Perro relajado con FIL" className="w-full h-full object-cover rounded-full" />
                 </div>
 
                 {/* Floating elements */}
@@ -266,7 +266,7 @@ const Index = () => {
               Empieza a mejorar la vida de tu mascota hoy
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
-              Únete a miles de dueños de mascotas satisfechos y transforma la calidad de vida de tu perro con CalmPets.
+              Únete a miles de dueños de mascotas satisfechos y transforma la calidad de vida de tu perro con FIL.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/products" className="bg-gradient-to-r from-calmpets-cyan to-calmpets-magenta hover:opacity-90 text-white font-medium px-8 py-3 rounded-full transition duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center justify-center gap-2">

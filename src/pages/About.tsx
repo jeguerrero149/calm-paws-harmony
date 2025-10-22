@@ -72,7 +72,7 @@ const About = () => {
       id: "1",
       name: "Carolina Méndez",
       rating: 5,
-      comment: "Mi perro Toby sufría de ansiedad severa durante tormentas. Después de probar los snacks de CalmPets, noto una diferencia impresionante en su comportamiento. ¡Ahora duerme tranquilo incluso con truenos!",
+      comment: "Mi perro Toby sufría de ansiedad severa durante tormentas. Después de probar los snacks de FIL, noto una diferencia impresionante en su comportamiento. ¡Ahora duerme tranquilo incluso con truenos!",
       petName: "Toby",
       petType: "Labrador",
       date: "15 mayo, 2023"
@@ -82,7 +82,7 @@ const About = () => {
       name: "Dr. Ramón Gutiérrez",
       position: "Veterinario Comportamental",
       rating: 5,
-      comment: "Como especialista en comportamiento animal, he recomendado CalmPets a muchos de mis pacientes con excelentes resultados. Su formulación natural es efectiva sin los efectos secundarios de medicamentos convencionales.",
+      comment: "Como especialista en comportamiento animal, he recomendado FIL a muchos de mis pacientes con excelentes resultados. Su formulación natural es efectiva sin los efectos secundarios de medicamentos convencionales.",
       date: "3 junio, 2023"
     },
     {
@@ -137,7 +137,7 @@ const About = () => {
               Nuestra Historia
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto animate-fade-in" style={{animationDelay: '200ms'}}>
-              Descubre cómo nació CalmPets, nuestra misión y el equipo dedicado a mejorar la vida de perros ansiosos a través de soluciones naturales.
+              Descubre cómo nació FIL, nuestra misión y el equipo dedicado a mejorar la vida de perros ansiosos a través de soluciones naturales.
             </p>
           </div>
         </div>
@@ -155,7 +155,7 @@ const About = () => {
                 Nuestra Misión
               </h2>
               <p className="text-gray-600 dark:text-gray-400 text-lg mb-8">
-                En CalmPets, nos dedicamos a mejorar la calidad de vida de perros que sufren de ansiedad, 
+                En FIL, nos dedicamos a mejorar la calidad de vida de perros que sufren de ansiedad, 
                 proporcionando soluciones naturales, efectivas y respaldadas por la ciencia que dan 
                 tranquilidad tanto a las mascotas como a sus dueños.
               </p>
@@ -177,7 +177,7 @@ const About = () => {
                 <div className="relative rounded-2xl overflow-hidden shadow-xl aspect-[4/3]">
                   <img
                     src="public/lovable-uploads/56a6cdab-20a0-4d14-92c1-72a7ddbae9fa.png"
-                    alt="Fundador de CalmPets con perro"
+                    alt="Fundador de FIL con perro"
                     className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                   />
                 </div>
@@ -200,16 +200,16 @@ const About = () => {
               </h2>
               <div className="space-y-6 text-gray-600 dark:text-gray-400">
                 <p>
-                  CalmPets nació de una experiencia personal del Dr. Eduardo Mendoza, fundador y veterinario comportamental, quien buscaba una solución para la ansiedad severa de su propio perro, Max.
+                  FIL nació de una experiencia personal del Dr. Eduardo Mendoza, fundador y veterinario comportamental, quien buscaba una solución para la ansiedad severa de su propio perro, Max.
                 </p>
                 <p>
                   Insatisfecho con los medicamentos tradicionales y sus efectos secundarios, el Dr. Mendoza dedicó años a investigar alternativas naturales basadas en la fitoterapia y la nutrición específica para el bienestar emocional de los perros.
                 </p>
                 <p>
-                  En 2018, después de extensas pruebas y colaboración con especialistas en farmacología natural, nació la primera fórmula de CalmPets, que rápidamente ganó popularidad entre veterinarios y dueños de mascotas por su efectividad sin efectos adversos.
+                  En 2018, después de extensas pruebas y colaboración con especialistas en farmacología natural, nació la primera fórmula de FIL, que rápidamente ganó popularidad entre veterinarios y dueños de mascotas por su efectividad sin efectos adversos.
                 </p>
                 <p>
-                  Hoy, CalmPets se ha convertido en líder en soluciones naturales para la ansiedad canina, con una línea completa de productos que ha ayudado a miles de perros a vivir vidas más felices y tranquilas.
+                  Hoy, FIL se ha convertido en líder en soluciones naturales para la ansiedad canina, con una línea completa de productos que ha ayudado a miles de perros a vivir vidas más felices y tranquilas.
                 </p>
               </div>
             </div>
@@ -271,7 +271,7 @@ const About = () => {
                 Expertos Apasionados
               </h2>
               <p className="text-gray-600 dark:text-gray-400">
-                Conoce a las mentes brillantes detrás de CalmPets, unidas por la pasión de mejorar la vida de las mascotas.
+                Conoce a las mentes brillantes detrás de FIL, unidas por la pasión de mejorar la vida de las mascotas.
               </p>
             </div>
           </div>
@@ -318,7 +318,7 @@ const About = () => {
                 Lo que Dicen Nuestros Clientes
               </h2>
               <p className="text-gray-600 dark:text-gray-400">
-                Experiencias reales de dueños de mascotas y veterinarios que han confiado en CalmPets.
+                Experiencias reales de dueños de mascotas y veterinarios que han confiado en FIL.
               </p>
             </div>
           </div>
@@ -351,7 +351,7 @@ const About = () => {
           )}>
             <Award size={48} className="mx-auto mb-6 text-calmpets-cyan" />
             <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">
-              Únete a la Familia CalmPets
+              Únete a la Familia FIL
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
               Miles de mascotas ya disfrutan de una vida más tranquila gracias a nuestros productos. 
