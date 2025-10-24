@@ -42,7 +42,7 @@ const Index = () => {
     name: "Snacks Calmantes Premium",
     description: "Deliciosos snacks formulados con valeriana y manzanilla para calmar a tu mascota durante momentos de estrés.",
     price: 24.99,
-    image: "public/lovable-uploads/bf7b954f-9d30-4b42-a6be-561a26427460.png",
+    image: "/lovable-uploads/bf7b954f-9d30-4b42-a6be-561a26427460.png",
     category: "Snacks",
     tags: ["Natural", "Sin químicos", "Rápida acción"],
     isNew: true
@@ -51,7 +51,7 @@ const Index = () => {
     name: "Spray Relajante Instantáneo",
     description: "Spray de acción rápida con extractos de lavanda para aliviar la ansiedad en situaciones como visitas al veterinario.",
     price: 19.99,
-    image: "public/lovable-uploads/9c5774e2-03e2-4536-814c-a2016c4e0d1b.png",
+    image: "/lovable-uploads/9c5774e2-03e2-4536-814c-a2016c4e0d1b.png",
     category: "Sprays",
     tags: ["Veterinarios aprueban", "Natural", "Lavanda"]
   }, {
@@ -59,7 +59,7 @@ const Index = () => {
     name: "Polvo Calmante Diario",
     description: "Añade este polvo calmante a la comida diaria de tu perro para una reducción sostenida de ansiedad y comportamientos nerviosos.",
     price: 29.99,
-    image: "public/lovable-uploads/583e6b78-836f-4641-88cd-332dc59cd7ff.png",
+    image: "/lovable-uploads/583e6b78-836f-4641-88cd-332dc59cd7ff.png",
     category: "Polvos",
     tags: ["Uso diario", "Para comidas", "Natural"]
   }];
@@ -168,7 +168,7 @@ const Index = () => {
               <div className="relative w-full max-w-md aspect-square">
                 <div className="absolute inset-0 bg-gradient-to-br from-calmpets-cyan/20 to-calmpets-magenta/20 rounded-full animate-rotate-slow opacity-70 blur-md"></div>
                 <div className="absolute inset-[15%] bg-white dark:bg-calmpets-dark rounded-full shadow-xl overflow-hidden p-2">
-                  <img src="public/lovable-uploads/56a6cdab-20a0-4d14-92c1-72a7ddbae9fa.png" alt="Perro relajado con FIL" className="w-full h-full object-cover rounded-full" />
+                  <img src="/lovable-uploads/56a6cdab-20a0-4d14-92c1-72a7ddbae9fa.png" alt="Perro relajado con FIL" className="w-full h-full object-cover rounded-full" />
                 </div>
 
                 {/* Floating elements */}
