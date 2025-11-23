@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import isotipo from '@/assets/pelambre-isotipo.png';
+import { CartDrawer } from './CartDrawer';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -74,22 +75,28 @@ const Navbar = () => {
             ))}
           </nav>
 
-          {/* CTA Button - Desktop */}
-          <Link
-            to="/products"
-            className="hidden md:block pelambre-border-thin bg-accent text-accent-foreground px-6 py-2 font-display text-xl uppercase tracking-wide transition-all duration-300 hover:rotate-2 hover:scale-105 hover:shadow-xl active:scale-95 active:rotate-0"
-          >
-            ¡Comprar!
-          </Link>
+          {/* CTA Button + Cart - Desktop */}
+          <div className="hidden md:flex items-center gap-4">
+            <Link
+              to="/products"
+              className="pelambre-border-thin bg-accent text-accent-foreground px-6 py-2 font-display text-xl uppercase tracking-wide transition-all duration-300 hover:rotate-2 hover:scale-105 hover:shadow-xl active:scale-95 active:rotate-0"
+            >
+              ¡Comprar!
+            </Link>
+            <CartDrawer />
+          </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 text-foreground hover:text-primary transition-colors"
-            aria-label="Toggle menu"
-          >
-            {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
+          {/* Mobile Menu Button + Cart */}
+          <div className="md:hidden flex items-center gap-3">
+            <CartDrawer />
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="p-2 text-foreground hover:text-primary transition-colors"
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+            </button>
+          </div>
         </div>
       </div>
 

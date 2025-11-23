@@ -11,12 +11,14 @@ interface ProductCardProps {
   category: string;
   tags: string[];
   isNew?: boolean;
+  shopifyProduct?: any;
 }
 
-const ProductCard = ({ name, description, price, image, category, tags, isNew, id }: ProductCardProps) => {
+const ProductCard = ({ name, description, price, image, category, tags, isNew, id, shopifyProduct }: ProductCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const addItem = shopifyProduct ? require('@/stores/cartStore').useCartStore.getState().addItem : null;
 
   const bgColors = [
     'bg-pelambre-lemon',
@@ -33,6 +35,30 @@ const ProductCard = ({ name, description, price, image, category, tags, isNew, i
   const colorIndex = (typeof id === 'number' ? id : parseInt(id) || 0) % 3;
   const bgColor = bgColors[colorIndex];
   const buttonColor = buttonColors[colorIndex];
+
+  const handleAddToCart = () => {
+    if (!shopifyProduct || !addItem) return;
+    
+    const variant = shopifyProduct.node.variants.edges[0]?.node;
+    if (!variant) return;
+
+    const cartItem = {
+      product: shopifyProduct,
+      variantId: variant.id,
+      variantTitle: variant.title,
+      price: variant.price,
+      quantity: 1,
+      selectedOptions: variant.selectedOptions || []
+    };
+    
+    addItem(cartItem);
+    
+    const toast = require('sonner').toast;
+    toast.success("¡Producto agregado!", {
+      description: `${name} fue agregado a tu carrito`,
+      position: "top-center",
+    });
+  };
 
   return (
     <div
@@ -121,9 +147,15 @@ const ProductCard = ({ name, description, price, image, category, tags, isNew, i
           </div>
           
           <button 
+            onClick={(e) => {
+              e.stopPropagation();
+              handleAddToCart();
+            }}
+            disabled={!shopifyProduct}
             className={cn(
               "pelambre-border-thin px-6 py-3 font-display text-xl uppercase inline-flex items-center gap-2 transition-all duration-300 hover:rotate-2 hover:scale-105 active:scale-95 active:rotate-0",
-              buttonColor
+              buttonColor,
+              !shopifyProduct && "opacity-50 cursor-not-allowed"
             )}
           >
             <ShoppingCart className="w-5 h-5" strokeWidth={2.5} />
