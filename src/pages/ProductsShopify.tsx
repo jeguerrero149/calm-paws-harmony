@@ -60,7 +60,7 @@ const Products = () => {
             <p className="text-foreground/80 mb-8 animate-fade-in font-sans" style={{
             animationDelay: '100ms'
           }}>
-              Descubre nuestra línea completa de snacks deliciosos y saludables para tu mascota.
+                  Relajación real, saludable para tu mascota.
             </p>
 
             {/* Search bar */}
