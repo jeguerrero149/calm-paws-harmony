@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Heart, ShoppingCart } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useCartStore } from '@/stores/cartStore';
+import { toast } from 'sonner';
 
 interface ProductCardProps {
   id: string | number;
@@ -18,7 +20,7 @@ const ProductCard = ({ name, description, price, image, category, tags, isNew, i
   const [isHovered, setIsHovered] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const addItem = shopifyProduct ? require('@/stores/cartStore').useCartStore.getState().addItem : null;
+  const addItem = useCartStore(state => state.addItem);
 
   const bgColors = [
     'bg-pelambre-lemon',
@@ -53,7 +55,6 @@ const ProductCard = ({ name, description, price, image, category, tags, isNew, i
     
     addItem(cartItem);
     
-    const toast = require('sonner').toast;
     toast.success("¡Producto agregado!", {
       description: `${name} fue agregado a tu carrito`,
       position: "top-center",
