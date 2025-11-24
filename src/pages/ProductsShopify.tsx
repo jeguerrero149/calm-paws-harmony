@@ -120,7 +120,7 @@ const Products = () => {
                       price={parseFloat(product.node.priceRange.minVariantPrice.amount)}
                       image={product.node.images.edges[0]?.node.url || ''}
                       category={product.node.title}
-                      tags={product.node.options.map(opt => opt.values[0] || '')}
+                      tags={product.node.tags ? product.node.tags.split(',').map(t => t.trim()).filter(t => t) : []}
                       shopifyProduct={product}
                     />
                   </div>
