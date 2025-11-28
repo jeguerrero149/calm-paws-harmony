@@ -9,6 +9,7 @@ import TestimonialCard from '@/components/TestimonialCard';
 import StatsCard from '@/components/StatsCard';
 import { storefrontApiRequest, STOREFRONT_QUERY } from '@/lib/shopify';
 import type { ShopifyProduct } from '@/stores/cartStore';
+import filIsotipo from '@/assets/pelambre-isotipo.png';
 const Index = () => {
   const [isVisible, setIsVisible] = useState<{
     [key: string]: boolean;
@@ -193,7 +194,7 @@ const Index = () => {
               <div className="relative w-full max-w-md aspect-square">
                 <div className="absolute inset-0 bg-gradient-to-br from-calmpets-cyan/20 to-calmpets-magenta/20 rounded-full animate-rotate-slow opacity-70 blur-md"></div>
                 <div className="absolute inset-[15%] bg-white dark:bg-calmpets-dark rounded-full shadow-xl overflow-hidden p-2">
-                  <img src="/lovable-uploads/56a6cdab-20a0-4d14-92c1-72a7ddbae9fa.png" alt="Perro relajado con FIL" className="w-full h-full object-cover rounded-full" />
+                  <img src={filIsotipo} alt="Isotipo FIL" className="w-full h-full object-cover rounded-full" />
                 </div>
 
                 {/* Floating elements */}
