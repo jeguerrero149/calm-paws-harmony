@@ -80,9 +80,7 @@ const Footer = () => {
               <span className="font-display text-4xl uppercase">FIL</span>
             </div>
             
-            <p className="font-sans text-lg max-w-sm">
-              Snacks premium para perros cool. Productos naturales que ayudan a tu mascota a relajarse con estilo.
-            </p>
+            <p className="font-sans text-lg max-w-sm">Calma para perros cool.  Ayuda a tu mascota a relajarse con estilo.</p>
 
             {/* Social Links */}
             <div className="flex gap-3">
