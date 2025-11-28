@@ -2,10 +2,13 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Heart, Shield, Star, Zap, Award, Dog, Users, CircleCheck } from 'lucide-react';
 import { cn } from "@/lib/utils";
+import { toast } from 'sonner';
 import Hero from '@/components/Hero';
 import ProductCard from '@/components/ProductCard';
 import TestimonialCard from '@/components/TestimonialCard';
 import StatsCard from '@/components/StatsCard';
+import { storefrontApiRequest, STOREFRONT_QUERY } from '@/lib/shopify';
+import type { ShopifyProduct } from '@/stores/cartStore';
 const Index = () => {
   const [isVisible, setIsVisible] = useState<{
     [key: string]: boolean;
@@ -16,6 +19,28 @@ const Index = () => {
     testimonials: false,
     cta: false
   });
+
+  const [shopifyProducts, setShopifyProducts] = useState<ShopifyProduct[]>([]);
+  const [isLoadingProducts, setIsLoadingProducts] = useState(true);
+  useEffect(() => {
+    const fetchFeaturedProducts = async () => {
+      try {
+        setIsLoadingProducts(true);
+        const data = await storefrontApiRequest(STOREFRONT_QUERY, { first: 6 });
+        if (data?.data?.products?.edges) {
+          setShopifyProducts(data.data.products.edges);
+        }
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        toast.error('No se pudieron cargar los productos');
+      } finally {
+        setIsLoadingProducts(false);
+      }
+    };
+
+    fetchFeaturedProducts();
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
       const sections = ['products', 'benefits', 'stats', 'testimonials', 'cta'];
@@ -37,32 +62,6 @@ const Index = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-  const featuredProducts = [{
-    id: "1",
-    name: "Snacks Calmantes Premium",
-    description: "Deliciosos snacks formulados con valeriana y manzanilla para calmar a tu mascota durante momentos de estrés.",
-    price: 24.99,
-    image: "/lovable-uploads/bf7b954f-9d30-4b42-a6be-561a26427460.png",
-    category: "Snacks",
-    tags: ["Natural", "Sin químicos", "Rápida acción"],
-    isNew: true
-  }, {
-    id: "2",
-    name: "Spray Relajante Instantáneo",
-    description: "Spray de acción rápida con extractos de lavanda para aliviar la ansiedad en situaciones como visitas al veterinario.",
-    price: 19.99,
-    image: "/lovable-uploads/9c5774e2-03e2-4536-814c-a2016c4e0d1b.png",
-    category: "Sprays",
-    tags: ["Veterinarios aprueban", "Natural", "Lavanda"]
-  }, {
-    id: "3",
-    name: "Polvo Calmante Diario",
-    description: "Añade este polvo calmante a la comida diaria de tu perro para una reducción sostenida de ansiedad y comportamientos nerviosos.",
-    price: 29.99,
-    image: "/lovable-uploads/583e6b78-836f-4641-88cd-332dc59cd7ff.png",
-    category: "Polvos",
-    tags: ["Uso diario", "Para comidas", "Natural"]
-  }];
   const testimonials = [{
     id: "1",
     name: "Carolina Méndez",
@@ -101,11 +100,37 @@ const Index = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredProducts.map((product, index) => <div key={product.id} className={cn("transition-all duration-1000 transform", isVisible.products ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20")} style={{
-            transitionDelay: `${index * 150}ms`
-          }}>
-                <ProductCard {...product} />
-              </div>)}
+            {isLoadingProducts ? (
+              <div className="col-span-3 flex justify-center py-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" />
+              </div>
+            ) : shopifyProducts.length > 0 ? (
+              shopifyProducts.slice(0, 3).map((product, index) => (
+                <div 
+                  key={product.node.id} 
+                  className={cn(
+                    "transition-all duration-1000 transform", 
+                    isVisible.products ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"
+                  )} 
+                  style={{ transitionDelay: `${index * 150}ms` }}
+                >
+                  <ProductCard
+                    id={product.node.id}
+                    name={product.node.title}
+                    description={product.node.description}
+                    price={parseFloat(product.node.priceRange.minVariantPrice.amount)}
+                    image={product.node.images.edges[0]?.node.url || ''}
+                    category={product.node.title}
+                    tags={product.node.tags || []}
+                    shopifyProduct={product}
+                  />
+                </div>
+              ))
+            ) : (
+              <div className="col-span-3 text-center py-12">
+                <p className="text-muted-foreground">No hay productos disponibles aún.</p>
+              </div>
+            )}
           </div>
 
           <div className={cn("text-center mt-12 transition-all duration-1000 transform", isVisible.products ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10")} style={{
