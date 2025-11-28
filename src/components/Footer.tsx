@@ -152,7 +152,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t-2 border-white/20 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="font-sans text-sm text-center md:text-left">
-            © {new Date().getFullYear()} Pelambre. Todos los derechos reservados. Hecho con ❤️ para perros cool.
+            © {new Date().getFullYear()} Fil. Todos los derechos reservados. Hecho con ❤️ para perros cool.
           </p>
           
           <div className="flex gap-6 font-sans text-sm">
