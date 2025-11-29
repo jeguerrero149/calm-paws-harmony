@@ -66,7 +66,7 @@ const About = () => {
     id: "1",
     name: "Carolina Méndez",
     rating: 5,
-    comment: "Mi perro Toby sufría de ansiedad severa durante tormentas. Después de probar los snacks de FIL, noto una diferencia impresionante en su comportamiento. ¡Ahora duerme tranquilo incluso con truenos!",
+    comment: "Mi perro Toby sufría de ansiedad severa durante tormentas. Después de probar Fill-Chill, noto una diferencia impresionante en su comportamiento. ¡Ahora duerme tranquilo incluso con truenos!",
     petName: "Toby",
     petType: "Labrador",
     date: "15 marzo, 2025"
@@ -75,13 +75,13 @@ const About = () => {
     name: "Dr. Ramón Gutiérrez",
     position: "Veterinario Comportamental",
     rating: 5,
-    comment: "Como especialista en comportamiento animal, he recomendado FIL a muchos de mis pacientes con excelentes resultados. Su formulación natural es efectiva sin los efectos secundarios de medicamentos convencionales.",
+    comment: "Como especialista en comportamiento animal, he recomendado Fill-Chill a muchos de mis pacientes con excelentes resultados. Su formulación natural es efectiva sin los efectos secundarios de medicamentos convencionales.",
     date: "8 abril, 2025"
   }, {
     id: "3",
     name: "Lucía Fernández",
     rating: 5,
-    comment: "Los snacks de FIL funcionan maravillosamente para mi Chihuahua durante los viajes en auto. Pasamos de tener viajes estresantes a momentos tranquilos. Recomiendo mucho este producto.",
+    comment: "Fill-Chill funciona maravillosamente para mi Chihuahua durante los viajes en auto. Pasamos de tener viajes estresantes a momentos tranquilos. Recomiendo mucho este producto.",
     petName: "Luna",
     petType: "Chihuahua",
     date: "22 febrero, 2025"
