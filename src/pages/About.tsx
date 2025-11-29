@@ -42,7 +42,7 @@ const About = () => {
     image: "public/lovable-uploads/578f0bad-0aa9-4d05-ac41-570162b7f61a.png",
     bio: "Experto en formulación y desarrollo de productos de base tecnológica"
   }, {
-    name: "Dra. Ana Gómez",
+    name: "Dra. Natalia Abaunza",
     position: "Directora de Investigación",
     image: "public/lovable-uploads/3436af3a-f1d7-400f-a8b7-f5e3adb764af.png",
     bio: "PhD en Farmacología Natural con especialización en fitoterapia aplicada a la medicina veterinaria."
