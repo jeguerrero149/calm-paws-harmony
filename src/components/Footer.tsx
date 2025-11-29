@@ -117,8 +117,8 @@ const Footer = () => {
               </div>
               <div>
                 <div className="font-sans text-sm opacity-70">Email</div>
-                <a href="mailto:hola@pelambre.com" className="font-sans font-semibold hover:text-pelambre-lemon transition-colors">
-                  hola@pelambre.com
+                <a className="font-sans font-semibold hover:text-pelambre-lemon transition-colors" href="mailto:hola@somosfil.com">
+                  hola@somosfil.com
                 </a>
               </div>
             </div>
