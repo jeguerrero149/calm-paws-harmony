@@ -69,22 +69,22 @@ const About = () => {
     comment: "Mi perro Toby sufría de ansiedad severa durante tormentas. Después de probar los snacks de FIL, noto una diferencia impresionante en su comportamiento. ¡Ahora duerme tranquilo incluso con truenos!",
     petName: "Toby",
     petType: "Labrador",
-    date: "15 mayo, 2023"
+    date: "15 marzo, 2025"
   }, {
     id: "2",
     name: "Dr. Ramón Gutiérrez",
     position: "Veterinario Comportamental",
     rating: 5,
     comment: "Como especialista en comportamiento animal, he recomendado FIL a muchos de mis pacientes con excelentes resultados. Su formulación natural es efectiva sin los efectos secundarios de medicamentos convencionales.",
-    date: "3 junio, 2023"
+    date: "8 abril, 2025"
   }, {
     id: "3",
     name: "Lucía Fernández",
-    rating: 4,
-    comment: "El spray relajante funciona maravillosamente para mi Chihuahua durante los viajes en auto. Pasamos de tener viajes estresantes a momentos tranquilos. Recomiendo mucho este producto.",
+    rating: 5,
+    comment: "Los snacks de FIL funcionan maravillosamente para mi Chihuahua durante los viajes en auto. Pasamos de tener viajes estresantes a momentos tranquilos. Recomiendo mucho este producto.",
     petName: "Luna",
     petType: "Chihuahua",
-    date: "22 abril, 2023"
+    date: "22 febrero, 2025"
   }];
   const values = [{
     icon: <Leaf className="text-calmpets-cyan" size={28} />,
