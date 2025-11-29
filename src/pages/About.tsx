@@ -45,7 +45,7 @@ const About = () => {
     name: "Dra. Natalia Abaunza",
     position: "Co-Founder & MVZ",
     image: "public/lovable-uploads/3436af3a-f1d7-400f-a8b7-f5e3adb764af.png",
-    bio: "PhD en Farmacología Natural con especialización en fitoterapia aplicada a la medicina veterinaria."
+    bio: "Veterinaria con más de 10 años de experiencia tratando pequeñas y grandes especies. Apasionada por el comportamiento animal."
   }, {
     name: "Carlos Fuentes",
     position: "Desarrollo de Producto",
