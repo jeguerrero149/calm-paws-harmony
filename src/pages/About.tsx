@@ -52,10 +52,10 @@ const About = () => {
     image: "public/lovable-uploads/aaeaea2d-dd60-4bff-b670-68d2c4eaa0b2.png",
     bio: "Experto en diseño de producto y canales digitales."
   }, {
-    name: "María Rodríguez",
-    position: "Especialista en Nutrición",
+    name: "Laura Salinas",
+    position: "Co-Founder & Directora Comercial",
     image: "public/lovable-uploads/852be7eb-c363-42ed-a53d-92d383034ab6.png",
-    bio: "Nutricionista canina certificada, enfocada en la relación entre alimentación y salud mental en mascotas."
+    bio: "Especialista en Trade para industria de suplementación animal."
   }];
   const testimonials = [{
     id: "1",
