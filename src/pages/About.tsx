@@ -168,7 +168,7 @@ const About = () => {
                 De la Necesidad al Propósito
               </h2>
               <div className="space-y-6 text-gray-600 dark:text-gray-400">
-                <p>FIL nació de experiencias de Nata, Jose y Laura, quienes padecieron por años el ver a sus peludos estresados sin nada natural que actuase debidamente, resignándose a químicos calmantes con efectos secundarios. </p>
+                <p>FIL nació de nuestro dolor de cabeza de años el ver a nuestros peludos estresados sin nada natural que actuase debidamente, resignándose a químicos calmantes con efectos secundarios. </p>
                 <p>
                   Insatisfecho con los medicamentos tradicionales y sus efectos secundarios, el Dr. Mendoza dedicó años a investigar alternativas naturales basadas en la fitoterapia y la nutrición específica para el bienestar emocional de los perros.
                 </p>
