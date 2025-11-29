@@ -4,6 +4,7 @@ import { ArrowRight, Leaf, Shield, Users, Award, Heart, Phone } from 'lucide-rea
 import { cn } from "@/lib/utils";
 import TestimonialCard from '@/components/TestimonialCard';
 import { Link } from 'react-router-dom';
+import filIsotipo from '@/assets/pelambre-isotipo.png';
 
 const About = () => {
   const [isVisible, setIsVisible] = useState<{[key: string]: boolean}>({
@@ -176,8 +177,8 @@ const About = () => {
               <div className="relative z-10">
                 <div className="relative rounded-2xl overflow-hidden shadow-xl aspect-[4/3]">
                   <img
-                    src="public/lovable-uploads/56a6cdab-20a0-4d14-92c1-72a7ddbae9fa.png"
-                    alt="Fundador de FIL con perro"
+                    src={filIsotipo}
+                    alt="Isotipo de FIL"
                     className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                   />
                 </div>
