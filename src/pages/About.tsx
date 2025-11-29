@@ -232,10 +232,6 @@ const About = () => {
             {teamMembers.map((member, index) => <div key={index} className={cn("group transition-all duration-1000 transform text-center", isVisible.team ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20")} style={{
             transitionDelay: `${index * 150}ms`
           }}>
-                <div className="relative rounded-2xl overflow-hidden mb-6 aspect-square">
-                  <div className="absolute inset-0 bg-gradient-to-br from-calmpets-cyan/70 to-calmpets-magenta/70 opacity-0 group-hover:opacity-60 transition-opacity duration-300 z-10"></div>
-                  <img src={member.image} alt={member.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                </div>
                 <h3 className="font-display font-semibold text-xl mb-1">{member.name}</h3>
                 <p className="text-calmpets-cyan mb-3">{member.position}</p>
                 <p className="text-gray-600 dark:text-gray-400 text-sm">{member.bio}</p>
