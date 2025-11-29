@@ -38,7 +38,7 @@ const About = () => {
   }, []);
   const teamMembers = [{
     name: "Franki Ocampo",
-    position: "Fundador y Veterinario",
+    position: "Co-Founder & Director de Producción",
     image: "public/lovable-uploads/578f0bad-0aa9-4d05-ac41-570162b7f61a.png",
     bio: "Especialista en comportamiento animal con más de 15 años de experiencia trabajando con mascotas ansiosas."
   }, {
