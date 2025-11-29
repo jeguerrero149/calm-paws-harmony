@@ -40,7 +40,7 @@ const About = () => {
     name: "Franki Ocampo",
     position: "Co-Founder & Director de Producto",
     image: "public/lovable-uploads/578f0bad-0aa9-4d05-ac41-570162b7f61a.png",
-    bio: "Especialista en comportamiento animal con más de 15 años de experiencia trabajando con mascotas ansiosas."
+    bio: "Experto en formulación y desarrollo de productos de base tecnológica"
   }, {
     name: "Dra. Ana Gómez",
     position: "Directora de Investigación",
