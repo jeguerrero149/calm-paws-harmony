@@ -50,7 +50,7 @@ const About = () => {
     name: "Jose Guerrero",
     position: "Co-Founder & Marketing Lead",
     image: "public/lovable-uploads/aaeaea2d-dd60-4bff-b670-68d2c4eaa0b2.png",
-    bio: "Experto en formulación de productos naturales con enfoque en calidad y sostenibilidad."
+    bio: "Experto en diseño de producto y canales digitales."
   }, {
     name: "María Rodríguez",
     position: "Especialista en Nutrición",
