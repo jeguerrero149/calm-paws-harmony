@@ -169,9 +169,7 @@ const About = () => {
               </h2>
               <div className="space-y-6 text-gray-600 dark:text-gray-400">
                 <p>FIL nació de nuestro dolor de cabeza de años el ver a nuestros peludos estresados sin nada natural que actuase debidamente, resignándose a químicos calmantes con efectos secundarios. </p>
-                <p>
-                  Insatisfecho con los medicamentos tradicionales y sus efectos secundarios, el Dr. Mendoza dedicó años a investigar alternativas naturales basadas en la fitoterapia y la nutrición específica para el bienestar emocional de los perros.
-                </p>
+                <p>Insatisfechos con los medicamentos tradicionales y sus efectos secundarios, combinamos nuestro conocimiento en distintas áreas para construir algo COOL que, sin dudas, ayudase a nuestros peludos (y OBVIO, a los tuyos también).</p>
                 <p>
                   En 2018, después de extensas pruebas y colaboración con especialistas en farmacología natural, nació la primera fórmula de FIL, que rápidamente ganó popularidad entre veterinarios y dueños de mascotas por su efectividad sin efectos adversos.
                 </p>
