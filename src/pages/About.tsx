@@ -56,6 +56,11 @@ const About = () => {
     position: "Co-Founder & Directora Comercial",
     image: "public/lovable-uploads/852be7eb-c363-42ed-a53d-92d383034ab6.png",
     bio: "Especialista en Trade para industria de suplementación animal."
+  }, {
+    name: "Andrés Mejía",
+    position: "Co-Founder & Director de Negocio",
+    image: "public/lovable-uploads/9c5774e2-03e2-4536-814c-a2016c4e0d1b.png",
+    bio: "Experto en diseño, modelado de negocios y emprendimiento corporativo."
   }];
   const testimonials = [{
     id: "1",
