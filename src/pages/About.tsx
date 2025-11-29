@@ -43,7 +43,7 @@ const About = () => {
     bio: "Experto en formulación y desarrollo de productos de base tecnológica"
   }, {
     name: "Dra. Natalia Abaunza",
-    position: "Directora de Investigación",
+    position: "Co-Founder & MVZ",
     image: "public/lovable-uploads/3436af3a-f1d7-400f-a8b7-f5e3adb764af.png",
     bio: "PhD en Farmacología Natural con especialización en fitoterapia aplicada a la medicina veterinaria."
   }, {
