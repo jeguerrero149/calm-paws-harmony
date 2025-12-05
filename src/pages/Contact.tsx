@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { Mail, Phone, MapPin, MessageCircle, Send, CheckCircle } from 'lucide-react';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 
@@ -309,18 +310,18 @@ const Contact = () => {
               <div className="bg-white dark:bg-calmpets-dark/60 rounded-2xl shadow-lg p-8">
                 <h2 className="font-display font-bold text-2xl mb-6">Preguntas Frecuentes</h2>
                 
-                <div className="space-y-6">
+                <Accordion type="single" collapsible className="w-full">
                   {faqItems.map((item, index) => (
-                    <div 
-                      key={index} 
-                      className="border-b border-gray-100 dark:border-gray-800 pb-6 last:border-0 last:pb-0"
-                      style={{ animationDelay: `${index * 100}ms` }}
-                    >
-                      <h3 className="font-medium text-lg mb-2">{item.question}</h3>
-                      <p className="text-gray-600 dark:text-gray-400">{item.answer}</p>
-                    </div>
+                    <AccordionItem key={index} value={`item-${index}`} className="border-b border-gray-100 dark:border-gray-800">
+                      <AccordionTrigger className="text-left font-medium text-lg hover:no-underline py-4">
+                        {item.question}
+                      </AccordionTrigger>
+                      <AccordionContent className="text-gray-600 dark:text-gray-400 pb-4">
+                        {item.answer}
+                      </AccordionContent>
+                    </AccordionItem>
                   ))}
-                </div>
+                </Accordion>
 
                 <div className="mt-8 p-6 bg-gradient-to-r from-calmpets-cyan/10 to-calmpets-magenta/10 rounded-xl">
                   <h3 className="font-display font-semibold text-lg mb-3">¿No encuentras lo que buscas?</h3>
@@ -338,28 +339,6 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* Map */}
-      <section className="py-12">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div 
-            className={cn(
-              "rounded-2xl overflow-hidden shadow-lg h-[400px] transition-all duration-1000 ease-out",
-              isAnimated ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-            )}
-            style={{ transitionDelay: '600ms' }}
-          >
-            <div className="w-full h-full bg-calmpets-cyan/10 rounded-2xl flex items-center justify-center">
-              <div className="text-center">
-                <MapPin size={48} className="mx-auto mb-4 text-calmpets-magenta" />
-                <h3 className="font-display font-semibold text-xl">Mapa Interactivo</h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Aquí iría un mapa de Google Maps mostrando la ubicación de FIL
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 };
