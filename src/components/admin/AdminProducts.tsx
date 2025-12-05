@@ -26,6 +26,7 @@ interface ProductFormData {
   handle: string;
   available: boolean;
   is_new: boolean;
+  tags: string;
 }
 
 const emptyForm: ProductFormData = {
@@ -36,7 +37,8 @@ const emptyForm: ProductFormData = {
   category: 'General',
   handle: '',
   available: true,
-  is_new: false
+  is_new: false,
+  tags: ''
 };
 
 const AdminProducts = () => {
@@ -96,6 +98,11 @@ const AdminProducts = () => {
     }
 
     setSaving(true);
+    const tagsArray = formData.tags
+      .split(',')
+      .map(tag => tag.trim())
+      .filter(tag => tag.length > 0);
+    
     const productData = {
       title: formData.title.trim(),
       description: formData.description.trim() || null,
@@ -104,7 +111,8 @@ const AdminProducts = () => {
       category: formData.category || 'General',
       handle: formData.handle.trim() || generateHandle(formData.title),
       available: formData.available,
-      is_new: formData.is_new
+      is_new: formData.is_new,
+      tags: tagsArray.length > 0 ? tagsArray : null
     };
 
     try {
@@ -150,7 +158,8 @@ const AdminProducts = () => {
       category: product.category || 'General',
       handle: product.handle,
       available: product.available ?? true,
-      is_new: product.is_new ?? false
+      is_new: product.is_new ?? false,
+      tags: product.tags?.join(', ') || ''
     });
     setEditingId(product.id);
     setShowForm(true);
@@ -313,6 +322,17 @@ const AdminProducts = () => {
                 rows={3}
                 className="w-full px-4 py-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-pelambre-magenta resize-none"
               />
+            </div>
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium mb-1">Tags</label>
+              <input
+                type="text"
+                value={formData.tags}
+                onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
+                placeholder="Separados por coma: relajante, perros, gatos"
+                className="w-full px-4 py-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-pelambre-magenta"
+              />
+              <p className="text-xs text-gray-500 mt-1">Ingresa los tags separados por comas</p>
             </div>
           </div>
 
