@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Plus, Pencil, Trash2, Loader2, Save, X, ImagePlus } from 'lucide-react';
+import { Plus, Pencil, Trash2, Loader2, Save, X, ImagePlus, Upload } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface Product {
@@ -15,6 +15,13 @@ interface Product {
   available: boolean | null;
   is_new: boolean | null;
   tags: string[] | null;
+}
+
+interface ProductImage {
+  id: string;
+  url: string;
+  alt_text: string | null;
+  position: number | null;
 }
 
 interface ProductFormData {
@@ -43,6 +50,7 @@ const emptyForm: ProductFormData = {
 
 const AdminProducts = () => {
   const { toast } = useToast();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -50,6 +58,12 @@ const AdminProducts = () => {
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState<ProductFormData>(emptyForm);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+  
+  // Image state
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [existingImages, setExistingImages] = useState<ProductImage[]>([]);
+  const [imagesToDelete, setImagesToDelete] = useState<string[]>([]);
+  const [uploadingImages, setUploadingImages] = useState(false);
 
   useEffect(() => {
     fetchProducts();
@@ -77,6 +91,20 @@ const AdminProducts = () => {
     }
   };
 
+  const fetchProductImages = async (productId: string) => {
+    const { data, error } = await supabase
+      .from('product_images')
+      .select('*')
+      .eq('product_id', productId)
+      .order('position', { ascending: true });
+    
+    if (error) {
+      console.error('Error fetching images:', error);
+      return [];
+    }
+    return data || [];
+  };
+
   const generateHandle = (title: string) => {
     return title
       .toLowerCase()
@@ -84,6 +112,120 @@ const AdminProducts = () => {
       .replace(/[\u0300-\u036f]/g, '')
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/(^-|-$)/g, '');
+  };
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    const totalImages = selectedFiles.length + existingImages.length - imagesToDelete.length;
+    const remainingSlots = 10 - totalImages;
+    
+    if (files.length > remainingSlots) {
+      toast({
+        title: 'Límite de imágenes',
+        description: `Solo puedes agregar ${remainingSlots} imagen(es) más. Máximo 10 en total.`,
+        variant: 'destructive'
+      });
+      return;
+    }
+
+    // Validate file types
+    const validFiles = files.filter(file => {
+      if (!file.type.startsWith('image/')) {
+        toast({
+          title: 'Archivo inválido',
+          description: `${file.name} no es una imagen válida.`,
+          variant: 'destructive'
+        });
+        return false;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        toast({
+          title: 'Archivo muy grande',
+          description: `${file.name} excede 5MB.`,
+          variant: 'destructive'
+        });
+        return false;
+      }
+      return true;
+    });
+
+    setSelectedFiles(prev => [...prev, ...validFiles]);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const removeSelectedFile = (index: number) => {
+    setSelectedFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const markImageForDeletion = (imageId: string) => {
+    setImagesToDelete(prev => [...prev, imageId]);
+  };
+
+  const restoreImage = (imageId: string) => {
+    setImagesToDelete(prev => prev.filter(id => id !== imageId));
+  };
+
+  const uploadImages = async (productId: string): Promise<boolean> => {
+    if (selectedFiles.length === 0 && imagesToDelete.length === 0) return true;
+    
+    setUploadingImages(true);
+    try {
+      // Delete marked images
+      for (const imageId of imagesToDelete) {
+        const image = existingImages.find(img => img.id === imageId);
+        if (image) {
+          // Extract file path from URL
+          const urlParts = image.url.split('/product-images/');
+          if (urlParts[1]) {
+            await supabase.storage.from('product-images').remove([urlParts[1]]);
+          }
+          await supabase.from('product_images').delete().eq('id', imageId);
+        }
+      }
+
+      // Upload new images
+      const currentPosition = existingImages.filter(img => !imagesToDelete.includes(img.id)).length;
+      
+      for (let i = 0; i < selectedFiles.length; i++) {
+        const file = selectedFiles[i];
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${productId}/${Date.now()}-${i}.${fileExt}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('product-images')
+          .upload(fileName, file);
+
+        if (uploadError) {
+          console.error('Upload error:', uploadError);
+          throw uploadError;
+        }
+
+        const { data: { publicUrl } } = supabase.storage
+          .from('product-images')
+          .getPublicUrl(fileName);
+
+        await supabase.from('product_images').insert({
+          product_id: productId,
+          url: publicUrl,
+          alt_text: formData.title,
+          position: currentPosition + i
+        });
+      }
+
+      return true;
+    } catch (err) {
+      console.error('Error uploading images:', err);
+      toast({
+        title: 'Error',
+        description: 'No se pudieron subir las imágenes.',
+        variant: 'destructive'
+      });
+      return false;
+    } finally {
+      setUploadingImages(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -116,6 +258,8 @@ const AdminProducts = () => {
     };
 
     try {
+      let productId = editingId;
+
       if (editingId) {
         const { error } = await supabase
           .from('products')
@@ -123,19 +267,31 @@ const AdminProducts = () => {
           .eq('id', editingId);
 
         if (error) throw error;
-        toast({ title: 'Éxito', description: 'Producto actualizado correctamente.' });
       } else {
-        const { error } = await supabase
+        const { data, error } = await supabase
           .from('products')
-          .insert(productData);
+          .insert(productData)
+          .select('id')
+          .single();
 
         if (error) throw error;
-        toast({ title: 'Éxito', description: 'Producto creado correctamente.' });
+        productId = data.id;
       }
 
-      setShowForm(false);
-      setEditingId(null);
-      setFormData(emptyForm);
+      // Upload images
+      if (productId) {
+        const imagesUploaded = await uploadImages(productId);
+        if (!imagesUploaded) {
+          toast({
+            title: 'Advertencia',
+            description: 'El producto se guardó pero hubo problemas con las imágenes.',
+            variant: 'destructive'
+          });
+        }
+      }
+
+      toast({ title: 'Éxito', description: editingId ? 'Producto actualizado correctamente.' : 'Producto creado correctamente.' });
+      resetForm();
       fetchProducts();
     } catch (err: any) {
       console.error('Error saving product:', err);
@@ -149,7 +305,16 @@ const AdminProducts = () => {
     }
   };
 
-  const handleEdit = (product: Product) => {
+  const resetForm = () => {
+    setShowForm(false);
+    setEditingId(null);
+    setFormData(emptyForm);
+    setSelectedFiles([]);
+    setExistingImages([]);
+    setImagesToDelete([]);
+  };
+
+  const handleEdit = async (product: Product) => {
     setFormData({
       title: product.title,
       description: product.description || '',
@@ -161,12 +326,28 @@ const AdminProducts = () => {
       is_new: product.is_new ?? false,
       tags: product.tags?.join(', ') || ''
     });
+    
+    // Fetch existing images
+    const images = await fetchProductImages(product.id);
+    setExistingImages(images);
+    setImagesToDelete([]);
+    setSelectedFiles([]);
+    
     setEditingId(product.id);
     setShowForm(true);
   };
 
   const handleDelete = async (id: string) => {
     try {
+      // Delete images from storage first
+      const images = await fetchProductImages(id);
+      for (const image of images) {
+        const urlParts = image.url.split('/product-images/');
+        if (urlParts[1]) {
+          await supabase.storage.from('product-images').remove([urlParts[1]]);
+        }
+      }
+
       const { error } = await supabase
         .from('products')
         .delete()
@@ -194,6 +375,8 @@ const AdminProducts = () => {
     }).format(price);
   };
 
+  const totalImages = selectedFiles.length + existingImages.filter(img => !imagesToDelete.includes(img.id)).length;
+
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
@@ -213,6 +396,9 @@ const AdminProducts = () => {
             onClick={() => {
               setFormData(emptyForm);
               setEditingId(null);
+              setSelectedFiles([]);
+              setExistingImages([]);
+              setImagesToDelete([]);
               setShowForm(true);
             }}
             className="flex items-center gap-2 px-4 py-2 bg-pelambre-magenta text-pelambre-violet rounded-xl font-medium border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
@@ -231,11 +417,7 @@ const AdminProducts = () => {
             </h3>
             <button
               type="button"
-              onClick={() => {
-                setShowForm(false);
-                setEditingId(null);
-                setFormData(emptyForm);
-              }}
+              onClick={resetForm}
               className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors"
             >
               <X className="w-5 h-5" />
@@ -334,27 +516,117 @@ const AdminProducts = () => {
               />
               <p className="text-xs text-gray-500 mt-1">Ingresa los tags separados por comas</p>
             </div>
+
+            {/* Image Upload Section */}
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium mb-2">
+                Imágenes ({totalImages}/10)
+              </label>
+              
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileSelect}
+                accept="image/*"
+                multiple
+                className="hidden"
+              />
+              
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 mb-3">
+                {/* Existing images */}
+                {existingImages.map((image) => (
+                  <div 
+                    key={image.id} 
+                    className={cn(
+                      "relative aspect-square rounded-lg overflow-hidden border-2",
+                      imagesToDelete.includes(image.id) 
+                        ? "border-red-500 opacity-50" 
+                        : "border-gray-300"
+                    )}
+                  >
+                    <img 
+                      src={image.url} 
+                      alt={image.alt_text || ''} 
+                      className="w-full h-full object-cover"
+                    />
+                    {imagesToDelete.includes(image.id) ? (
+                      <button
+                        type="button"
+                        onClick={() => restoreImage(image.id)}
+                        className="absolute inset-0 flex items-center justify-center bg-black/50 text-white text-xs font-medium"
+                      >
+                        Restaurar
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => markImageForDeletion(image.id)}
+                        className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    )}
+                  </div>
+                ))}
+
+                {/* New selected files */}
+                {selectedFiles.map((file, index) => (
+                  <div 
+                    key={index} 
+                    className="relative aspect-square rounded-lg overflow-hidden border-2 border-pelambre-indigo"
+                  >
+                    <img 
+                      src={URL.createObjectURL(file)} 
+                      alt={file.name} 
+                      className="w-full h-full object-cover"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeSelectedFile(index)}
+                      className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
+                    >
+                      <X className="w-3 h-3" />
+                    </button>
+                    <span className="absolute bottom-0 left-0 right-0 bg-pelambre-indigo text-white text-xs text-center py-0.5">
+                      Nueva
+                    </span>
+                  </div>
+                ))}
+
+                {/* Add button */}
+                {totalImages < 10 && (
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="aspect-square rounded-lg border-2 border-dashed border-gray-400 hover:border-pelambre-magenta flex flex-col items-center justify-center gap-1 transition-colors"
+                  >
+                    <Upload className="w-6 h-6 text-gray-400" />
+                    <span className="text-xs text-gray-500">Agregar</span>
+                  </button>
+                )}
+              </div>
+              
+              <p className="text-xs text-gray-500">
+                Formatos: JPG, PNG, WEBP. Máx 5MB por imagen.
+              </p>
+            </div>
           </div>
 
           <div className="flex justify-end gap-3 mt-6">
             <button
               type="button"
-              onClick={() => {
-                setShowForm(false);
-                setEditingId(null);
-                setFormData(emptyForm);
-              }}
+              onClick={resetForm}
               className="px-6 py-2 bg-gray-200 dark:bg-gray-700 rounded-xl font-medium hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              disabled={saving}
+              disabled={saving || uploadingImages}
               className="flex items-center gap-2 px-6 py-2 bg-pelambre-magenta text-pelambre-violet rounded-xl font-medium border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all disabled:opacity-50"
             >
-              {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
-              {editingId ? 'Actualizar' : 'Crear'}
+              {(saving || uploadingImages) ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+              {uploadingImages ? 'Subiendo imágenes...' : (editingId ? 'Actualizar' : 'Crear')}
             </button>
           </div>
         </form>
