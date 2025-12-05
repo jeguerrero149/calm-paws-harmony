@@ -188,7 +188,7 @@ const AdminProducts = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="w-8 h-8 animate-spin text-calmpets-magenta" />
+        <Loader2 className="w-8 h-8 animate-spin text-pelambre-magenta" />
       </div>
     );
   }
@@ -206,7 +206,7 @@ const AdminProducts = () => {
               setEditingId(null);
               setShowForm(true);
             }}
-            className="flex items-center gap-2 px-4 py-2 bg-calmpets-magenta text-white rounded-xl font-medium border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
+            className="flex items-center gap-2 px-4 py-2 bg-pelambre-magenta text-pelambre-violet rounded-xl font-medium border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
           >
             <Plus className="w-5 h-5" />
             Nuevo Producto
@@ -240,7 +240,7 @@ const AdminProducts = () => {
                 type="text"
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                className="w-full px-4 py-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-calmpets-magenta"
+                className="w-full px-4 py-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-pelambre-magenta"
                 required
               />
             </div>
@@ -251,7 +251,7 @@ const AdminProducts = () => {
                 value={formData.handle}
                 onChange={(e) => setFormData({ ...formData, handle: e.target.value })}
                 placeholder="auto-generado del título"
-                className="w-full px-4 py-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-calmpets-magenta"
+                className="w-full px-4 py-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-pelambre-magenta"
               />
             </div>
             <div>
@@ -260,7 +260,7 @@ const AdminProducts = () => {
                 type="number"
                 value={formData.price}
                 onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                className="w-full px-4 py-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-calmpets-magenta"
+                className="w-full px-4 py-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-pelambre-magenta"
                 min="0"
                 step="100"
               />
@@ -270,7 +270,7 @@ const AdminProducts = () => {
               <select
                 value={formData.currency}
                 onChange={(e) => setFormData({ ...formData, currency: e.target.value })}
-                className="w-full px-4 py-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-calmpets-magenta"
+                className="w-full px-4 py-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-pelambre-magenta"
               >
                 <option value="COP">COP</option>
                 <option value="USD">USD</option>
@@ -282,7 +282,7 @@ const AdminProducts = () => {
                 type="text"
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                className="w-full px-4 py-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-calmpets-magenta"
+                className="w-full px-4 py-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-pelambre-magenta"
               />
             </div>
             <div className="flex items-center gap-6 pt-6">
@@ -311,7 +311,7 @@ const AdminProducts = () => {
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 rows={3}
-                className="w-full px-4 py-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-calmpets-magenta resize-none"
+                className="w-full px-4 py-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-pelambre-magenta resize-none"
               />
             </div>
           </div>
@@ -331,7 +331,7 @@ const AdminProducts = () => {
             <button
               type="submit"
               disabled={saving}
-              className="flex items-center gap-2 px-6 py-2 bg-calmpets-magenta text-white rounded-xl font-medium border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all disabled:opacity-50"
+              className="flex items-center gap-2 px-6 py-2 bg-pelambre-magenta text-pelambre-violet rounded-xl font-medium border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all disabled:opacity-50"
             >
               {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
               {editingId ? 'Actualizar' : 'Crear'}
@@ -363,7 +363,7 @@ const AdminProducts = () => {
                     <div>
                       <span className="font-medium">{product.title}</span>
                       {product.is_new && (
-                        <span className="ml-2 px-2 py-0.5 bg-calmpets-cyan text-white text-xs rounded-full">
+                        <span className="ml-2 px-2 py-0.5 bg-pelambre-indigo text-white text-xs rounded-full">
                           Nuevo
                         </span>
                       )}

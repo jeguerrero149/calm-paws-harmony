@@ -87,7 +87,7 @@ const Admin = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-calmpets-magenta" />
+        <Loader2 className="w-8 h-8 animate-spin text-pelambre-magenta" />
       </div>
     );
   }
@@ -95,9 +95,9 @@ const Admin = () => {
   // Login form when not authenticated
   if (!user) {
     return (
-      <div className="min-h-screen pt-20 pb-16 flex items-center justify-center bg-gradient-to-br from-calmpets-cyan/10 to-calmpets-magenta/10">
+      <div className="min-h-screen pt-20 pb-16 flex items-center justify-center bg-gradient-to-br from-pelambre-indigo/10 to-pelambre-magenta/10">
         <div className="w-full max-w-md mx-4">
-          <div className="bg-white dark:bg-calmpets-dark/80 rounded-2xl shadow-xl p-8 border-4 border-black">
+          <div className="bg-white dark:bg-pelambre-violet/80 rounded-2xl shadow-xl p-8 border-4 border-black">
             <h1 className="font-display text-3xl font-bold text-center mb-2">
               Panel Admin
             </h1>
@@ -118,7 +118,7 @@ const Admin = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className={cn(
-                      "w-full pl-10 pr-4 py-3 rounded-xl border-2 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-calmpets-magenta transition-all",
+                      "w-full pl-10 pr-4 py-3 rounded-xl border-2 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-pelambre-magenta transition-all",
                       errors.email ? "border-red-500" : "border-gray-200 dark:border-gray-700"
                     )}
                     placeholder="tu@email.com"
@@ -141,7 +141,7 @@ const Admin = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className={cn(
-                      "w-full pl-10 pr-4 py-3 rounded-xl border-2 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-calmpets-magenta transition-all",
+                      "w-full pl-10 pr-4 py-3 rounded-xl border-2 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-pelambre-magenta transition-all",
                       errors.password ? "border-red-500" : "border-gray-200 dark:border-gray-700"
                     )}
                     placeholder="••••••"
@@ -156,7 +156,7 @@ const Admin = () => {
                 type="submit"
                 disabled={isSubmitting}
                 className={cn(
-                  "w-full bg-calmpets-magenta text-white font-bold py-3 px-6 rounded-xl flex items-center justify-center gap-2 transition-all border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]",
+                  "w-full bg-pelambre-magenta text-pelambre-violet font-bold py-3 px-6 rounded-xl flex items-center justify-center gap-2 transition-all border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]",
                   isSubmitting ? "opacity-70 cursor-not-allowed" : "hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px]"
                 )}
               >
@@ -192,7 +192,7 @@ const Admin = () => {
           </p>
           <button
             onClick={handleSignOut}
-            className="text-calmpets-magenta hover:underline font-medium"
+            className="text-pelambre-magenta hover:underline font-medium"
           >
             Cerrar sesión
           </button>
@@ -229,7 +229,7 @@ const Admin = () => {
             className={cn(
               "flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all border-2 border-black whitespace-nowrap",
               activeTab === 'products'
-                ? "bg-calmpets-magenta text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+                ? "bg-pelambre-magenta text-pelambre-violet shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
                 : "bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700"
             )}
           >
@@ -241,7 +241,7 @@ const Admin = () => {
             className={cn(
               "flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all border-2 border-black whitespace-nowrap",
               activeTab === 'contacts'
-                ? "bg-calmpets-cyan text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+                ? "bg-pelambre-indigo text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
                 : "bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700"
             )}
           >

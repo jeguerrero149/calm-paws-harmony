@@ -123,7 +123,7 @@ const AdminContacts = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="w-8 h-8 animate-spin text-calmpets-cyan" />
+        <Loader2 className="w-8 h-8 animate-spin text-pelambre-indigo" />
       </div>
     );
   }
@@ -149,7 +149,7 @@ const AdminContacts = () => {
                 className={cn(
                   "w-full text-left p-4 rounded-xl border-2 transition-all",
                   selectedContact?.id === contact.id
-                    ? "border-calmpets-cyan bg-calmpets-cyan/10"
+                    ? "border-pelambre-indigo bg-pelambre-indigo/10"
                     : "border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
                 )}
               >
@@ -191,14 +191,14 @@ const AdminContacts = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                   <div className="flex items-center gap-3 text-sm">
-                    <Mail className="w-4 h-4 text-calmpets-magenta" />
+                    <Mail className="w-4 h-4 text-pelambre-magenta" />
                     <a href={`mailto:${selectedContact.email}`} className="hover:underline">
                       {selectedContact.email}
                     </a>
                   </div>
                   {selectedContact.phone && (
                     <div className="flex items-center gap-3 text-sm">
-                      <Phone className="w-4 h-4 text-calmpets-cyan" />
+                      <Phone className="w-4 h-4 text-pelambre-indigo" />
                       <a href={`tel:${selectedContact.phone}`} className="hover:underline">
                         {selectedContact.phone}
                       </a>
@@ -211,8 +211,8 @@ const AdminContacts = () => {
                 </div>
 
                 {selectedContact.pet_info && (
-                  <div className="mb-6 p-4 bg-calmpets-cyan/10 rounded-xl">
-                    <div className="flex items-center gap-2 text-sm font-medium text-calmpets-cyan mb-1">
+                  <div className="mb-6 p-4 bg-pelambre-indigo/10 rounded-xl">
+                    <div className="flex items-center gap-2 text-sm font-medium text-pelambre-indigo mb-1">
                       <User className="w-4 h-4" />
                       Información de mascota
                     </div>
