@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Plus, Search, X, ShoppingCart, ChevronDown, ChevronUp } from 'lucide-react';
+import { Loader2, Plus, Search, X, ShoppingCart, ChevronDown, ChevronUp, Upload, FileText, Image } from 'lucide-react';
 import { formatPrice } from '@/hooks/useSupabaseProducts';
 
 interface Client {
@@ -32,6 +32,7 @@ interface Order {
   total: number;
   status: string;
   notes: string | null;
+  receipt_url: string | null;
   created_at: string;
   items: { product_id: string; quantity: number; price: number }[];
 }
@@ -54,6 +55,8 @@ const AdminSales = () => {
   const [productSearch, setProductSearch] = useState('');
   const [showProductDropdown, setShowProductDropdown] = useState(false);
   const [notes, setNotes] = useState('');
+  const [receiptFile, setReceiptFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -98,6 +101,7 @@ const AdminSales = () => {
     setOrderItems([]);
     setProductSearch('');
     setNotes('');
+    setReceiptFile(null);
   };
 
   const filteredClients = clients.filter(c =>
@@ -151,6 +155,30 @@ const AdminSales = () => {
 
   const total = orderItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
+      if (!validTypes.includes(file.type)) {
+        toast({
+          title: 'Archivo no válido',
+          description: 'Solo se permiten imágenes (JPG, PNG, WEBP) o PDF',
+          variant: 'destructive'
+        });
+        return;
+      }
+      if (file.size > 10 * 1024 * 1024) {
+        toast({
+          title: 'Archivo muy grande',
+          description: 'El archivo no puede superar 10MB',
+          variant: 'destructive'
+        });
+        return;
+      }
+      setReceiptFile(file);
+    }
+  };
+
   const handleSave = async () => {
     if (!selectedClient) {
       toast({
@@ -172,6 +200,27 @@ const AdminSales = () => {
 
     setIsSaving(true);
     try {
+      let receiptUrl: string | null = null;
+
+      // Upload receipt if provided
+      if (receiptFile) {
+        const fileExt = receiptFile.name.split('.').pop();
+        const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+        const filePath = `receipts/${fileName}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('payment-receipts')
+          .upload(filePath, receiptFile);
+
+        if (uploadError) throw uploadError;
+
+        const { data: urlData } = supabase.storage
+          .from('payment-receipts')
+          .getPublicUrl(filePath);
+
+        receiptUrl = urlData.publicUrl;
+      }
+
       // Create order
       const { data: newOrder, error: orderError } = await supabase
         .from('orders')
@@ -181,7 +230,8 @@ const AdminSales = () => {
           customer_phone: selectedClient.phone,
           total,
           status: 'pending',
-          notes: notes || null
+          notes: notes || null,
+          receipt_url: receiptUrl
         })
         .select()
         .single();
@@ -315,6 +365,24 @@ const AdminSales = () => {
                     <p className="text-sm text-gray-500 mt-3 pt-3 border-t border-gray-200 dark:border-gray-600">
                       Notas: {order.notes}
                     </p>
+                  )}
+                  {order.receipt_url && (
+                    <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-600">
+                      <p className="text-sm font-medium mb-2">Comprobante de pago:</p>
+                      <a
+                        href={order.receipt_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-sm text-pelambre-magenta hover:underline"
+                      >
+                        {order.receipt_url.toLowerCase().endsWith('.pdf') ? (
+                          <FileText className="w-4 h-4" />
+                        ) : (
+                          <Image className="w-4 h-4" />
+                        )}
+                        Ver comprobante
+                      </a>
+                    </div>
                   )}
                 </div>
               )}
@@ -470,6 +538,46 @@ const AdminSales = () => {
                   className="w-full px-4 py-2 rounded-xl border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 focus:border-pelambre-magenta focus:outline-none resize-none"
                   placeholder="Observaciones sobre la venta..."
                 />
+              </div>
+
+              {/* Receipt upload */}
+              <div>
+                <label className="block text-sm font-medium mb-1">Comprobante de pago (opcional)</label>
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                  accept="image/jpeg,image/png,image/webp,application/pdf"
+                  className="hidden"
+                />
+                {receiptFile ? (
+                  <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-xl border-2 border-gray-200 dark:border-gray-600">
+                    <div className="flex items-center gap-2">
+                      {receiptFile.type === 'application/pdf' ? (
+                        <FileText className="w-5 h-5 text-red-500" />
+                      ) : (
+                        <Image className="w-5 h-5 text-blue-500" />
+                      )}
+                      <span className="text-sm truncate max-w-[200px]">{receiptFile.name}</span>
+                    </div>
+                    <button
+                      onClick={() => setReceiptFile(null)}
+                      className="p-1 hover:bg-gray-200 dark:hover:bg-gray-600 rounded"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="w-full flex items-center justify-center gap-2 p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl hover:border-pelambre-magenta hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                  >
+                    <Upload className="w-5 h-5 text-gray-400" />
+                    <span className="text-gray-500">Subir imagen o PDF</span>
+                  </button>
+                )}
+                <p className="text-xs text-gray-400 mt-1">Formatos: JPG, PNG, WEBP, PDF. Máximo 10MB</p>
               </div>
             </div>
 

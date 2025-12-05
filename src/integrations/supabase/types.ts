@@ -189,6 +189,7 @@ export type Database = {
           customer_phone: string
           id: string
           notes: string | null
+          receipt_url: string | null
           status: string
           total: number
           updated_at: string
@@ -202,6 +203,7 @@ export type Database = {
           customer_phone: string
           id?: string
           notes?: string | null
+          receipt_url?: string | null
           status?: string
           total?: number
           updated_at?: string
@@ -215,6 +217,7 @@ export type Database = {
           customer_phone?: string
           id?: string
           notes?: string | null
+          receipt_url?: string | null
           status?: string
           total?: number
           updated_at?: string
