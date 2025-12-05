@@ -246,7 +246,7 @@ const Admin = () => {
             )}
           >
             <MessageSquare className="w-5 h-5" />
-            Prospectos
+            Formulario
           </button>
         </div>
 

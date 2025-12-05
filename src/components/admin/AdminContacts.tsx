@@ -131,7 +131,7 @@ const AdminContacts = () => {
   return (
     <div>
       <h2 className="font-display text-2xl font-bold mb-6">
-        Prospectos ({prospects.length})
+        Formulario ({prospects.length})
       </h2>
 
       {prospects.length === 0 ? (
