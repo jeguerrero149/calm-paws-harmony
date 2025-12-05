@@ -35,8 +35,16 @@ const ProductCard = ({ name, description, price, image, category, tags, isNew, i
   const bgColor = bgColors[colorIndex];
   const buttonColor = buttonColors[colorIndex];
 
+  const formatPriceCOP = (value: number) => {
+    return new Intl.NumberFormat('es-CO', {
+      style: 'decimal',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(value);
+  };
+
   const handleWhatsAppOrder = () => {
-    const message = encodeURIComponent(`¡Hola! Me interesa comprar ${name} ($${price.toLocaleString('es-CO')} COP) 🐶`);
+    const message = encodeURIComponent(`¡Hola! Me interesa comprar ${name} ($${formatPriceCOP(price)} COP) 🐶`);
     window.open(`https://wa.me/573053307629?text=${message}`, '_blank');
   };
 
@@ -121,8 +129,8 @@ const ProductCard = ({ name, description, price, image, category, tags, isNew, i
         {/* Price and CTA */}
         <div className="flex justify-between items-end pt-4">
           <div>
-            <span className="font-display text-5xl text-foreground">
-              ${price}
+            <span className="font-display text-3xl md:text-4xl text-foreground">
+              ${formatPriceCOP(price)}
             </span>
           </div>
           

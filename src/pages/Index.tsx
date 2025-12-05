@@ -2,14 +2,13 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Heart, Shield, Star, Zap, Award, Dog, Users, CircleCheck } from 'lucide-react';
 import { cn } from "@/lib/utils";
-import { toast } from 'sonner';
 import Hero from '@/components/Hero';
 import ProductCard from '@/components/ProductCard';
 import TestimonialCard from '@/components/TestimonialCard';
 import StatsCard from '@/components/StatsCard';
-import { storefrontApiRequest, STOREFRONT_QUERY } from '@/lib/shopify';
-import type { ShopifyProduct } from '@/stores/cartStore';
+import { useSupabaseProducts } from '@/hooks/useSupabaseProducts';
 import filIsotipo from '@/assets/pelambre-isotipo.png';
+
 const Index = () => {
   const [isVisible, setIsVisible] = useState<{
     [key: string]: boolean;
@@ -21,26 +20,7 @@ const Index = () => {
     cta: false
   });
 
-  const [shopifyProducts, setShopifyProducts] = useState<ShopifyProduct[]>([]);
-  const [isLoadingProducts, setIsLoadingProducts] = useState(true);
-  useEffect(() => {
-    const fetchFeaturedProducts = async () => {
-      try {
-        setIsLoadingProducts(true);
-        const data = await storefrontApiRequest(STOREFRONT_QUERY, { first: 6 });
-        if (data?.data?.products?.edges) {
-          setShopifyProducts(data.data.products.edges);
-        }
-      } catch (error) {
-        console.error('Error fetching products:', error);
-        toast.error('No se pudieron cargar los productos');
-      } finally {
-        setIsLoadingProducts(false);
-      }
-    };
-
-    fetchFeaturedProducts();
-  }, []);
+  const { products, isLoading: isLoadingProducts } = useSupabaseProducts();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -63,6 +43,7 @@ const Index = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
   const testimonials = [{
     id: "1",
     name: "Carolina Méndez",
@@ -87,7 +68,9 @@ const Index = () => {
     petType: "Chihuahua",
     date: "22 febrero, 2025"
   }];
-  return <div className="overflow-hidden">
+
+  return (
+    <div className="overflow-hidden">
       <Hero />
 
       {/* Featured Products */}
@@ -105,10 +88,10 @@ const Index = () => {
               <div className="col-span-3 flex justify-center py-12">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" />
               </div>
-            ) : shopifyProducts.length > 0 ? (
-              shopifyProducts.slice(0, 3).map((product, index) => (
+            ) : products.length > 0 ? (
+              products.slice(0, 3).map((product, index) => (
                 <div 
-                  key={product.node.id} 
+                  key={product.id} 
                   className={cn(
                     "transition-all duration-1000 transform", 
                     isVisible.products ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"
@@ -116,14 +99,14 @@ const Index = () => {
                   style={{ transitionDelay: `${index * 150}ms` }}
                 >
                   <ProductCard
-                    id={product.node.id}
-                    name={product.node.title}
-                    description={product.node.description}
-                    price={parseFloat(product.node.priceRange.minVariantPrice.amount)}
-                    image={product.node.images.edges[0]?.node.url || ''}
-                    category={product.node.title}
-                    tags={product.node.tags || []}
-                    shopifyProduct={product}
+                    id={product.id}
+                    name={product.title}
+                    description={product.description || ''}
+                    price={product.price}
+                    image={product.images[0]?.url || ''}
+                    category={product.category || 'General'}
+                    tags={product.tags || []}
+                    isNew={product.is_new || false}
                   />
                 </div>
               ))
@@ -135,8 +118,8 @@ const Index = () => {
           </div>
 
           <div className={cn("text-center mt-12 transition-all duration-1000 transform", isVisible.products ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10")} style={{
-          transitionDelay: '600ms'
-        }}>
+            transitionDelay: '600ms'
+          }}>
             <Link to="/products" className="inline-flex items-center gap-2 font-medium text-calmpets-cyan hover:text-calmpets-magenta transition-colors duration-300">
               Ver todos los productos
               <ArrowRight size={18} />
@@ -163,30 +146,32 @@ const Index = () => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {[{
-                icon: <Shield className="text-calmpets-cyan" size={20} />,
-                title: "Ingredientes Naturales",
-                description: "Usamos solo ingredientes de la más alta calidad, comprobados para reducir la ansiedad."
-              }, {
-                icon: <Heart className="text-calmpets-magenta" size={20} />,
-                title: "Fórmula Segura",
-                description: "Sin efectos secundarios ni ingredientes artificiales que puedan dañar a tu mascota."
-              }, {
-                icon: <Award className="text-calmpets-cyan" size={20} />,
-                title: "Veterinarios Aprueban",
-                description: "Desarrollado y probado con veterinarios especialistas en comportamiento animal."
-              }, {
-                icon: <Zap className="text-calmpets-magenta" size={20} />,
-                title: "Acción Rápida",
-                description: "Resultados visibles en minutos, ideal para situaciones de estrés inmediato."
-              }].map((benefit, index) => <div key={index} className="bg-white dark:bg-calmpets-dark/60 p-6 rounded-xl shadow-sm transition-transform duration-300 hover:shadow-md hover:scale-[1.02]" style={{
-                animationDelay: `${index * 150}ms`
-              }}>
+                  icon: <Shield className="text-calmpets-cyan" size={20} />,
+                  title: "Ingredientes Naturales",
+                  description: "Usamos solo ingredientes de la más alta calidad, comprobados para reducir la ansiedad."
+                }, {
+                  icon: <Heart className="text-calmpets-magenta" size={20} />,
+                  title: "Fórmula Segura",
+                  description: "Sin efectos secundarios ni ingredientes artificiales que puedan dañar a tu mascota."
+                }, {
+                  icon: <Award className="text-calmpets-cyan" size={20} />,
+                  title: "Veterinarios Aprueban",
+                  description: "Desarrollado y probado con veterinarios especialistas en comportamiento animal."
+                }, {
+                  icon: <Zap className="text-calmpets-magenta" size={20} />,
+                  title: "Acción Rápida",
+                  description: "Resultados visibles en minutos, ideal para situaciones de estrés inmediato."
+                }].map((benefit, index) => (
+                  <div key={index} className="bg-white dark:bg-calmpets-dark/60 p-6 rounded-xl shadow-sm transition-transform duration-300 hover:shadow-md hover:scale-[1.02]" style={{
+                    animationDelay: `${index * 150}ms`
+                  }}>
                     <div className="p-2 rounded-full w-10 h-10 flex items-center justify-center bg-gray-100 dark:bg-gray-800 mb-4">
                       {benefit.icon}
                     </div>
                     <h3 className="font-display font-semibold text-lg mb-2">{benefit.title}</h3>
                     <p className="text-gray-600 dark:text-gray-400 text-sm">{benefit.description}</p>
-                  </div>)}
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -202,13 +187,13 @@ const Index = () => {
                   <Star className="text-yellow-400" size={24} fill="currentColor" />
                 </div>
                 <div className="absolute bottom-[10%] left-[5%] bg-white dark:bg-calmpets-dark p-3 rounded-full shadow-lg animate-float" style={{
-                animationDelay: '1s'
-              }}>
+                  animationDelay: '1s'
+                }}>
                   <Heart className="text-calmpets-magenta" size={24} />
                 </div>
                 <div className="absolute top-[45%] left-[0%] bg-white dark:bg-calmpets-dark p-3 rounded-full shadow-lg animate-float" style={{
-                animationDelay: '2s'
-              }}>
+                  animationDelay: '2s'
+                }}>
                   <CircleCheck className="text-calmpets-cyan" size={24} />
                 </div>
               </div>
@@ -229,34 +214,36 @@ const Index = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[{
-            value: "72%",
-            label: "de perros sufren ansiedad",
-            description: "Según estudios recientes",
-            icon: <Dog size={24} className="text-calmpets-cyan" />,
-            accentColor: "cyan" as const
-          }, {
-            value: "85%",
-            label: "de efectividad",
-            description: "En reducción de ansiedad",
-            icon: <Star size={24} className="text-calmpets-magenta" />,
-            accentColor: "magenta" as const
-          }, {
-            value: "10k+",
-            label: "mascotas ayudadas",
-            description: "En el último año",
-            icon: <Dog size={24} className="text-calmpets-cyan" />,
-            accentColor: "cyan" as const
-          }, {
-            value: "500+",
-            label: "veterinarios recomiendan",
-            description: "Nuestros productos",
-            icon: <Users size={24} className="text-calmpets-magenta" />,
-            accentColor: "magenta" as const
-          }].map((stat, index) => <div key={index} className={cn("transition-all duration-1000 transform", isVisible.stats ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20")} style={{
-            transitionDelay: `${index * 150}ms`
-          }}>
+              value: "72%",
+              label: "de perros sufren ansiedad",
+              description: "Según estudios recientes",
+              icon: <Dog size={24} className="text-calmpets-cyan" />,
+              accentColor: "cyan" as const
+            }, {
+              value: "85%",
+              label: "de efectividad",
+              description: "En reducción de ansiedad",
+              icon: <Star size={24} className="text-calmpets-magenta" />,
+              accentColor: "magenta" as const
+            }, {
+              value: "10k+",
+              label: "mascotas ayudadas",
+              description: "En el último año",
+              icon: <Dog size={24} className="text-calmpets-cyan" />,
+              accentColor: "cyan" as const
+            }, {
+              value: "500+",
+              label: "veterinarios recomiendan",
+              description: "Nuestros productos",
+              icon: <Users size={24} className="text-calmpets-magenta" />,
+              accentColor: "magenta" as const
+            }].map((stat, index) => (
+              <div key={index} className={cn("transition-all duration-1000 transform", isVisible.stats ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20")} style={{
+                transitionDelay: `${index * 150}ms`
+              }}>
                 <StatsCard {...stat} index={index} />
-              </div>)}
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -275,11 +262,13 @@ const Index = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => <div key={testimonial.id} className={cn("transition-all duration-1000 transform", isVisible.testimonials ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20")} style={{
-            transitionDelay: `${index * 150}ms`
-          }}>
+            {testimonials.map((testimonial, index) => (
+              <div key={testimonial.id} className={cn("transition-all duration-1000 transform", isVisible.testimonials ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20")} style={{
+                transitionDelay: `${index * 150}ms`
+              }}>
                 <TestimonialCard {...testimonial} index={index} />
-              </div>)}
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -306,6 +295,8 @@ const Index = () => {
           </div>
         </div>
       </section>
-    </div>;
+    </div>
+  );
 };
+
 export default Index;
