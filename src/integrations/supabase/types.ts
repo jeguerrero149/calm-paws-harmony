@@ -14,6 +14,80 @@ export type Database = {
   }
   public: {
     Tables: {
+      client_dogs: {
+        Row: {
+          birth_date: string | null
+          breed: string | null
+          client_id: string
+          created_at: string
+          id: string
+          name: string
+          weight: number | null
+        }
+        Insert: {
+          birth_date?: string | null
+          breed?: string | null
+          client_id: string
+          created_at?: string
+          id?: string
+          name: string
+          weight?: number | null
+        }
+        Update: {
+          birth_date?: string | null
+          breed?: string | null
+          client_id?: string
+          created_at?: string
+          id?: string
+          name?: string
+          weight?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "client_dogs_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      clients: {
+        Row: {
+          address: string | null
+          city: string | null
+          created_at: string
+          department: string | null
+          email: string | null
+          full_name: string
+          id: string
+          phone: string
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          city?: string | null
+          created_at?: string
+          department?: string | null
+          email?: string | null
+          full_name: string
+          id?: string
+          phone: string
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          city?: string | null
+          created_at?: string
+          department?: string | null
+          email?: string | null
+          full_name?: string
+          id?: string
+          phone?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       form_submissions: {
         Row: {
           created_at: string
@@ -107,6 +181,7 @@ export type Database = {
       }
       orders: {
         Row: {
+          client_id: string | null
           created_at: string
           customer_address: string | null
           customer_email: string | null
@@ -119,6 +194,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          client_id?: string | null
           created_at?: string
           customer_address?: string | null
           customer_email?: string | null
@@ -131,6 +207,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          client_id?: string | null
           created_at?: string
           customer_address?: string | null
           customer_email?: string | null
@@ -142,7 +219,15 @@ export type Database = {
           total?: number
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "orders_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       product_images: {
         Row: {

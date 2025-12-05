@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Package, MessageSquare, LogOut, Mail, Lock, ArrowRight } from 'lucide-react';
+import { Loader2, Package, MessageSquare, LogOut, Mail, Lock, ArrowRight, Users, ShoppingCart } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { z } from 'zod';
 import AdminProducts from '@/components/admin/AdminProducts';
 import AdminContacts from '@/components/admin/AdminContacts';
+import AdminClients from '@/components/admin/AdminClients';
+import AdminSales from '@/components/admin/AdminSales';
 
-type Tab = 'products' | 'contacts';
+type Tab = 'products' | 'contacts' | 'clients' | 'sales';
 
 const emailSchema = z.string().email('Correo electrónico inválido');
 const passwordSchema = z.string().min(6, 'La contraseña debe tener al menos 6 caracteres');
@@ -237,6 +239,30 @@ const Admin = () => {
             Productos
           </button>
           <button
+            onClick={() => setActiveTab('clients')}
+            className={cn(
+              "flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all border-2 border-black whitespace-nowrap",
+              activeTab === 'clients'
+                ? "bg-pelambre-lemon text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+                : "bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700"
+            )}
+          >
+            <Users className="w-5 h-5" />
+            Clientes
+          </button>
+          <button
+            onClick={() => setActiveTab('sales')}
+            className={cn(
+              "flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all border-2 border-black whitespace-nowrap",
+              activeTab === 'sales'
+                ? "bg-pelambre-bittersweet text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+                : "bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700"
+            )}
+          >
+            <ShoppingCart className="w-5 h-5" />
+            Ventas
+          </button>
+          <button
             onClick={() => setActiveTab('contacts')}
             className={cn(
               "flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all border-2 border-black whitespace-nowrap",
@@ -253,6 +279,8 @@ const Admin = () => {
         {/* Content */}
         <div className="bg-white dark:bg-gray-800 rounded-2xl border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-6">
           {activeTab === 'products' && <AdminProducts />}
+          {activeTab === 'clients' && <AdminClients />}
+          {activeTab === 'sales' && <AdminSales />}
           {activeTab === 'contacts' && <AdminContacts />}
         </div>
       </div>
