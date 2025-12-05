@@ -9,21 +9,6 @@ const Footer = () => {
     });
   };
   const footerLinks = [{
-    title: "Productos",
-    links: [{
-      name: "Snacks Calmantes",
-      path: "/products"
-    }, {
-      name: "Juguetes",
-      path: "/products"
-    }, {
-      name: "Accesorios",
-      path: "/products"
-    }, {
-      name: "Ofertas",
-      path: "/products"
-    }]
-  }, {
     title: "Empresa",
     links: [{
       name: "Nosotros",
