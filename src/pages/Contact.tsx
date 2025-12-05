@@ -49,20 +49,20 @@ const Contact = () => {
     {
       icon: <Phone className="text-calmpets-cyan" />,
       title: "Teléfono",
-      info: "+52 (55) 1234 5678",
+      info: "+57 305 330 7629",
       description: "Lunes a Viernes: 9am - 6pm",
     },
     {
       icon: <Mail className="text-calmpets-magenta" />,
       title: "Email",
-      info: "contacto@calmpets.com",
+      info: "hola@somosfil.com",
       description: "Atención 24/7",
     },
     {
       icon: <MapPin className="text-calmpets-cyan" />,
-      title: "Oficina Principal",
-      info: "Av. Reforma 123, CDMX",
-      description: "México, CP 06500",
+      title: "Ubicación",
+      info: "Medellín, Colombia",
+      description: "Envíos a todo el país",
     }
   ];
 
@@ -329,7 +329,7 @@ const Contact = () => {
                   </p>
                   <div className="flex items-center gap-3">
                     <Phone size={18} className="text-calmpets-cyan" />
-                    <span className="font-medium">+52 (55) 1234 5678</span>
+                    <span className="font-medium">+57 305 330 7629</span>
                   </div>
                 </div>
               </div>
