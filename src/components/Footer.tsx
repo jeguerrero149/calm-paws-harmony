@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Facebook, Instagram, Twitter, Mail, Phone, MapPin, ArrowUp } from 'lucide-react';
+import { Instagram, MessageCircle, Mail, Phone, MapPin, ArrowUp } from 'lucide-react';
 import isotipo from '@/assets/pelambre-isotipo.png';
 const Footer = () => {
   const scrollToTop = () => {
@@ -34,20 +34,15 @@ const Footer = () => {
     }]
   }];
   const socialLinks = [{
-    icon: Facebook,
-    href: "#",
-    label: "Facebook",
-    color: "bg-pelambre-indigo"
-  }, {
     icon: Instagram,
-    href: "#",
+    href: "https://instagram.com/somos.fil",
     label: "Instagram",
     color: "bg-pelambre-magenta"
   }, {
-    icon: Twitter,
-    href: "#",
-    label: "Twitter",
-    color: "bg-pelambre-lemon"
+    icon: MessageCircle,
+    href: "https://wa.me/573053307629",
+    label: "WhatsApp",
+    color: "bg-pelambre-indigo"
   }];
   return <footer className="relative bg-pelambre-violet text-white overflow-hidden">
       {/* Top Section with Asymmetric Blocks */}
