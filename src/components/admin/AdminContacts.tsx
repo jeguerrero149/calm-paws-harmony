@@ -26,30 +26,30 @@ const subjectLabels: Record<string, string> = {
 
 const AdminContacts = () => {
   const { toast } = useToast();
-  const [contacts, setContacts] = useState<Contact[]>([]);
+  const [prospects, setProspects] = useState<Contact[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
+  const [selectedProspect, setSelectedProspect] = useState<Contact | null>(null);
   const [updatingStatus, setUpdatingStatus] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchContacts();
+    fetchProspects();
   }, []);
 
-  const fetchContacts = async () => {
+  const fetchProspects = async () => {
     setLoading(true);
     try {
       const { data, error } = await supabase
-        .from('contacts')
+        .from('form_submissions')
         .select('*')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setContacts(data || []);
+      setProspects(data || []);
     } catch (err) {
-      console.error('Error fetching contacts:', err);
+      console.error('Error fetching prospects:', err);
       toast({
         title: 'Error',
-        description: 'No se pudieron cargar los contactos.',
+        description: 'No se pudieron cargar los prospectos.',
         variant: 'destructive'
       });
     } finally {
@@ -61,23 +61,23 @@ const AdminContacts = () => {
     setUpdatingStatus(id);
     try {
       const { error } = await supabase
-        .from('contacts')
+        .from('form_submissions')
         .update({ status })
         .eq('id', id);
 
       if (error) throw error;
 
-      setContacts(contacts.map(c => 
+      setProspects(prospects.map(c => 
         c.id === id ? { ...c, status } : c
       ));
       
-      if (selectedContact?.id === id) {
-        setSelectedContact({ ...selectedContact, status });
+      if (selectedProspect?.id === id) {
+        setSelectedProspect({ ...selectedProspect, status });
       }
 
       toast({
         title: 'Estado actualizado',
-        description: `El contacto ha sido marcado como ${status}.`
+        description: `El prospecto ha sido marcado como ${status}.`
       });
     } catch (err) {
       console.error('Error updating status:', err);
@@ -131,92 +131,92 @@ const AdminContacts = () => {
   return (
     <div>
       <h2 className="font-display text-2xl font-bold mb-6">
-        Contactos ({contacts.length})
+        Prospectos ({prospects.length})
       </h2>
 
-      {contacts.length === 0 ? (
+      {prospects.length === 0 ? (
         <div className="text-center py-12 text-gray-500">
-          No hay mensajes de contacto.
+          No hay prospectos registrados.
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Contact List */}
+          {/* Prospect List */}
           <div className="lg:col-span-1 space-y-3 max-h-[600px] overflow-y-auto pr-2">
-            {contacts.map((contact) => (
+            {prospects.map((prospect) => (
               <button
-                key={contact.id}
-                onClick={() => setSelectedContact(contact)}
+                key={prospect.id}
+                onClick={() => setSelectedProspect(prospect)}
                 className={cn(
                   "w-full text-left p-4 rounded-xl border-2 transition-all",
-                  selectedContact?.id === contact.id
+                  selectedProspect?.id === prospect.id
                     ? "border-pelambre-indigo bg-pelambre-indigo/10"
                     : "border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
                 )}
               >
                 <div className="flex justify-between items-start mb-2">
-                  <span className="font-medium truncate">{contact.name}</span>
+                  <span className="font-medium truncate">{prospect.name}</span>
                   <span className={cn(
                     "px-2 py-0.5 rounded-full text-xs font-medium shrink-0 ml-2",
-                    getStatusColor(contact.status)
+                    getStatusColor(prospect.status)
                   )}>
-                    {getStatusLabel(contact.status)}
+                    {getStatusLabel(prospect.status)}
                   </span>
                 </div>
-                <p className="text-sm text-gray-500 truncate">{contact.email}</p>
+                <p className="text-sm text-gray-500 truncate">{prospect.email}</p>
                 <p className="text-sm text-gray-400 mt-1">
-                  {subjectLabels[contact.subject] || contact.subject}
+                  {subjectLabels[prospect.subject] || prospect.subject}
                 </p>
               </button>
             ))}
           </div>
 
-          {/* Contact Detail */}
+          {/* Prospect Detail */}
           <div className="lg:col-span-2">
-            {selectedContact ? (
+            {selectedProspect ? (
               <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-700">
                 <div className="flex justify-between items-start mb-6">
                   <div>
-                    <h3 className="font-display text-xl font-bold">{selectedContact.name}</h3>
+                    <h3 className="font-display text-xl font-bold">{selectedProspect.name}</h3>
                     <p className="text-gray-500 text-sm">
-                      {subjectLabels[selectedContact.subject] || selectedContact.subject}
+                      {subjectLabels[selectedProspect.subject] || selectedProspect.subject}
                     </p>
                   </div>
                   <span className={cn(
                     "px-3 py-1 rounded-full text-sm font-medium",
-                    getStatusColor(selectedContact.status)
+                    getStatusColor(selectedProspect.status)
                   )}>
-                    {getStatusLabel(selectedContact.status)}
+                    {getStatusLabel(selectedProspect.status)}
                   </span>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                   <div className="flex items-center gap-3 text-sm">
                     <Mail className="w-4 h-4 text-pelambre-magenta" />
-                    <a href={`mailto:${selectedContact.email}`} className="hover:underline">
-                      {selectedContact.email}
+                    <a href={`mailto:${selectedProspect.email}`} className="hover:underline">
+                      {selectedProspect.email}
                     </a>
                   </div>
-                  {selectedContact.phone && (
+                  {selectedProspect.phone && (
                     <div className="flex items-center gap-3 text-sm">
                       <Phone className="w-4 h-4 text-pelambre-indigo" />
-                      <a href={`tel:${selectedContact.phone}`} className="hover:underline">
-                        {selectedContact.phone}
+                      <a href={`tel:${selectedProspect.phone}`} className="hover:underline">
+                        {selectedProspect.phone}
                       </a>
                     </div>
                   )}
                   <div className="flex items-center gap-3 text-sm text-gray-500">
                     <Calendar className="w-4 h-4" />
-                    {formatDate(selectedContact.created_at)}
+                    {formatDate(selectedProspect.created_at)}
                   </div>
                 </div>
 
-                {selectedContact.pet_info && (
+                {selectedProspect.pet_info && (
                   <div className="mb-6 p-4 bg-pelambre-indigo/10 rounded-xl">
                     <div className="flex items-center gap-2 text-sm font-medium text-pelambre-indigo mb-1">
                       <User className="w-4 h-4" />
                       Información de mascota
                     </div>
-                    <p className="text-sm">{selectedContact.pet_info}</p>
+                    <p className="text-sm">{selectedProspect.pet_info}</p>
                   </div>
                 )}
 
@@ -226,7 +226,7 @@ const AdminContacts = () => {
                     Mensaje
                   </div>
                   <div className="bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700">
-                    <p className="whitespace-pre-wrap">{selectedContact.message}</p>
+                    <p className="whitespace-pre-wrap">{selectedProspect.message}</p>
                   </div>
                 </div>
 
@@ -235,16 +235,16 @@ const AdminContacts = () => {
                   {['new', 'in_progress', 'resolved'].map((status) => (
                     <button
                       key={status}
-                      onClick={() => updateStatus(selectedContact.id, status)}
-                      disabled={updatingStatus === selectedContact.id || selectedContact.status === status}
+                      onClick={() => updateStatus(selectedProspect.id, status)}
+                      disabled={updatingStatus === selectedProspect.id || selectedProspect.status === status}
                       className={cn(
                         "flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all border-2",
-                        selectedContact.status === status
+                        selectedProspect.status === status
                           ? "border-black bg-black text-white cursor-default"
                           : "border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500"
                       )}
                     >
-                      {updatingStatus === selectedContact.id ? (
+                      {updatingStatus === selectedProspect.id ? (
                         <Loader2 className="w-4 h-4 animate-spin" />
                       ) : status === 'resolved' ? (
                         <CheckCircle className="w-4 h-4" />
@@ -258,7 +258,7 @@ const AdminContacts = () => {
               </div>
             ) : (
               <div className="flex items-center justify-center h-full text-gray-500 bg-gray-50 dark:bg-gray-900 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-700 p-12">
-                Selecciona un contacto para ver los detalles
+                Selecciona un prospecto para ver los detalles
               </div>
             )}
           </div>
