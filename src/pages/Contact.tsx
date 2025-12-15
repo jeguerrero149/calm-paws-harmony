@@ -99,10 +99,6 @@ const Contact = () => {
     {
       question: "¿Qué hago si mi perro no mejora?",
       answer: "Si no observa mejoría después de 2-3 semanas de uso consistente, recomendamos consultar con su veterinario para una evaluación más profunda. También ofrecemos asesoramiento personalizado - contáctenos directamente para programar una consulta."
-    },
-    {
-      question: "¿Hacen envíos internacionales?",
-      answer: "Sí, realizamos envíos a toda Latinoamérica y España. Los tiempos de entrega varían según el destino, pero generalmente oscilan entre 7-14 días hábiles. Ofrecemos seguimiento en tiempo real de todos nuestros envíos."
     }
   ];
 
