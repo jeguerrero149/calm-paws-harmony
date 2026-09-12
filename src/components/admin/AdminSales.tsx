@@ -214,11 +214,8 @@ const AdminSales = () => {
 
         if (uploadError) throw uploadError;
 
-        const { data: urlData } = supabase.storage
-          .from('payment-receipts')
-          .getPublicUrl(filePath);
-
-        receiptUrl = urlData.publicUrl;
+        // Bucket is private: store the internal path and sign it on demand
+        receiptUrl = filePath;
       }
 
       // Create order
