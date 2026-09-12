@@ -1,5 +1,5 @@
 const WhatsAppButton = () => {
-  const whatsappNumber = "573053307629";
+  const whatsappNumber = "573145056764";
   const message = "¡Hola! Me interesa saber más sobre Fil-Chill 🐶";
   
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;

@@ -45,7 +45,7 @@ const ProductCard = ({ name, description, price, image, category, tags, isNew, i
 
   const handleWhatsAppOrder = () => {
     const message = encodeURIComponent(`¡Hola! Me interesa comprar ${name} ($${formatPriceCOP(price)} COP) 🐶`);
-    window.open(`https://wa.me/573053307629?text=${message}`, '_blank');
+    window.open(`https://wa.me/573145056764?text=${message}`, '_blank');
   };
 
   return (

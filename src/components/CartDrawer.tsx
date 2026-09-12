@@ -31,7 +31,7 @@ export const CartDrawer = () => {
     const message = encodeURIComponent(
       `¡Hola! Me gustaría hacer un pedido 🐶\n\n${productList}\n\nTotal: $${totalPrice.toLocaleString('es-CO')} COP`
     );
-    window.open(`https://wa.me/573053307629?text=${message}`, '_blank');
+    window.open(`https://wa.me/573145056764?text=${message}`, '_blank');
     setIsOpen(false);
   };
 
