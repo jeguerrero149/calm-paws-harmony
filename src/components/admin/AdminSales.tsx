@@ -58,6 +58,27 @@ const AdminSales = () => {
   const [receiptFile, setReceiptFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Receipts live in a private bucket: open them through a short-lived signed URL
+  const openReceipt = async (receipt: string) => {
+    if (/^https?:\/\//i.test(receipt)) {
+      window.open(receipt, '_blank', 'noopener,noreferrer');
+      return;
+    }
+    const { data, error } = await supabase.storage
+      .from('payment-receipts')
+      .createSignedUrl(receipt, 60);
+
+    if (error || !data?.signedUrl) {
+      toast({
+        title: 'Error',
+        description: 'No se pudo abrir el comprobante',
+        variant: 'destructive'
+      });
+      return;
+    }
+    window.open(data.signedUrl, '_blank', 'noopener,noreferrer');
+  };
+
   const fetchData = async () => {
     setIsLoading(true);
     try {
@@ -214,11 +235,8 @@ const AdminSales = () => {
 
         if (uploadError) throw uploadError;
 
-        const { data: urlData } = supabase.storage
-          .from('payment-receipts')
-          .getPublicUrl(filePath);
-
-        receiptUrl = urlData.publicUrl;
+        // Bucket is private: store the internal path and sign it on demand
+        receiptUrl = filePath;
       }
 
       // Create order
@@ -369,10 +387,9 @@ const AdminSales = () => {
                   {order.receipt_url && (
                     <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-600">
                       <p className="text-sm font-medium mb-2">Comprobante de pago:</p>
-                      <a
-                        href={order.receipt_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                      <button
+                        type="button"
+                        onClick={() => openReceipt(order.receipt_url!)}
                         className="inline-flex items-center gap-2 text-sm text-pelambre-magenta hover:underline"
                       >
                         {order.receipt_url.toLowerCase().endsWith('.pdf') ? (
@@ -381,7 +398,7 @@ const AdminSales = () => {
                           <Image className="w-4 h-4" />
                         )}
                         Ver comprobante
-                      </a>
+                      </button>
                     </div>
                   )}
                 </div>
