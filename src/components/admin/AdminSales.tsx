@@ -366,10 +366,9 @@ const AdminSales = () => {
                   {order.receipt_url && (
                     <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-600">
                       <p className="text-sm font-medium mb-2">Comprobante de pago:</p>
-                      <a
-                        href={order.receipt_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                      <button
+                        type="button"
+                        onClick={() => openReceipt(order.receipt_url!)}
                         className="inline-flex items-center gap-2 text-sm text-pelambre-magenta hover:underline"
                       >
                         {order.receipt_url.toLowerCase().endsWith('.pdf') ? (
