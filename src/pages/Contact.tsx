@@ -70,7 +70,7 @@ const Contact = () => {
     {
       icon: <Phone className="text-calmpets-cyan" />,
       title: "Teléfono",
-      info: "+57 305 330 7629",
+      info: "+57 314 505 6764",
       description: "Lunes a Viernes: 9am - 6pm",
     },
     {
@@ -346,7 +346,7 @@ const Contact = () => {
                   </p>
                   <div className="flex items-center gap-3">
                     <Phone size={18} className="text-calmpets-cyan" />
-                    <span className="font-medium">+57 305 330 7629</span>
+                    <span className="font-medium">+57 314 505 6764</span>
                   </div>
                 </div>
               </div>

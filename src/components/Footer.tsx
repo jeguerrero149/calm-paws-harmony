@@ -40,7 +40,7 @@ const Footer = () => {
     color: "bg-pelambre-magenta"
   }, {
     icon: MessageCircle,
-    href: "https://wa.me/573053307629",
+    href: "https://wa.me/573145056764",
     label: "WhatsApp",
     color: "bg-pelambre-indigo"
   }];
