@@ -58,6 +58,27 @@ const AdminSales = () => {
   const [receiptFile, setReceiptFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Receipts live in a private bucket: open them through a short-lived signed URL
+  const openReceipt = async (receipt: string) => {
+    if (/^https?:\/\//i.test(receipt)) {
+      window.open(receipt, '_blank', 'noopener,noreferrer');
+      return;
+    }
+    const { data, error } = await supabase.storage
+      .from('payment-receipts')
+      .createSignedUrl(receipt, 60);
+
+    if (error || !data?.signedUrl) {
+      toast({
+        title: 'Error',
+        description: 'No se pudo abrir el comprobante',
+        variant: 'destructive'
+      });
+      return;
+    }
+    window.open(data.signedUrl, '_blank', 'noopener,noreferrer');
+  };
+
   const fetchData = async () => {
     setIsLoading(true);
     try {
