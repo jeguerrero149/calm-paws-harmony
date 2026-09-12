@@ -62,10 +62,10 @@ const Products = () => {
           {/* Products grid */}
           <div className="flex-1">
             {filteredProducts.length > 0 ? <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredProducts.map((product, index) => <div key={product.node.id} className={cn("transition-all duration-700 transform", isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10")} style={{
+                {filteredProducts.map((product, index) => <div key={product.id} className={cn("transition-all duration-700 transform", isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10")} style={{
               transitionDelay: `${index * 100}ms`
             }}>
-                    <ProductCard id={product.node.id} name={product.node.title} description={product.node.description} price={parseFloat(product.node.priceRange.minVariantPrice.amount)} image={product.node.images.edges[0]?.node.url || ''} category={product.node.title} tags={product.node.tags || []} shopifyProduct={product} />
+                    <ProductCard id={product.id} name={product.title} description={product.description || ''} price={product.price} image={product.images[0]?.url || ''} category={product.category || 'General'} tags={product.tags || []} isNew={product.is_new || false} />
                   </div>)}
               </div> : <div className="text-center py-12">
                 <div className="bg-background inline-flex rounded-full p-5 mb-4 border-2 border-black">
