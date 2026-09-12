@@ -109,8 +109,8 @@ const Footer = () => {
               </div>
               <div>
                 <div className="font-sans text-sm opacity-70">Teléfono</div>
-                <a className="font-sans font-semibold hover:text-pelambre-lemon transition-colors" href="+573053307629">
-                  +573053307629
+                <a className="font-sans font-semibold hover:text-pelambre-lemon transition-colors" href="+573145056764">
+                  +573145056764
                 </a>
               </div>
             </div>
