@@ -377,7 +377,7 @@ const AdminSales = () => {
                           <Image className="w-4 h-4" />
                         )}
                         Ver comprobante
-                      </a>
+                      </button>
                     </div>
                   )}
                 </div>
