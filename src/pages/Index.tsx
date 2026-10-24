@@ -74,7 +74,7 @@ const Index = () => {
       <Hero />
 
       {/* Featured Products */}
-      <section id="products" className="py-16 md:py-24 bg-gray-50 dark:bg-calmpets-dark/30">
+      <section id="products" className="py-16 md:py-24 combo-indigo">
         <div className="container mx-auto px-4 sm:px-6">
           <div className={cn("text-center mb-12 transition-all duration-1000 transform", isVisible.products ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10")}>
             <h2 className="font-display text-4xl font-bold mb-4">Productos Destacados</h2>
@@ -120,7 +120,7 @@ const Index = () => {
           <div className={cn("text-center mt-12 transition-all duration-1000 transform", isVisible.products ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10")} style={{
             transitionDelay: '600ms'
           }}>
-            <Link to="/products" className="inline-flex items-center gap-2 font-medium text-calmpets-cyan hover:text-calmpets-magenta transition-colors duration-300">
+            <Link to="/products" className="inline-flex items-center gap-2 pelambre-border-thin bg-pelambre-lemon text-pelambre-violet px-6 py-2 font-display text-xl uppercase transition-transform hover:scale-105">
               Ver todos los productos
               <ArrowRight size={18} />
             </Link>
@@ -129,15 +129,13 @@ const Index = () => {
       </section>
 
       {/* Benefits */}
-      <section id="benefits" className="py-16 md:py-24 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-to-bl from-calmpets-cyan/10 to-transparent rounded-full blur-3xl transform translate-x-1/4 -translate-y-1/4"></div>
-        <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-gradient-to-tr from-calmpets-magenta/10 to-transparent rounded-full blur-3xl transform -translate-x-1/4 translate-y-1/4"></div>
-
+      <section id="benefits" className="py-16 md:py-24 relative overflow-hidden combo-violet">
+                
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className={cn("transition-all duration-1000 transform", isVisible.benefits ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20")}>
               <div className="text-center lg:text-left">
-                <span className="px-4 py-1.5 bg-calmpets-cyan/10 text-calmpets-cyan rounded-full text-sm font-medium inline-block mb-4">
+                <span className="px-4 py-1.5 bg-pelambre-lemon text-pelambre-violet rounded-full text-sm font-medium inline-block mb-4">
                   100% Natural
                 </span>
                 <h2 className="font-display text-4xl font-bold mb-6">¿Por qué elegir FIL?</h2>
@@ -177,7 +175,7 @@ const Index = () => {
 
             <div className={cn("relative transition-all duration-1000 transform flex items-center justify-center", isVisible.benefits ? "opacity-100 translate-x-0" : "opacity-0 translate-x-20")}>
               <div className="relative w-full max-w-md aspect-square">
-                <div className="absolute inset-0 bg-gradient-to-br from-calmpets-cyan/20 to-calmpets-magenta/20 rounded-full animate-rotate-slow opacity-70 blur-md"></div>
+                <div className="absolute inset-0 border-4 border-dashed border-pelambre-lemon rounded-full animate-rotate-slow"></div>
                 <div className="absolute inset-[15%] bg-white dark:bg-calmpets-dark rounded-full shadow-xl overflow-hidden p-2">
                   <img src={filIsotipo} alt="Mascota FIL Chill" className="w-full h-full object-contain rounded-full bg-primary p-6" />
                 </div>
@@ -203,7 +201,7 @@ const Index = () => {
       </section>
 
       {/* Stats */}
-      <section id="stats" className="py-16 md:py-24 bg-gray-50 dark:bg-calmpets-dark/30">
+      <section id="stats" className="py-16 md:py-24 combo-violet border-t-4 border-pelambre-lemon">
         <div className="container mx-auto px-4 sm:px-6">
           <div className={cn("text-center mb-12 transition-all duration-1000 transform", isVisible.stats ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10")}>
             <h2 className="font-display text-4xl font-bold mb-4">¡Así lo hace fil!</h2>
@@ -249,7 +247,7 @@ const Index = () => {
       </section>
 
       {/* Testimonials */}
-      <section id="testimonials" className="py-16 md:py-24 relative overflow-hidden">
+      <section id="testimonials" className="py-16 md:py-24 relative overflow-hidden combo-lemon">
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
           <div className="absolute -top-[50%] -right-[20%] w-[60%] h-[100%] bg-calmpets-cyan/5 rounded-full blur-[100px]"></div>
           <div className="absolute -bottom-[50%] -left-[20%] w-[60%] h-[100%] bg-calmpets-magenta/5 rounded-full blur-[100px]"></div>
@@ -274,7 +272,7 @@ const Index = () => {
       </section>
 
       {/* CTA */}
-      <section id="cta" className="py-16 md:py-24 bg-gradient-to-r from-calmpets-cyan/10 to-calmpets-magenta/10">
+      <section id="cta" className="py-16 md:py-24 combo-indigo">
         <div className="container mx-auto px-4 sm:px-6">
           <div className={cn("max-w-3xl mx-auto text-center transition-all duration-1000 transform", isVisible.cta ? "opacity-100 scale-100" : "opacity-0 scale-95")}>
             <h2 className="font-display text-4xl md:text-5xl font-bold mb-6">
@@ -284,11 +282,11 @@ const Index = () => {
               Únete a miles de dueños de mascotas satisfechos y transforma la calidad de vida de tu perro con FIL.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/products" className="bg-gradient-to-r from-calmpets-cyan to-calmpets-magenta hover:opacity-90 text-white font-medium px-8 py-3 rounded-full transition duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+              <Link to="/products" className="pelambre-border bg-pelambre-lemon text-pelambre-violet font-display text-xl uppercase px-8 py-3 transition duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
                 Ver Productos
                 <ArrowRight size={18} />
               </Link>
-              <Link to="/contact" className="bg-white dark:bg-calmpets-dark hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-800 dark:text-white border border-gray-200 dark:border-gray-700 font-medium px-8 py-3 rounded-full transition duration-300 shadow-md">
+              <Link to="/contact" className="pelambre-border bg-white text-pelambre-violet font-display text-xl uppercase px-8 py-3 transition duration-300 shadow-md">
                 Contactar a un Experto
               </Link>
             </div>
