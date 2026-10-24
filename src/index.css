@@ -382,3 +382,7 @@
   :is(.combo-indigo, .combo-violet, .combo-lemon) :is(.bg-white, .bg-card) :is(h1,h2,h3,h4) { color: #1E1239; }
   .combo-violet .pelambre-border, .combo-indigo .pelambre-border { border-color: #1E1239; }
 }
+@layer components {
+  /* Restores default light tokens inside a combo section (cards on solid color) */
+  .combo-reset { color: #1E1239; --foreground: 259 52% 15%; --muted-foreground: 259 20% 40%; --primary: 259 52% 15%; --primary-foreground: 0 0% 100%; --accent: 67 100% 55%; --accent-foreground: 259 52% 15%; }
+}

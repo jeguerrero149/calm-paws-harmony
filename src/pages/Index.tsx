@@ -177,7 +177,7 @@ const Index = () => {
               <div className="relative w-full max-w-md aspect-square">
                 <div className="absolute inset-0 border-4 border-dashed border-pelambre-lemon rounded-full animate-rotate-slow"></div>
                 <div className="absolute inset-[15%] bg-white dark:bg-calmpets-dark rounded-full shadow-xl overflow-hidden p-2">
-                  <img src={filIsotipo} alt="Mascota FIL Chill" className="w-full h-full object-contain rounded-full bg-primary p-6" />
+                  <img src={filIsotipo} alt="Mascota FIL Chill" className="w-full h-full object-contain rounded-full bg-pelambre-indigo p-6" />
                 </div>
 
                 {/* Floating elements */}
