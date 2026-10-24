@@ -16,6 +16,7 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ name, description, price, image, category, tags, isNew, id }: ProductCardProps) => {
+  const addItem = useCartStore((state) => state.addItem);
   const [isHovered, setIsHovered] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
