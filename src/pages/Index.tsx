@@ -74,7 +74,7 @@ const Index = () => {
       <Hero />
 
       {/* Featured Products */}
-      <section id="products" className="py-16 md:py-24 combo-indigo">
+      <section id="products" className="py-16 md:py-24">
         <div className="container mx-auto px-4 sm:px-6">
           <div className={cn("text-center mb-12 transition-all duration-1000 transform", isVisible.products ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10")}>
             <h2 className="font-display text-4xl font-bold mb-4">Productos Destacados</h2>
@@ -120,7 +120,7 @@ const Index = () => {
           <div className={cn("text-center mt-12 transition-all duration-1000 transform", isVisible.products ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10")} style={{
             transitionDelay: '600ms'
           }}>
-            <Link to="/products" className="inline-flex items-center gap-2 pelambre-border-thin bg-pelambre-lemon text-pelambre-violet px-6 py-2 font-display text-xl uppercase transition-transform hover:scale-105">
+            <Link to="/products" className="inline-flex items-center gap-2 pelambre-border-thin bg-pelambre-indigo text-white px-6 py-2 font-display text-xl uppercase transition-transform hover:scale-105">
               Ver todos los productos
               <ArrowRight size={18} />
             </Link>
