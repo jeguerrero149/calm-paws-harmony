@@ -3,7 +3,8 @@ import { ArrowRight, Leaf, Shield, Users, Award, Heart, Phone } from 'lucide-rea
 import { cn } from "@/lib/utils";
 import TestimonialCard from '@/components/TestimonialCard';
 import { Link } from 'react-router-dom';
-import filIsotipo from '@/assets/pelambre-isotipo.png';
+import caraAsset from '@/assets/fil-chill-cara_blanco.svg.asset.json';
+const filIsotipo = caraAsset.url;
 const About = () => {
   const [isVisible, setIsVisible] = useState<{
     [key: string]: boolean;
@@ -156,7 +157,7 @@ const About = () => {
             <div className={cn("relative transition-all duration-1000 transform", isVisible.story ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20")}>
               <div className="relative z-10">
                 <div className="relative rounded-2xl overflow-hidden shadow-xl aspect-[4/3]">
-                  <img src={filIsotipo} alt="Isotipo de FIL" className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />
+                  <img src={filIsotipo} alt="Mascota FIL Chill" className="w-full h-full object-contain bg-primary p-10" />
                 </div>
               </div>
 
