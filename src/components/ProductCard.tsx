@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { Heart } from 'lucide-react';
+import { Heart, ShoppingCart } from 'lucide-react';
+import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
+import { useCartStore } from '@/stores/cartStore';
 
 interface ProductCardProps {
   id: string | number;
@@ -11,10 +13,9 @@ interface ProductCardProps {
   category: string;
   tags: string[];
   isNew?: boolean;
-  shopifyProduct?: any;
 }
 
-const ProductCard = ({ name, description, price, image, category, tags, isNew, id, shopifyProduct }: ProductCardProps) => {
+const ProductCard = ({ name, description, price, image, category, tags, isNew, id }: ProductCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
