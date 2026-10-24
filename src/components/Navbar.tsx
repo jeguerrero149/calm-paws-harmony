@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import isotipo from '@/assets/pelambre-isotipo.png';
+import FilLogo from './FilLogo';
 import { CartDrawer } from './CartDrawer';
 
 const Navbar = () => {

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Instagram, MessageCircle, Mail, Phone, MapPin, ArrowUp } from 'lucide-react';
-import isotipo from '@/assets/pelambre-isotipo.png';
+import FilLogo from './FilLogo';
 const Footer = () => {
   const scrollToTop = () => {
     window.scrollTo({
