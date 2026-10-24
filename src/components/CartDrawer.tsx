@@ -12,24 +12,31 @@ import {
 import { ShoppingCart, Minus, Plus, Trash2 } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 
+const formatCOP = (value: number) =>
+  new Intl.NumberFormat("es-CO", {
+    style: "decimal",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(value);
+
 export const CartDrawer = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { 
-    items, 
-    updateQuantity, 
+  const {
+    items,
+    updateQuantity,
     removeItem,
   } = useCartStore();
-  
+
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
-  const totalPrice = items.reduce((sum, item) => sum + (parseFloat(item.price.amount) * item.quantity), 0);
+  const totalPrice = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const handleWhatsAppCheckout = () => {
-    const productList = items.map(item => 
-      `• ${item.product.node.title} x${item.quantity} - $${(parseFloat(item.price.amount) * item.quantity).toLocaleString('es-CO')} COP`
+    const productList = items.map(item =>
+      `• ${item.name} x${item.quantity} - $${formatCOP(item.price * item.quantity)} COP`
     ).join('\n');
-    
+
     const message = encodeURIComponent(
-      `¡Hola! Me gustaría hacer un pedido 🐶\n\n${productList}\n\nTotal: $${totalPrice.toLocaleString('es-CO')} COP`
+      `¡Hola! Me gustaría hacer un pedido 🐶\n\n${productList}\n\nTotal: $${formatCOP(totalPrice)} COP`
     );
     window.open(`https://wa.me/573145056764?text=${message}`, '_blank');
     setIsOpen(false);
@@ -38,7 +45,7 @@ export const CartDrawer = () => {
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button variant="outline" size="icon" className="relative">
+        <Button variant="outline" size="icon" className="relative" aria-label="Carrito de compras">
           <ShoppingCart className="h-5 w-5" />
           {totalItems > 0 && (
             <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs bg-accent">
@@ -47,7 +54,7 @@ export const CartDrawer = () => {
           )}
         </Button>
       </SheetTrigger>
-      
+
       <SheetContent className="w-full sm:max-w-lg flex flex-col h-full">
         <SheetHeader className="flex-shrink-0">
           <SheetTitle>Carrito de Compras</SheetTitle>
@@ -55,7 +62,7 @@ export const CartDrawer = () => {
             {totalItems === 0 ? "Tu carrito está vacío" : `${totalItems} producto${totalItems !== 1 ? 's' : ''} en tu carrito`}
           </SheetDescription>
         </SheetHeader>
-        
+
         <div className="flex flex-col flex-1 pt-6 min-h-0">
           {items.length === 0 ? (
             <div className="flex-1 flex items-center justify-center">
@@ -69,43 +76,42 @@ export const CartDrawer = () => {
               <div className="flex-1 overflow-y-auto pr-2 min-h-0">
                 <div className="space-y-4">
                   {items.map((item) => (
-                    <div key={item.variantId} className="flex gap-4 p-2">
+                    <div key={item.productId} className="flex gap-4 p-2">
                       <div className="w-16 h-16 bg-secondary/20 rounded-md overflow-hidden flex-shrink-0">
-                        {item.product.node.images?.edges?.[0]?.node && (
+                        {item.image && (
                           <img
-                            src={item.product.node.images.edges[0].node.url}
-                            alt={item.product.node.title}
+                            src={item.image}
+                            alt={item.name}
                             className="w-full h-full object-cover"
                           />
                         )}
                       </div>
-                      
+
                       <div className="flex-1 min-w-0">
-                        <h4 className="font-medium truncate">{item.product.node.title}</h4>
-                        <p className="text-sm text-muted-foreground">
-                          {item.selectedOptions.map(option => option.value).join(' • ')}
-                        </p>
+                        <h4 className="font-medium truncate">{item.name}</h4>
                         <p className="font-semibold">
-                          {item.price.currencyCode} ${parseFloat(item.price.amount).toFixed(2)}
+                          ${formatCOP(item.price)} COP
                         </p>
                       </div>
-                      
+
                       <div className="flex flex-col items-end gap-2 flex-shrink-0">
                         <Button
                           variant="ghost"
                           size="icon"
                           className="h-6 w-6"
-                          onClick={() => removeItem(item.variantId)}
+                          aria-label={`Quitar ${item.name}`}
+                          onClick={() => removeItem(item.productId)}
                         >
                           <Trash2 className="h-3 w-3" />
                         </Button>
-                        
+
                         <div className="flex items-center gap-1">
                           <Button
                             variant="outline"
                             size="icon"
                             className="h-6 w-6"
-                            onClick={() => updateQuantity(item.variantId, item.quantity - 1)}
+                            aria-label="Disminuir cantidad"
+                            onClick={() => updateQuantity(item.productId, item.quantity - 1)}
                           >
                             <Minus className="h-3 w-3" />
                           </Button>
@@ -114,7 +120,8 @@ export const CartDrawer = () => {
                             variant="outline"
                             size="icon"
                             className="h-6 w-6"
-                            onClick={() => updateQuantity(item.variantId, item.quantity + 1)}
+                            aria-label="Aumentar cantidad"
+                            onClick={() => updateQuantity(item.productId, item.quantity + 1)}
                           >
                             <Plus className="h-3 w-3" />
                           </Button>
@@ -124,18 +131,18 @@ export const CartDrawer = () => {
                   ))}
                 </div>
               </div>
-              
+
               <div className="flex-shrink-0 space-y-4 pt-4 border-t bg-background">
                 <div className="flex justify-between items-center">
                   <span className="text-lg font-semibold">Total</span>
                   <span className="text-xl font-bold">
-                    {items[0]?.price.currencyCode || '$'} ${totalPrice.toFixed(2)}
+                    ${formatCOP(totalPrice)} COP
                   </span>
                 </div>
-                
-                <Button 
+
+                <Button
                   onClick={handleWhatsAppCheckout}
-                  className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white" 
+                  className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white"
                   size="lg"
                   disabled={items.length === 0}
                 >
