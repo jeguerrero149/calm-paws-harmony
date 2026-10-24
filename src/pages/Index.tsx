@@ -7,7 +7,7 @@ import ProductCard from '@/components/ProductCard';
 import TestimonialCard from '@/components/TestimonialCard';
 import StatsCard from '@/components/StatsCard';
 import { useSupabaseProducts } from '@/hooks/useSupabaseProducts';
-import filIsotipo from '@/assets/pelambre-isotipo.png';
+import filIsotipo from '@/assets/fil-chill-cara-blanco.svg';
 
 const Index = () => {
   const [isVisible, setIsVisible] = useState<{
@@ -179,7 +179,7 @@ const Index = () => {
               <div className="relative w-full max-w-md aspect-square">
                 <div className="absolute inset-0 bg-gradient-to-br from-calmpets-cyan/20 to-calmpets-magenta/20 rounded-full animate-rotate-slow opacity-70 blur-md"></div>
                 <div className="absolute inset-[15%] bg-white dark:bg-calmpets-dark rounded-full shadow-xl overflow-hidden p-2">
-                  <img src={filIsotipo} alt="Isotipo FIL" className="w-full h-full object-cover rounded-full" />
+                  <img src={filIsotipo} alt="Mascota FIL Chill" className="w-full h-full object-contain rounded-full bg-primary p-6" />
                 </div>
 
                 {/* Floating elements */}
