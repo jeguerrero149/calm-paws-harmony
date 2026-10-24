@@ -59,6 +59,7 @@ export default {
 					bittersweet: '#FF785A',
 					magenta: '#E278B6',
 					violet: '#1E1239',
+					mint: '#73DEB7',
 					cream: '#FFF8E7',
 					black: '#000000',
 				},
@@ -79,9 +80,9 @@ export default {
 				sm: 'calc(var(--radius) - 4px)'
 			},
 			fontFamily: {
-				display: ['Bebas Neue', 'Arial Black', 'sans-serif'],
-				sans: ['Barlow', 'Arial', 'sans-serif'],
-				rounded: ['Rubik', 'sans-serif'],
+				display: ['"Londrina Solid"', 'Arial Black', 'sans-serif'],
+				sans: ['Archivo', 'Arial', 'sans-serif'],
+				rounded: ['Archivo', 'sans-serif'],
 				mono: ['JetBrains Mono', 'monospace']
 			},
 			keyframes: {
