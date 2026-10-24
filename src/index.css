@@ -370,3 +370,19 @@
   color: hsl(var(--secondary));
   z-index: -2;
 }
+
+/* Brand color combinations (manual FIL: 01 Indigo, 02 Russian Violet, 03 Lemon Lime) */
+@layer components {
+  .combo-indigo { background-color: #9B7EDE; color: #FFFFFF; --foreground: 0 0% 100%; --muted-foreground: 0 0% 100%; --primary: 259 52% 15%; --primary-foreground: 0 0% 100%; --accent: 67 100% 55%; --accent-foreground: 259 52% 15%; }
+  .combo-violet { background-color: #1E1239; color: #FFFFFF; --foreground: 0 0% 100%; --muted-foreground: 0 0% 90%; --primary: 67 100% 55%; --primary-foreground: 259 52% 15%; --accent: 67 100% 55%; --accent-foreground: 259 52% 15%; }
+  .combo-lemon  { background-color: #E4FF1A; color: #1E1239; --foreground: 259 52% 15%; --muted-foreground: 259 52% 15%; --primary: 259 52% 15%; --primary-foreground: 67 100% 55%; --accent: 259 52% 15%; --accent-foreground: 67 100% 55%; }
+  .combo-violet h1, .combo-violet h2 { color: #E4FF1A; }
+  :is(.combo-indigo, .combo-violet, .combo-lemon) :is(.text-gray-600, .text-gray-400, .text-muted-foreground) { color: inherit; opacity: 0.9; }
+  :is(.combo-indigo, .combo-violet, .combo-lemon) :is(.bg-white, .bg-card) { color: #1E1239; }
+  :is(.combo-indigo, .combo-violet, .combo-lemon) :is(.bg-white, .bg-card) :is(h1,h2,h3,h4) { color: #1E1239; }
+  .combo-violet .pelambre-border, .combo-indigo .pelambre-border { border-color: #1E1239; }
+}
+@layer components {
+  /* Restores default light tokens inside a combo section (cards on solid color) */
+  .combo-reset { color: #1E1239; --foreground: 259 52% 15%; --muted-foreground: 259 20% 40%; --primary: 259 52% 15%; --primary-foreground: 0 0% 100%; --accent: 67 100% 55%; --accent-foreground: 259 52% 15%; }
+}

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { ArrowRight, Heart, Award, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Link } from 'react-router-dom';
-import perroImg from '@/assets/fil-chill-perro-blanco.svg';
+import perroImg from '@/assets/fil-chill-perro-violeta.svg';
 const Hero = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
@@ -18,13 +18,13 @@ const Hero = () => {
     icon: Sparkles,
     text: "Súper Rico"
   }];
-  return <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background pt-20">
+  return <section className="relative min-h-screen flex items-center justify-center overflow-hidden combo-lemon pt-20">
       {/* Fondo con bloques de color */}
-      <div className="absolute inset-0 bg-pelambre-blocks opacity-10" />
+      
       
       {/* Formas decorativas flotantes */}
       <div className="absolute top-20 left-10 w-32 h-32 bg-pelambre-indigo rounded-full border-4 border-black animate-float opacity-80" />
-      <div className="absolute bottom-32 right-20 w-24 h-24 bg-pelambre-lemon rotate-45 border-4 border-black animate-bounce-crazy opacity-80" />
+      <div className="absolute bottom-32 right-20 w-24 h-24 bg-pelambre-mint rotate-45 border-4 border-black animate-bounce-crazy opacity-80" />
       <div className="absolute top-1/3 right-10 w-40 h-40 bg-pelambre-magenta rounded-3xl border-4 border-black rotate-12 animate-pulse-gentle opacity-70" />
       <div className="absolute bottom-20 left-20 w-28 h-28 bg-pelambre-bittersweet border-4 border-black -rotate-12 animate-float opacity-80" style={{
       borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%'
@@ -42,19 +42,10 @@ const Hero = () => {
             </div>
 
             {/* Main Headline */}
-            <h1 className="font-display text-6xl md:text-7xl lg:text-8xl uppercase leading-tight tracking-tight">
-              <span className="inline-block rotate-2 text-pelambre-bittersweet drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]" style={{
-              textShadow: '3px 3px 0 rgba(0,0,0,0.2)'
-            }}>Calma</span>{' '}
-              <span className="inline-block -rotate-1 text-pelambre-violet font-black drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]" style={{
-              textShadow: '3px 3px 0 rgba(0,0,0,0.2)'
-            }}>Para</span>{' '}
-              <span className="inline-block rotate-1 text-pelambre-lemon font-black drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]" style={{
-              textShadow: '3px 3px 0 rgba(0,0,0,0.2)'
-            }}>Perros</span>{' '}
-              <span className="inline-block -rotate-2 text-pelambre-magenta font-black drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]" style={{
-              textShadow: '3px 3px 0 rgba(0,0,0,0.2)'
-            }}>Cool</span>
+            <h1 className="font-display text-6xl md:text-7xl lg:text-8xl uppercase text-pelambre-violet">
+              Calma para{' '}
+              <span className="inline-block -rotate-2 bg-pelambre-violet text-pelambre-lemon px-3 my-1">perros</span>{' '}
+              cool
             </h1>
 
             {/* Description */}
@@ -89,7 +80,7 @@ const Hero = () => {
             <div className="relative">
               {/* Main Image Container */}
               <div className="pelambre-border bg-card p-4 rotate-3 hover:rotate-0 transition-all duration-500 hover:scale-105">
-                <div className="aspect-square rounded-2xl overflow-hidden bg-primary p-8">
+                <div className="aspect-square rounded-2xl overflow-hidden bg-pelambre-lemon p-8">
                   <img src={perroImg} alt="Mascota FIL Chill" className="w-full h-full object-contain" />
                 </div>
               </div>

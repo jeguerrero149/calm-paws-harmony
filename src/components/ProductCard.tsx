@@ -51,7 +51,7 @@ const ProductCard = ({ name, description, price, image, category, tags, isNew, i
   return (
     <div
       className={cn(
-        "pelambre-border rounded-3xl p-6 transition-all duration-300 group cursor-pointer",
+        "combo-reset pelambre-border rounded-3xl p-6 transition-all duration-300 group cursor-pointer",
         bgColor,
         isHovered && "rotate-2 -translate-y-2 shadow-2xl"
       )}

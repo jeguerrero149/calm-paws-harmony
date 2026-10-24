@@ -105,7 +105,7 @@ const About = () => {
   }];
   return <div className="pt-20 pb-16">
       {/* Hero */}
-      <section className="py-16 md:py-24 bg-gradient-to-r from-calmpets-cyan/10 to-calmpets-magenta/10 relative overflow-hidden">
+      <section className="py-16 md:py-24 combo-violet relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
           <div className="absolute top-[20%] right-[10%] w-[50%] h-[50%] bg-calmpets-cyan/5 rounded-full blur-[80px]"></div>
           <div className="absolute bottom-[20%] left-[10%] w-[40%] h-[40%] bg-calmpets-magenta/5 rounded-full blur-[80px]"></div>
@@ -184,7 +184,7 @@ const About = () => {
       </section>
 
       {/* Values */}
-      <section id="values" className="py-12 md:py-20 bg-gray-50 dark:bg-calmpets-dark/30">
+      <section id="values" className="py-12 md:py-20 combo-indigo">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-2xl mx-auto text-center mb-12">
             <div className={cn("transition-all duration-1000 transform", isVisible.values ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10")}>
@@ -241,7 +241,7 @@ const About = () => {
       </section>
 
       {/* Testimonials */}
-      <section id="testimonials" className="py-12 md:py-20 bg-gray-50 dark:bg-calmpets-dark/30">
+      <section id="testimonials" className="py-12 md:py-20 combo-lemon">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-2xl mx-auto text-center mb-12">
             <div className={cn("transition-all duration-1000 transform", isVisible.testimonials ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10")}>
@@ -268,7 +268,7 @@ const About = () => {
       </section>
 
       {/* CTA */}
-      <section id="cta" className="py-12 md:py-20">
+      <section id="cta" className="py-12 md:py-20 combo-violet">
         <div className="container mx-auto px-4 sm:px-6">
           <div className={cn("max-w-3xl mx-auto bg-gradient-to-r from-calmpets-cyan/10 to-calmpets-magenta/10 rounded-3xl p-8 md:p-12 shadow-lg text-center transition-all duration-1000 transform", isVisible.cta ? "opacity-100 scale-100" : "opacity-0 scale-95")}>
             <Award size={48} className="mx-auto mb-6 text-calmpets-cyan" />
