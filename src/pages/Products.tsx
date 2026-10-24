@@ -43,7 +43,7 @@ const Products = () => {
   return (
     <div className="min-h-screen pt-20 pb-16">
       {/* Header */}
-      <section className="py-12 md:py-16 bg-gradient-to-r from-calmpets-cyan/10 to-calmpets-magenta/10">
+      <section className="py-12 md:py-16 combo-lemon">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-2xl mx-auto text-center">
             <h1 className="font-display text-4xl md:text-5xl font-bold mb-4 animate-fade-in">

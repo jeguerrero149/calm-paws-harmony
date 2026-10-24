@@ -105,7 +105,7 @@ const Contact = () => {
   return (
     <div className="pt-20 pb-16">
       {/* Header */}
-      <section className="py-12 md:py-20 bg-gradient-to-r from-calmpets-cyan/10 to-calmpets-magenta/10">
+      <section className="py-12 md:py-20 combo-indigo">
         <div className="container mx-auto px-4 sm:px-6">
           <div className={cn(
             "max-w-2xl mx-auto text-center transition-all duration-700 ease-out",
