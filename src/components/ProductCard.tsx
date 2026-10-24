@@ -49,6 +49,13 @@ const ProductCard = ({ name, description, price, image, category, tags, isNew, i
     window.open(`https://wa.me/573145056764?text=${message}`, '_blank');
   };
 
+  const handleAddToCart = () => {
+    addItem({ productId: String(id), name, price, image });
+    toast.success('¡Agregado al carrito!', {
+      description: `${name} ya está en tu carrito 🐶`,
+    });
+  };
+
   return (
     <div
       className={cn(
