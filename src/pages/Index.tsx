@@ -7,8 +7,7 @@ import ProductCard from '@/components/ProductCard';
 import TestimonialCard from '@/components/TestimonialCard';
 import StatsCard from '@/components/StatsCard';
 import { useSupabaseProducts } from '@/hooks/useSupabaseProducts';
-import caraAsset from '@/assets/fil-chill-cara_blanco.svg.asset.json';
-const filIsotipo = caraAsset.url;
+import filIsotipo from '@/assets/fil-chill-cara-blanco.svg';
 
 const Index = () => {
   const [isVisible, setIsVisible] = useState<{

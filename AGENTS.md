@@ -1,0 +1,1 @@
+- Brand mascot SVGs live in src/assets as bundled files (small vectors, served locally and on hosting).

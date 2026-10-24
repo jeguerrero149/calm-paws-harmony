@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { ArrowRight, Heart, Award, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Link } from 'react-router-dom';
-import perroAsset from '@/assets/fil-chill-perro-completo_blanco.svg.asset.json';
+import perroImg from '@/assets/fil-chill-perro-blanco.svg';
 const Hero = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
@@ -90,7 +90,7 @@ const Hero = () => {
               {/* Main Image Container */}
               <div className="pelambre-border bg-card p-4 rotate-3 hover:rotate-0 transition-all duration-500 hover:scale-105">
                 <div className="aspect-square rounded-2xl overflow-hidden bg-primary p-8">
-                  <img src={perroAsset.url} alt="Mascota FIL Chill" className="w-full h-full object-contain" />
+                  <img src={perroImg} alt="Mascota FIL Chill" className="w-full h-full object-contain" />
                 </div>
               </div>
 

@@ -3,8 +3,7 @@ import { ArrowRight, Leaf, Shield, Users, Award, Heart, Phone } from 'lucide-rea
 import { cn } from "@/lib/utils";
 import TestimonialCard from '@/components/TestimonialCard';
 import { Link } from 'react-router-dom';
-import caraAsset from '@/assets/fil-chill-cara_blanco.svg.asset.json';
-const filIsotipo = caraAsset.url;
+import filIsotipo from '@/assets/fil-chill-cara-blanco.svg';
 const About = () => {
   const [isVisible, setIsVisible] = useState<{
     [key: string]: boolean;
