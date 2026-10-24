@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import isotipo from '@/assets/pelambre-isotipo.png';
+import FilLogo from './FilLogo';
 import { CartDrawer } from './CartDrawer';
 
 const Navbar = () => {
@@ -44,15 +44,8 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 transition-transform hover:scale-105">
-            <img 
-              src={isotipo} 
-              alt="Fil" 
-              className="h-10 md:h-12 w-auto"
-            />
-            <span className="font-display text-3xl md:text-4xl uppercase tracking-tight">
-              Fil
-            </span>
+          <Link to="/" className="flex items-center" aria-label="FIL Chill - Inicio">
+            <FilLogo variant="positivo" className="text-4xl md:text-5xl" />
           </Link>
 
           {/* Desktop Navigation */}

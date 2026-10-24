@@ -1,7 +1,4 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -9,33 +6,33 @@
 
 @layer base {
   :root {
-    --background: 45 15% 97%;
-    --foreground: 30 8% 20%;
+    --background: 260 50% 97%;
+    --foreground: 259 52% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 30 8% 20%;
+    --card-foreground: 259 52% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 30 8% 20%;
+    --popover-foreground: 259 52% 15%;
 
-    --primary: 30 65% 55%;
+    --primary: 258 59% 68%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 200 25% 45%;
+    --secondary: 259 52% 15%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 45 10% 92%;
-    --muted-foreground: 30 5% 45%;
+    --muted: 260 40% 93%;
+    --muted-foreground: 259 20% 40%;
 
-    --accent: 35 80% 60%;
-    --accent-foreground: 30 8% 20%;
+    --accent: 67 100% 55%;
+    --accent-foreground: 259 52% 15%;
 
     --destructive: 0 70% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 45 10% 85%;
-    --input: 45 10% 85%;
-    --ring: 30 65% 55%;
+    --border: 260 30% 85%;
+    --input: 260 30% 85%;
+    --ring: 258 59% 68%;
 
     --radius: 0.75rem;
 
@@ -99,7 +96,8 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display font-bold tracking-tight;
+    @apply font-display font-black uppercase tracking-normal;
+    line-height: 0.88;
   }
 
   h1 {
@@ -246,13 +244,13 @@
   }
 
   .pelambre-border {
-    border: 4px solid #000000;
-    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.15);
+    border: 4px solid #1E1239;
+    box-shadow: 6px 6px 0 rgba(30, 18, 57, 0.2);
   }
 
   .pelambre-border-thin {
-    border: 2px solid #000000;
-    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+    border: 2px solid #1E1239;
+    box-shadow: 3px 3px 0 rgba(30, 18, 57, 0.15);
   }
 
   .text-outline-black {

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Instagram, MessageCircle, Mail, Phone, MapPin, ArrowUp } from 'lucide-react';
-import isotipo from '@/assets/pelambre-isotipo.png';
+import FilLogo from './FilLogo';
 const Footer = () => {
   const scrollToTop = () => {
     window.scrollTo({
@@ -54,10 +54,7 @@ const Footer = () => {
           {/* Brand Section */}
           <div className="lg:col-span-2 space-y-6">
             <div className="flex items-center gap-4">
-              <div className="pelambre-border bg-white p-3 rounded-2xl rotate-6 hover:rotate-0 transition-transform duration-300">
-                <img src={isotipo} alt="Pelambre" className="h-16 w-16" />
-              </div>
-              <span className="font-display text-4xl uppercase">FIL</span>
+              <FilLogo variant="negativo" className="text-6xl" />
             </div>
             
             <p className="font-sans text-lg max-w-sm">Calma para perros cool.  Ayuda a tu mascota a relajarse con estilo.</p>

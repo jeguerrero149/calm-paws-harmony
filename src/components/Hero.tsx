@@ -90,7 +90,7 @@ const Hero = () => {
               {/* Main Image Container */}
               <div className="pelambre-border bg-card p-4 rotate-3 hover:rotate-0 transition-all duration-500 hover:scale-105">
                 <div className="aspect-square rounded-2xl overflow-hidden">
-                  <img src={isotipo} alt="Pelambre - Snacks para Perros" className="w-full h-full object-contain" />
+                  <img src={isotipo} alt="FIL Chill" className="w-full h-full object-contain" />
                 </div>
               </div>
 
