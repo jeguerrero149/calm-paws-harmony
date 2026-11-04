@@ -19,28 +19,84 @@ const formatCOP = (value: number) =>
     maximumFractionDigits: 0,
   }).format(value);
 
+const checkoutSchema = z.object({
+  name: z.string().trim().min(3, "Escribe tu nombre completo").max(100),
+  phone: z.string().trim().regex(/^\+?[0-9 ]{7,15}$/, "Celular inválido"),
+  email: z.string().trim().email("Email inválido").max(255).or(z.literal("")),
+  document: z.string().trim().regex(/^[0-9]{5,12}$/, "Cédula inválida (solo números)"),
+  address: z.string().trim().min(5, "Escribe la dirección completa").max(200),
+  city: z.string().trim().min(2, "Escribe la ciudad").max(80),
+  department: z.string().trim().min(2, "Escribe el departamento").max(80),
+  notes: z.string().trim().max(500),
+});
+type CheckoutForm = z.infer<typeof checkoutSchema>;
+const emptyForm: CheckoutForm = { name: "", phone: "", email: "", document: "", address: "", city: "", department: "", notes: "" };
+
 export const CartDrawer = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [step, setStep] = useState<"cart" | "shipping">("cart");
+  const [form, setForm] = useState<CheckoutForm>(emptyForm);
+  const [errors, setErrors] = useState<Partial<Record<keyof CheckoutForm, string>>>({});
+  const [submitting, setSubmitting] = useState(false);
   const {
     items,
     updateQuantity,
     removeItem,
+    clearCart,
   } = useCartStore();
 
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-  const handleWhatsAppCheckout = () => {
+  const handleSubmitOrder = async () => {
+    const parsed = checkoutSchema.safeParse(form);
+    if (!parsed.success) {
+      const errs: Partial<Record<keyof CheckoutForm, string>> = {};
+      parsed.error.issues.forEach(i => { errs[i.path[0] as keyof CheckoutForm] = i.message; });
+      setErrors(errs);
+      return;
+    }
+    setErrors({});
+    setSubmitting(true);
+    const d = parsed.data;
+    const { data: orderId, error } = await supabase.rpc("create_checkout_order", {
+      _name: d.name, _phone: d.phone, _email: d.email, _document: d.document,
+      _address: d.address, _city: d.city, _department: d.department, _notes: d.notes,
+      _items: items.map(i => ({ product_id: i.productId, quantity: i.quantity })),
+    });
+    setSubmitting(false);
+    if (error || !orderId) {
+      toast.error("No pudimos registrar tu pedido. Intenta de nuevo.");
+      return;
+    }
+    const ref = String(orderId).slice(0, 8).toUpperCase();
     const productList = items.map(item =>
       `• ${item.name} x${item.quantity} - $${formatCOP(item.price * item.quantity)} COP`
     ).join('\n');
-
     const message = encodeURIComponent(
-      `¡Hola! Me gustaría hacer un pedido 🐶\n\n${productList}\n\nTotal: $${formatCOP(totalPrice)} COP`
+      `¡Hola! Hice el pedido #${ref} 🐶\n\n${productList}\n\nTotal: $${formatCOP(totalPrice)} COP\n\nEnvío a: ${d.name}, ${d.address}, ${d.city} (${d.department}). Cel: ${d.phone}`
     );
     window.open(`https://wa.me/573145056764?text=${message}`, '_blank');
+    toast.success(`Pedido #${ref} registrado`);
+    clearCart();
+    setForm(emptyForm);
+    setStep("cart");
     setIsOpen(false);
   };
+
+  const field = (key: keyof CheckoutForm, label: string, props: React.InputHTMLAttributes<HTMLInputElement> = {}) => (
+    <div className="space-y-1">
+      <Label htmlFor={`co-${key}`}>{label}</Label>
+      <Input
+        id={`co-${key}`}
+        value={form[key]}
+        onChange={e => setForm(f => ({ ...f, [key]: e.target.value }))}
+        aria-invalid={!!errors[key]}
+        {...props}
+      />
+      {errors[key] && <p className="text-sm text-destructive">{errors[key]}</p>}
+    </div>
+  );
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
