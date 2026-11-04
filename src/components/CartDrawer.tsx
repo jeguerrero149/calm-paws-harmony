@@ -88,7 +88,7 @@ export const CartDrawer = () => {
     const message = encodeURIComponent(
       `¡Hola! Hice el pedido #${ref} 🐶\n\n${productList}\n\nTotal: $${formatCOP(totalPrice)} COP\n\nEnvío a: ${d.name}, ${d.address}, ${d.city} (${d.department}). Cel: ${d.phone}`
     );
-    window.open(`https://wa.me/573145056764?text=${message}`, '_blank');
+    window.location.href = `https://wa.me/573145056764?text=${message}`;
     toast.success(`Pedido #${ref} registrado`);
     clearCart();
     setForm(emptyForm);
