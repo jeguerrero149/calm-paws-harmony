@@ -17,6 +17,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useCartStore } from "@/stores/cartStore";
+import { openBoldCheckout } from "@/lib/bold";
 
 const formatCOP = (value: number) =>
   new Intl.NumberFormat("es-CO", {
@@ -76,24 +77,28 @@ export const CartDrawer = () => {
       _address: d.address, _city: d.city, _department: d.department, _notes: d.notes,
       _items: items.map(i => ({ product_id: i.productId, quantity: i.quantity })),
     });
-    setSubmitting(false);
     if (error || !orderId) {
+      setSubmitting(false);
       toast.error("No pudimos registrar tu pedido. Intenta de nuevo.");
       return;
     }
-    const ref = String(orderId).slice(0, 8).toUpperCase();
-    const productList = items.map(item =>
-      `• ${item.name} x${item.quantity} - $${formatCOP(item.price * item.quantity)} COP`
-    ).join('\n');
-    const message = encodeURIComponent(
-      `¡Hola! Hice el pedido #${ref} 🐶\n\n${productList}\n\nTotal: $${formatCOP(totalPrice)} COP\n\nEnvío a: ${d.name}, ${d.address}, ${d.city} (${d.department}). Cel: ${d.phone}`
-    );
-    window.location.href = `https://wa.me/573145056764?text=${message}`;
-    toast.success(`Pedido #${ref} registrado`);
-    clearCart();
-    setForm(emptyForm);
-    setStep("cart");
-    setIsOpen(false);
+    const { data: pay, error: payErr } = await supabase.functions.invoke("bold-signature", { body: { orderId } });
+    if (payErr || !pay?.signature) {
+      setSubmitting(false);
+      toast.error("No pudimos abrir el pago. Intenta de nuevo o pide por WhatsApp.");
+      return;
+    }
+    try {
+      await openBoldCheckout({ ...pay, description: `Pedido FIL #${String(orderId).slice(0, 8).toUpperCase()}` });
+      clearCart();
+      setForm(emptyForm);
+      setStep("cart");
+      setIsOpen(false);
+    } catch {
+      toast.error("No pudimos cargar la pasarela de pago.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const field = (key: keyof CheckoutForm, label: string, props: React.InputHTMLAttributes<HTMLInputElement> = {}) => (
@@ -246,7 +251,7 @@ export const CartDrawer = () => {
                       <ArrowLeft className="h-4 w-4" />
                     </Button>
                     <Button onClick={handleSubmitOrder} className="flex-1" size="lg" disabled={submitting}>
-                      {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : "Confirmar pedido"}
+                      {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : "Ir a pagar"}
                     </Button>
                   </div>
                 )}
