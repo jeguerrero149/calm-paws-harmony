@@ -184,12 +184,16 @@ export type Database = {
           client_id: string | null
           created_at: string
           customer_address: string | null
+          customer_city: string | null
+          customer_department: string | null
+          customer_document: string | null
           customer_email: string | null
           customer_name: string | null
           customer_phone: string
           id: string
           notes: string | null
           receipt_url: string | null
+          source: string
           status: string
           total: number
           updated_at: string
@@ -198,12 +202,16 @@ export type Database = {
           client_id?: string | null
           created_at?: string
           customer_address?: string | null
+          customer_city?: string | null
+          customer_department?: string | null
+          customer_document?: string | null
           customer_email?: string | null
           customer_name?: string | null
           customer_phone: string
           id?: string
           notes?: string | null
           receipt_url?: string | null
+          source?: string
           status?: string
           total?: number
           updated_at?: string
@@ -212,12 +220,16 @@ export type Database = {
           client_id?: string | null
           created_at?: string
           customer_address?: string | null
+          customer_city?: string | null
+          customer_department?: string | null
+          customer_document?: string | null
           customer_email?: string | null
           customer_name?: string | null
           customer_phone?: string
           id?: string
           notes?: string | null
           receipt_url?: string | null
+          source?: string
           status?: string
           total?: number
           updated_at?: string
@@ -376,6 +388,20 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_checkout_order: {
+        Args: {
+          _address: string
+          _city: string
+          _department: string
+          _document: string
+          _email: string
+          _items: Json
+          _name: string
+          _notes: string
+          _phone: string
+        }
+        Returns: string
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
