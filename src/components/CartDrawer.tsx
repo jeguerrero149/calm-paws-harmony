@@ -54,6 +54,16 @@ export const CartDrawer = () => {
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
+  const handleWhatsAppOrder = () => {
+    const productList = items.map(item =>
+      `• ${item.name} x${item.quantity} - $${formatCOP(item.price * item.quantity)} COP`
+    ).join('\n');
+    const message = encodeURIComponent(
+      `¡Hola! Quiero hacer este pedido 🐶\n\n${productList}\n\nTotal: $${formatCOP(totalPrice)} COP`
+    );
+    window.open(`https://wa.me/573145056764?text=${message}`, '_blank');
+  };
+
   const handleSubmitOrder = async () => {
     const parsed = checkoutSchema.safeParse(form);
     if (!parsed.success) {
@@ -223,9 +233,15 @@ export const CartDrawer = () => {
                 </div>
 
                 {step === "cart" ? (
-                  <Button onClick={() => setStep("shipping")} className="w-full" size="lg">
-                    Continuar con el envío
-                  </Button>
+                  <div className="space-y-2">
+                    <Button onClick={() => setStep("shipping")} className="w-full" size="lg">
+                      Pagar en línea
+                    </Button>
+                    <p className="text-xs text-center text-muted-foreground">PSE, Nequi, Daviplata o tarjeta</p>
+                    <Button onClick={handleWhatsAppOrder} variant="outline" className="w-full" size="lg">
+                      Pedir por WhatsApp
+                    </Button>
+                  </div>
                 ) : (
                   <div className="flex gap-2">
                     <Button variant="outline" size="lg" onClick={() => setStep("cart")} disabled={submitting}>
