@@ -54,15 +54,11 @@ export const CartDrawer = () => {
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-  const handleWhatsAppOrder = () => {
-    const productList = items.map(item =>
+  const whatsappOrderUrl = `https://wa.me/573145056764?text=${encodeURIComponent(
+    `¡Hola! Quiero hacer este pedido 🐶\n\n${items.map(item =>
       `• ${item.name} x${item.quantity} - $${formatCOP(item.price * item.quantity)} COP`
-    ).join('\n');
-    const message = encodeURIComponent(
-      `¡Hola! Quiero hacer este pedido 🐶\n\n${productList}\n\nTotal: $${formatCOP(totalPrice)} COP`
-    );
-    window.open(`https://wa.me/573145056764?text=${message}`, '_blank');
-  };
+    ).join('\n')}\n\nTotal: $${formatCOP(totalPrice)} COP`
+  )}`;
 
   const handleSubmitOrder = async () => {
     const parsed = checkoutSchema.safeParse(form);
@@ -238,8 +234,10 @@ export const CartDrawer = () => {
                       Pagar en línea
                     </Button>
                     <p className="text-xs text-center text-muted-foreground">PSE, Nequi, Daviplata o tarjeta</p>
-                    <Button onClick={handleWhatsAppOrder} variant="outline" className="w-full" size="lg">
-                      Pedir por WhatsApp
+                    <Button asChild variant="outline" className="w-full" size="lg">
+                      <a href={whatsappOrderUrl} target="_blank" rel="noopener noreferrer">
+                        Pedir por WhatsApp
+                      </a>
                     </Button>
                   </div>
                 ) : (
