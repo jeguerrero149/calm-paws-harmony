@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Plus, Search, X, ShoppingCart, ChevronDown, ChevronUp, Upload, FileText, Image } from 'lucide-react';
+import { Loader2, Plus, Search, X, ShoppingCart, ChevronDown, ChevronUp, Upload, FileText, Image, Trash2 } from 'lucide-react';
 import { formatPrice } from '@/hooks/useSupabaseProducts';
 
 interface Client {
@@ -34,6 +34,12 @@ interface Order {
   notes: string | null;
   receipt_url: string | null;
   created_at: string;
+  customer_email: string | null;
+  customer_address: string | null;
+  customer_city: string | null;
+  customer_department: string | null;
+  customer_document: string | null;
+  source: string;
   items: { product_id: string; quantity: number; price: number }[];
 }
 
@@ -46,6 +52,31 @@ const AdminSales = () => {
   const [showModal, setShowModal] = useState(false);
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [page, setPage] = useState(1);
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [listSearch, setListSearch] = useState('');
+  const [orderToDelete, setOrderToDelete] = useState<Order | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const PAGE_SIZE = 10;
+
+  const handleDeleteOrder = async () => {
+    if (!orderToDelete) return;
+    setIsDeleting(true);
+    try {
+      const { error } = await supabase.from('orders').delete().eq('id', orderToDelete.id);
+      if (error) throw error;
+      if (orderToDelete.receipt_url && !/^https?:\/\//i.test(orderToDelete.receipt_url)) {
+        await supabase.storage.from('payment-receipts').remove([orderToDelete.receipt_url]);
+      }
+      setOrders(prev => prev.filter(o => o.id !== orderToDelete.id));
+      toast({ title: 'Venta eliminada' });
+      setOrderToDelete(null);
+    } catch (error: any) {
+      toast({ title: 'Error', description: error.message, variant: 'destructive' });
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   // Form state
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
@@ -316,6 +347,17 @@ const AdminSales = () => {
     return product?.title || 'Producto desconocido';
   };
 
+  const normalizedSearch = listSearch.trim().toLowerCase();
+  const filteredOrders = orders.filter(order => {
+    if (statusFilter !== 'all' && order.status !== statusFilter) return false;
+    if (!normalizedSearch) return true;
+    return [getClientName(order), order.customer_phone, order.customer_document, order.id.slice(0, 8)]
+      .some(v => (v || '').toLowerCase().includes(normalizedSearch));
+  });
+  const totalPages = Math.max(1, Math.ceil(filteredOrders.length / PAGE_SIZE));
+  const currentPage = Math.min(page, totalPages);
+  const pagedOrders = filteredOrders.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+
   if (isLoading) {
     return (
       <div className="flex justify-center py-12">
@@ -337,11 +379,34 @@ const AdminSales = () => {
         </button>
       </div>
 
-      {orders.length === 0 ? (
-        <p className="text-gray-500 text-center py-8">No hay ventas registradas</p>
+      <div className="flex flex-col sm:flex-row gap-3 mb-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <input
+            type="text"
+            value={listSearch}
+            onChange={e => { setListSearch(e.target.value); setPage(1); }}
+            placeholder="Buscar por cliente, celular, cédula o referencia"
+            className="w-full pl-10 pr-4 py-2 border-2 border-black rounded-xl bg-white dark:bg-gray-700"
+          />
+        </div>
+        <select
+          value={statusFilter}
+          onChange={e => { setStatusFilter(e.target.value); setPage(1); }}
+          className="px-4 py-2 border-2 border-black rounded-xl bg-white dark:bg-gray-700"
+        >
+          <option value="all">Todos los estados</option>
+          <option value="pending">Pendiente</option>
+          <option value="completed">Completado</option>
+          <option value="cancelled">Cancelado</option>
+        </select>
+      </div>
+
+      {filteredOrders.length === 0 ? (
+        <p className="text-gray-500 text-center py-8">No hay ventas para mostrar</p>
       ) : (
         <div className="space-y-4">
-          {orders.map(order => (
+          {pagedOrders.map(order => (
             <div
               key={order.id}
               className="bg-gray-50 dark:bg-gray-700 rounded-xl border-2 border-black overflow-hidden"
@@ -371,13 +436,51 @@ const AdminSales = () => {
 
               {expandedOrder === order.id && (
                 <div className="px-4 pb-4 border-t border-gray-200 dark:border-gray-600">
-                  <div className="mt-4 space-y-2">
-                    {order.items.map((item, idx) => (
-                      <div key={idx} className="flex justify-between text-sm">
-                        <span>{getProductTitle(item.product_id)} x{item.quantity}</span>
-                        <span>{formatPrice(item.price * item.quantity)}</span>
+                  <div className="grid md:grid-cols-2 gap-6 mt-4">
+                    <div>
+                      <p className="text-xs font-bold uppercase text-gray-500 mb-2">Pedido #{order.id.slice(0, 8).toUpperCase()}</p>
+                      <div className="space-y-2">
+                        {order.items.map((item, idx) => (
+                          <div key={idx} className="flex justify-between text-sm">
+                            <span>{getProductTitle(item.product_id)} x{item.quantity} <span className="text-gray-500">({formatPrice(item.price)} c/u)</span></span>
+                            <span>{formatPrice(item.price * item.quantity)}</span>
+                          </div>
+                        ))}
+                        <div className="flex justify-between text-sm font-bold pt-2 border-t border-gray-200 dark:border-gray-600">
+                          <span>Total</span>
+                          <span>{formatPrice(order.total)}</span>
+                        </div>
                       </div>
-                    ))}
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold uppercase text-gray-500 mb-2">Datos de entrega</p>
+                      <dl className="text-sm space-y-1">
+                        {[
+                          ['Cliente', getClientName(order)],
+                          ['Cédula/NIT', order.customer_document],
+                          ['Celular', order.customer_phone],
+                          ['Email', order.customer_email],
+                          ['Dirección', order.customer_address],
+                          ['Ciudad', [order.customer_city, order.customer_department].filter(Boolean).join(', ')],
+                          ['Origen', order.source === 'web' ? 'Tienda web' : 'Venta manual'],
+                        ].map(([label, value]) => (
+                          <div key={label} className="flex gap-2">
+                            <dt className="text-gray-500 w-24 shrink-0">{label}:</dt>
+                            <dd className="break-words">{value || '—'}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                      {order.customer_phone && (
+                        <a
+                          href={`https://wa.me/${order.customer_phone.replace(/\D/g, '').replace(/^(?!57)(\d{10})$/, '57$1')}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-block mt-2 text-sm text-pelambre-magenta hover:underline"
+                        >
+                          Escribir por WhatsApp
+                        </a>
+                      )}
+                    </div>
                   </div>
                   {order.notes && (
                     <p className="text-sm text-gray-500 mt-3 pt-3 border-t border-gray-200 dark:border-gray-600">
@@ -401,10 +504,76 @@ const AdminSales = () => {
                       </button>
                     </div>
                   )}
+                  <div className="mt-4 pt-3 border-t border-gray-200 dark:border-gray-600 flex justify-end">
+                    <button
+                      type="button"
+                      onClick={() => setOrderToDelete(order)}
+                      className="inline-flex items-center gap-2 px-3 py-2 text-sm font-bold text-red-600 border-2 border-red-600 rounded-xl hover:bg-red-50"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                      Eliminar venta
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
           ))}
+        </div>
+      )}
+
+      {filteredOrders.length > PAGE_SIZE && (
+        <div className="flex items-center justify-center gap-2 mt-6">
+          <button
+            onClick={() => setPage(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="px-3 py-2 border-2 border-black rounded-xl font-bold disabled:opacity-40"
+          >
+            Anterior
+          </button>
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map(n => (
+            <button
+              key={n}
+              onClick={() => setPage(n)}
+              className={`w-10 h-10 border-2 border-black rounded-xl font-bold ${n === currentPage ? 'bg-pelambre-lemon text-black' : ''}`}
+            >
+              {n}
+            </button>
+          ))}
+          <button
+            onClick={() => setPage(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="px-3 py-2 border-2 border-black rounded-xl font-bold disabled:opacity-40"
+          >
+            Siguiente
+          </button>
+        </div>
+      )}
+
+      {orderToDelete && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl border-4 border-black w-full max-w-md p-6">
+            <h3 className="font-display text-xl font-bold mb-2">¿Eliminar esta venta?</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-300 mb-6">
+              Se eliminará el pedido #{orderToDelete.id.slice(0, 8).toUpperCase()} de {getClientName(orderToDelete)} por {formatPrice(orderToDelete.total)}. Esta acción no se puede deshacer.
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setOrderToDelete(null)}
+                disabled={isDeleting}
+                className="px-4 py-2 border-2 border-black rounded-xl font-bold"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleDeleteOrder}
+                disabled={isDeleting}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white border-2 border-black rounded-xl font-bold disabled:opacity-60"
+              >
+                {isDeleting && <Loader2 className="w-4 h-4 animate-spin" />}
+                Eliminar
+              </button>
+            </div>
+          </div>
         </div>
       )}
 
