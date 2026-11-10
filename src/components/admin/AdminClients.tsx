@@ -3,6 +3,24 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Plus, Pencil, Trash2, Dog, ChevronDown, ChevronUp, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { estimateConsumption } from '@/lib/consumption';
+import { formatPrice } from '@/hooks/useSupabaseProducts';
+
+interface HistoryOrder {
+  id: string;
+  client_id: string | null;
+  created_at: string;
+  status: string;
+  total: number;
+  items: { product_id: string; quantity: number; dog_id: string | null }[];
+}
+
+const STATUS_STYLE = {
+  active: { label: 'Tratamiento al día', cls: 'bg-green-100 text-green-800 border-green-600' },
+  soon: { label: 'Por terminarse', cls: 'bg-yellow-100 text-yellow-800 border-yellow-600' },
+  out: { label: 'Se le acabó', cls: 'bg-red-100 text-red-800 border-red-600' },
+  unknown: { label: 'Sin datos', cls: 'bg-gray-100 text-gray-700 border-gray-400' },
+} as const;
 
 interface ClientDog {
   id: string;
@@ -48,6 +66,8 @@ const AdminClients = () => {
   const [editingClient, setEditingClient] = useState<Client | null>(null);
   const [expandedClient, setExpandedClient] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [history, setHistory] = useState<HistoryOrder[]>([]);
+  const [productInfo, setProductInfo] = useState<Record<string, { title: string; servings: number | null }>>({});
   
   // Form state
   const [formData, setFormData] = useState({
@@ -75,6 +95,17 @@ const AdminClients = () => {
         .select('*');
 
       if (dogsError) throw dogsError;
+
+      const [ordersRes, itemsRes, productsRes] = await Promise.all([
+        supabase.from('orders').select('id, client_id, created_at, status, total').not('client_id', 'is', null).order('created_at', { ascending: false }),
+        supabase.from('order_items').select('order_id, product_id, quantity, dog_id'),
+        supabase.from('products').select('id, title, servings'),
+      ]);
+      setHistory((ordersRes.data || []).map(o => ({
+        ...o,
+        items: (itemsRes.data || []).filter(i => i.order_id === o.id),
+      })));
+      setProductInfo(Object.fromEntries((productsRes.data || []).map(p => [p.id, { title: p.title, servings: p.servings }])));
 
       const clientsWithDogs = (clientsData || []).map(client => ({
         ...client,
@@ -280,6 +311,23 @@ const AdminClients = () => {
     }
   };
 
+  const dogEstimate = (dog: ClientDog) => {
+    const purchases = history
+      .filter(o => o.status !== 'cancelled')
+      .flatMap(o => o.items
+        .filter(i => i.dog_id === dog.id && productInfo[i.product_id]?.servings)
+        .map(i => ({ date: o.created_at, servings: productInfo[i.product_id].servings as number, quantity: i.quantity, product_id: i.product_id })));
+    const last = [...purchases].sort((a, b) => +new Date(b.date) - +new Date(a.date))[0];
+    return { ...estimateConsumption(dog.weight, purchases), lastProduct: last ? productInfo[last.product_id].title : null };
+  };
+
+  const reminderUrl = (client: Client, dog: ClientDog, product: string | null) => {
+    const firstName = client.full_name.split(' ')[0];
+    const msg = `Hola ${firstName}, a ${dog.name} le debe estar quedando poco ${product ?? 'Fil-Chill'}. ¿Te preparamos el siguiente para que no interrumpa su calma? 🐶`;
+    const phone = client.phone.replace(/\D/g, '');
+    return `https://wa.me/${phone.startsWith('57') ? phone : '57' + phone}?text=${encodeURIComponent(msg)}`;
+  };
+
   if (isLoading) {
     return (
       <div className="flex justify-center py-12">
@@ -370,20 +418,79 @@ const AdminClients = () => {
                         <Dog className="w-4 h-4" /> Perros
                       </h4>
                       <div className="grid gap-2">
-                        {client.dogs.map(dog => (
+                        {client.dogs.map(dog => {
+                          const est = dogEstimate(dog);
+                          const st = STATUS_STYLE[est.status];
+                          return (
                           <div
                             key={dog.id}
-                            className="bg-white dark:bg-gray-800 p-3 rounded-lg border border-gray-200 dark:border-gray-600"
+                            className="bg-white dark:bg-gray-800 p-3 rounded-lg border border-gray-200 dark:border-gray-600 flex flex-wrap items-center justify-between gap-2"
                           >
-                            <p className="font-medium">{dog.name}</p>
-                            <p className="text-sm text-gray-500">
-                              {dog.breed || 'Sin raza'} • {dog.weight ? `${dog.weight} kg` : 'Sin peso'} • Edad: {calculateAge(dog.birth_date)}
-                            </p>
+                            <div>
+                              <p className="font-medium">{dog.name}</p>
+                              <p className="text-sm text-gray-500">
+                                {dog.breed || 'Sin raza'} • {dog.weight ? `${dog.weight} kg` : 'Sin peso'} • Edad: {calculateAge(dog.birth_date)}
+                                {est.dosesPerDay ? ` • ${est.dosesPerDay} dosis/día` : ''}
+                              </p>
+                              {est.runOutDate && (
+                                <p className="text-sm">
+                                  {est.lastProduct} · se acaba aprox. el {est.runOutDate.toLocaleDateString('es-CO')}
+                                  {est.daysLeft !== null && est.daysLeft > 0 ? ` (faltan ${est.daysLeft} días)` : ''}
+                                </p>
+                              )}
+                              {!dog.weight && <p className="text-xs text-gray-500">Agrega el peso para calcular el consumo.</p>}
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className={cn('text-xs font-bold px-2 py-1 rounded-full border', st.cls)}>{st.label}</span>
+                              {(est.status === 'soon' || est.status === 'out') && (
+                                <a
+                                  href={reminderUrl(client, dog, est.lastProduct)}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-xs font-bold px-3 py-1 rounded-full border-2 border-black bg-pelambre-lemon text-black"
+                                >
+                                  Recordar por WhatsApp
+                                </a>
+                              )}
+                            </div>
                           </div>
-                        ))}
+                          );
+                        })}
                       </div>
                     </div>
                   )}
+
+                  {(() => {
+                    const orders = history.filter(o => o.client_id === client.id);
+                    const spent = orders.filter(o => o.status !== 'cancelled').reduce((s, o) => s + Number(o.total), 0);
+                    return (
+                      <div className="mt-4">
+                        <h4 className="font-bold mb-2">Historial de compras ({orders.length}) · Total {formatPrice(spent)}</h4>
+                        {orders.length === 0 ? (
+                          <p className="text-sm text-gray-500">Aún no tiene compras registradas.</p>
+                        ) : (
+                          <div className="space-y-2">
+                            {orders.map(o => (
+                              <div key={o.id} className="bg-white dark:bg-gray-800 p-3 rounded-lg border border-gray-200 dark:border-gray-600 text-sm">
+                                <div className="flex justify-between font-medium">
+                                  <span>#{o.id.slice(0, 8).toUpperCase()} · {new Date(o.created_at).toLocaleDateString('es-CO')} · {o.status}</span>
+                                  <span>{formatPrice(o.total)}</span>
+                                </div>
+                                <ul className="text-gray-600 dark:text-gray-400">
+                                  {o.items.map((i, idx) => (
+                                    <li key={idx}>
+                                      {productInfo[i.product_id]?.title ?? 'Producto'} x{i.quantity}
+                                      {' · '}{client.dogs.find(d => d.id === i.dog_id)?.name ? `Para ${client.dogs.find(d => d.id === i.dog_id)?.name}` : 'Sin perro asignado'}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })()}
                 </div>
               )}
             </div>
