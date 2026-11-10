@@ -38,6 +38,7 @@ const Navbar = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
+    <>
     <header 
       className={cn(
         "fixed top-0 w-full z-50 transition-all duration-300",
@@ -97,11 +98,12 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+    </header>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu (outside header: backdrop-blur would trap fixed positioning) */}
       <div
         className={cn(
-          "md:hidden fixed inset-0 top-20 bg-secondary z-40 transition-all duration-300",
+          "md:hidden fixed left-0 right-0 bottom-0 top-20 h-[calc(100dvh-5rem)] bg-secondary z-40 transition-all duration-300",
           isMenuOpen 
             ? "translate-x-0 opacity-100" 
             : "translate-x-full opacity-0 pointer-events-none"
@@ -132,7 +134,7 @@ const Navbar = () => {
           </Link>
         </div>
       </div>
-    </header>
+    </>
   );
 };
 
