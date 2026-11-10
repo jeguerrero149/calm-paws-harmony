@@ -23,6 +23,11 @@ const Navbar = () => {
     setIsMenuOpen(false);
   }, [location]);
 
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [isMenuOpen]);
+
   const navLinks = [
     { name: 'Inicio', path: '/' },
     { name: 'Productos', path: '/products' },
@@ -96,20 +101,20 @@ const Navbar = () => {
       {/* Mobile Menu */}
       <div
         className={cn(
-          "md:hidden fixed inset-0 top-20 bg-background z-40 transition-all duration-300",
+          "md:hidden fixed inset-0 top-20 bg-secondary z-40 transition-all duration-300",
           isMenuOpen 
             ? "translate-x-0 opacity-100" 
             : "translate-x-full opacity-0 pointer-events-none"
         )}
       >
-        <div className="h-full bg-pelamble-blocks p-6 flex flex-col gap-4">
+        <div className="h-full bg-secondary p-6 flex flex-col gap-4 overflow-y-auto">
           {navLinks.map((link, index) => (
             <Link
               key={link.path}
               to={link.path}
               className={cn(
-                "pelambre-border bg-card text-card-foreground p-4 font-display text-2xl uppercase text-center transition-all duration-300",
-                isActive(link.path) ? "bg-primary text-primary-foreground rotate-2" : "hover:rotate-1 hover:scale-105"
+                "border-4 border-secondary-foreground p-4 font-display text-2xl uppercase text-center transition-all duration-300",
+                isActive(link.path) ? "bg-accent text-accent-foreground border-accent rotate-2" : "bg-secondary text-secondary-foreground hover:rotate-1 hover:scale-105"
               )}
               style={{
                 animationDelay: `${index * 0.1}s`
