@@ -65,7 +65,7 @@ const Products = () => {
                 {filteredProducts.map((product, index) => <div key={product.id} className={cn("transition-all duration-700 transform", isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10")} style={{
               transitionDelay: `${index * 100}ms`
             }}>
-                    <ProductCard id={product.id} name={product.title} description={product.description || ''} price={product.price} image={product.images[0]?.url || ''} category={product.category || 'General'} tags={product.tags || []} isNew={product.is_new || false} />
+                    <ProductCard id={product.id} name={product.title} description={product.description || ''} price={product.price} image={product.images[0]?.url || ''} category={product.category || 'General'} tags={product.tags || []} isNew={product.is_new || false} product={product} />
                   </div>)}
               </div> : <div className="text-center py-12">
                 <div className="bg-background inline-flex rounded-full p-5 mb-4 border-2 border-black">
