@@ -493,7 +493,7 @@ const AdminProducts = () => {
                   onChange={(e) => setFormData({ ...formData, is_new: e.target.checked })}
                   className="w-5 h-5 rounded border-2 border-gray-300"
                 />
-                <span className="text-sm font-medium">Nuevo</span>
+                <span className="text-sm font-medium">Nuevo (sale en el Home)</span>
               </label>
             </div>
             <div className="md:col-span-2">
@@ -514,7 +514,7 @@ const AdminProducts = () => {
                 placeholder="Separados por coma: relajante, perros, gatos"
                 className="w-full px-4 py-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-pelambre-magenta"
               />
-              <p className="text-xs text-gray-500 mt-1">Ingresa los tags separados por comas</p>
+              <p className="text-xs text-gray-500 mt-1">Ingresa los tags separados por comas. Agrega "destacado" para mostrarlo en el Home.</p>
             </div>
 
             {/* Image Upload Section */}
@@ -657,6 +657,11 @@ const AdminProducts = () => {
                       {product.is_new && (
                         <span className="ml-2 px-2 py-0.5 bg-pelambre-indigo text-white text-xs rounded-full">
                           Nuevo
+                        </span>
+                      )}
+                      {(product.is_new || (product.tags || []).some(t => t.toLowerCase() === 'destacado')) && (
+                        <span className="ml-2 px-2 py-0.5 bg-pelambre-violet text-white text-xs rounded-full">
+                          En el Home
                         </span>
                       )}
                     </div>
