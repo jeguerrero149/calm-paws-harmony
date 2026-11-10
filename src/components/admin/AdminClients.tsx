@@ -58,7 +58,7 @@ const AdminClients = () => {
     city: '',
     department: ''
   });
-  const [dogs, setDogs] = useState<Omit<ClientDog, 'id'>[]>([]);
+  const [dogs, setDogs] = useState<(Omit<ClientDog, 'id'> & { id?: string })[]>([]);
 
   const fetchClients = async () => {
     setIsLoading(true);
@@ -122,6 +122,7 @@ const AdminClients = () => {
         department: client.department || ''
       });
       setDogs(client.dogs.map(d => ({
+        id: d.id,
         name: d.name,
         breed: d.breed,
         weight: d.weight,
@@ -175,14 +176,26 @@ const AdminClients = () => {
 
         if (updateError) throw updateError;
 
-        // Delete existing dogs and re-create
-        await supabase
-          .from('client_dogs')
-          .delete()
-          .eq('client_id', editingClient.id);
+        // Keep dog ids stable so purchase history stays linked to each dog
+        const kept = dogs.filter(d => d.name.trim());
+        const keptIds = kept.filter(d => d.id).map(d => d.id as string);
+        const removedIds = editingClient.dogs.map(d => d.id).filter(id => !keptIds.includes(id));
+        if (removedIds.length > 0) {
+          const { error } = await supabase.from('client_dogs').delete().in('id', removedIds);
+          if (error) throw error;
+        }
+        for (const d of kept.filter(d => d.id)) {
+          const { error } = await supabase.from('client_dogs').update({
+            name: d.name,
+            breed: d.breed || null,
+            weight: d.weight || null,
+            birth_date: d.birth_date || null
+          }).eq('id', d.id as string);
+          if (error) throw error;
+        }
 
-        if (dogs.length > 0) {
-          const dogsToInsert = dogs.filter(d => d.name.trim()).map(d => ({
+        {
+          const dogsToInsert = kept.filter(d => !d.id).map(d => ({
             client_id: editingClient.id,
             name: d.name,
             breed: d.breed || null,
