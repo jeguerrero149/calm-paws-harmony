@@ -10,6 +10,7 @@ import WhatsAppButton from "./components/WhatsAppButton";
 import Index from "./pages/Index";
 import Products from "./pages/ProductsShopify";
 import About from "./pages/About";
+import ProductPage from "./pages/ProductPage";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";
@@ -29,6 +30,7 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/products" element={<Products />} />
+              <Route path="/producto/:handle" element={<ProductPage />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/admin" element={<Admin />} />

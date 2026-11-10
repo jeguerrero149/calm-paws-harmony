@@ -3,6 +3,10 @@ import { Heart, ShoppingCart } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { useCartStore } from '@/stores/cartStore';
+import { Link } from 'react-router-dom';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import ProductDetail from '@/components/ProductDetail';
+import type { SupabaseProduct } from '@/hooks/useSupabaseProducts';
 
 interface ProductCardProps {
   id: string | number;
@@ -13,10 +17,12 @@ interface ProductCardProps {
   category: string;
   tags: string[];
   isNew?: boolean;
+  product?: SupabaseProduct;
 }
 
-const ProductCard = ({ name, description, price, image, category, tags, isNew, id }: ProductCardProps) => {
+const ProductCard = ({ name, description, price, image, category, tags, isNew, id, product }: ProductCardProps) => {
   const addItem = useCartStore((state) => state.addItem);
+  const [open, setOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -54,7 +60,13 @@ const ProductCard = ({ name, description, price, image, category, tags, isNew, i
   };
 
   return (
+    <>
     <div
+      role="button"
+      tabIndex={0}
+      aria-label={`Ver detalle de ${name}`}
+      onClick={() => product && setOpen(true)}
+      onKeyDown={(e) => { if (product && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); setOpen(true); } }}
       className={cn(
         "combo-reset pelambre-border rounded-3xl p-6 transition-all duration-300 group cursor-pointer",
         bgColor,
@@ -156,6 +168,22 @@ const ProductCard = ({ name, description, price, image, category, tags, isNew, i
         </div>
       </div>
     </div>
+    {product && (
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto border-4 border-black rounded-3xl">
+          <DialogTitle className="sr-only">{name}</DialogTitle>
+          <ProductDetail product={product} onAdded={() => setOpen(false)} />
+          <Link
+            to={`/producto/${product.handle}`}
+            onClick={() => setOpen(false)}
+            className="font-display uppercase underline text-center block mt-2"
+          >
+            Ver página completa del producto
+          </Link>
+        </DialogContent>
+      </Dialog>
+    )}
+    </>
   );
 };
 

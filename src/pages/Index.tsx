@@ -107,6 +107,7 @@ const Index = () => {
                     category={product.category || 'General'}
                     tags={product.tags || []}
                     isNew={product.is_new || false}
+                    product={product}
                   />
                 </div>
               ))
