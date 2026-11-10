@@ -89,7 +89,7 @@ const Index = () => {
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" />
               </div>
             ) : products.length > 0 ? (
-              products.slice(0, 3).map((product, index) => (
+              products.filter(p => p.is_new || (p.tags || []).some(t => t.toLowerCase() === 'destacado')).map((product, index) => (
                 <div 
                   key={product.id} 
                   className={cn(
