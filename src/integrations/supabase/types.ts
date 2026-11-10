@@ -130,6 +130,7 @@ export type Database = {
       order_items: {
         Row: {
           created_at: string
+          dog_id: string | null
           id: string
           order_id: string
           price: number
@@ -139,6 +140,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          dog_id?: string | null
           id?: string
           order_id: string
           price: number
@@ -148,6 +150,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          dog_id?: string | null
           id?: string
           order_id?: string
           price?: number
@@ -156,6 +159,13 @@ export type Database = {
           variant_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "order_items_dog_id_fkey"
+            columns: ["dog_id"]
+            isOneToOne: false
+            referencedRelation: "client_dogs"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "order_items_order_id_fkey"
             columns: ["order_id"]
@@ -328,6 +338,7 @@ export type Database = {
           id: string
           is_new: boolean | null
           price: number
+          servings: number | null
           tags: string[] | null
           title: string
           updated_at: string
@@ -342,6 +353,7 @@ export type Database = {
           id?: string
           is_new?: boolean | null
           price?: number
+          servings?: number | null
           tags?: string[] | null
           title: string
           updated_at?: string
@@ -356,6 +368,7 @@ export type Database = {
           id?: string
           is_new?: boolean | null
           price?: number
+          servings?: number | null
           tags?: string[] | null
           title?: string
           updated_at?: string
