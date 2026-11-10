@@ -22,6 +22,14 @@ interface OrderItem {
   product_title: string;
   quantity: number;
   price: number;
+  dog_id: string | null;
+}
+
+interface Dog {
+  id: string;
+  client_id: string;
+  name: string;
+  weight: number | null;
 }
 
 interface Order {
@@ -40,7 +48,7 @@ interface Order {
   customer_department: string | null;
   customer_document: string | null;
   source: string;
-  items: { product_id: string; quantity: number; price: number }[];
+  items: { product_id: string; quantity: number; price: number; dog_id: string | null }[];
 }
 
 const AdminSales = () => {
@@ -48,6 +56,7 @@ const AdminSales = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [clients, setClients] = useState<Client[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
+  const [dogs, setDogs] = useState<Dog[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
@@ -113,11 +122,12 @@ const AdminSales = () => {
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const [ordersRes, clientsRes, productsRes, orderItemsRes] = await Promise.all([
+      const [ordersRes, clientsRes, productsRes, orderItemsRes, dogsRes] = await Promise.all([
         supabase.from('orders').select('*').order('created_at', { ascending: false }),
         supabase.from('clients').select('id, full_name, phone'),
         supabase.from('products').select('id, title, price, currency'),
-        supabase.from('order_items').select('*')
+        supabase.from('order_items').select('*'),
+        supabase.from('client_dogs').select('id, client_id, name, weight')
       ]);
 
       if (ordersRes.error) throw ordersRes.error;
@@ -132,6 +142,7 @@ const AdminSales = () => {
       setOrders(ordersWithItems);
       setClients(clientsRes.data || []);
       setProducts(productsRes.data || []);
+      setDogs(dogsRes.data || []);
     } catch (error: any) {
       toast({
         title: 'Error',
@@ -165,44 +176,50 @@ const AdminSales = () => {
     p.title.toLowerCase().includes(productSearch.toLowerCase())
   );
 
+  const clientDogs = selectedClient ? dogs.filter(d => d.client_id === selectedClient.id) : [];
+  const getDogName = (dogId: string | null) => dogs.find(d => d.id === dogId)?.name;
+
   const selectClient = (client: Client) => {
     setSelectedClient(client);
+    const own = dogs.filter(d => d.client_id === client.id);
+    setOrderItems(items => items.map(i => ({ ...i, dog_id: own.length === 1 ? own[0].id : null })));
     setClientSearch(client.full_name);
     setShowClientDropdown(false);
   };
 
   const addProduct = (product: Product) => {
-    const existing = orderItems.find(item => item.product_id === product.id);
-    if (existing) {
-      setOrderItems(orderItems.map(item =>
-        item.product_id === product.id
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
-      ));
+    // New line per product unless an unassigned line exists; lets one sale cover several dogs.
+    const defaultDog = clientDogs.length === 1 ? clientDogs[0].id : null;
+    const idx = orderItems.findIndex(item => item.product_id === product.id && item.dog_id === defaultDog);
+    if (idx >= 0) {
+      setOrderItems(orderItems.map((item, i) => i === idx ? { ...item, quantity: item.quantity + 1 } : item));
     } else {
       setOrderItems([...orderItems, {
         product_id: product.id,
         product_title: product.title,
         quantity: 1,
-        price: product.price
+        price: product.price,
+        dog_id: defaultDog
       }]);
     }
     setProductSearch('');
     setShowProductDropdown(false);
   };
 
-  const updateQuantity = (productId: string, quantity: number) => {
+  const updateQuantity = (index: number, quantity: number) => {
     if (quantity <= 0) {
-      setOrderItems(orderItems.filter(item => item.product_id !== productId));
+      setOrderItems(orderItems.filter((_, i) => i !== index));
     } else {
-      setOrderItems(orderItems.map(item =>
-        item.product_id === productId ? { ...item, quantity } : item
-      ));
+      setOrderItems(orderItems.map((item, i) => i === index ? { ...item, quantity } : item));
     }
   };
 
-  const removeItem = (productId: string) => {
-    setOrderItems(orderItems.filter(item => item.product_id !== productId));
+  const updateDog = (index: number, dogId: string | null) => {
+    setOrderItems(orderItems.map((item, i) => i === index ? { ...item, dog_id: dogId } : item));
+  };
+
+  const removeItem = (index: number) => {
+    setOrderItems(orderItems.filter((_, i) => i !== index));
   };
 
   const total = orderItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -292,7 +309,8 @@ const AdminSales = () => {
         order_id: newOrder.id,
         product_id: item.product_id,
         quantity: item.quantity,
-        price: item.price
+        price: item.price,
+        dog_id: item.dog_id
       }));
 
       const { error: itemsError } = await supabase
@@ -442,7 +460,7 @@ const AdminSales = () => {
                       <div className="space-y-2">
                         {order.items.map((item, idx) => (
                           <div key={idx} className="flex justify-between text-sm">
-                            <span>{getProductTitle(item.product_id)} x{item.quantity} <span className="text-gray-500">({formatPrice(item.price)} c/u)</span></span>
+                            <span>{getProductTitle(item.product_id)} x{item.quantity}{getDogName(item.dog_id) ? ` · 🐶 ${getDogName(item.dog_id)}` : ''} <span className="text-gray-500">({formatPrice(item.price)} c/u)</span></span>
                             <span>{formatPrice(item.price * item.quantity)}</span>
                           </div>
                         ))}
@@ -673,23 +691,36 @@ const AdminSales = () => {
                     <ShoppingCart className="w-5 h-5" /> Productos en la venta
                   </h4>
                   <div className="space-y-2">
-                    {orderItems.map(item => (
-                      <div key={item.product_id} className="flex items-center justify-between bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
+                    {orderItems.map((item, index) => (
+                      <div key={index} className="flex items-center justify-between bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
                         <div className="flex-1">
                           <p className="font-medium">{item.product_title}</p>
                           <p className="text-sm text-gray-500">{formatPrice(item.price)} c/u</p>
+                          {clientDogs.length > 0 && (
+                            <select
+                              value={item.dog_id ?? ''}
+                              onChange={e => updateDog(index, e.target.value || null)}
+                              className="mt-1 text-sm border-2 border-gray-200 dark:border-gray-600 rounded-lg px-2 py-1 bg-white dark:bg-gray-800"
+                              aria-label="Perro destinatario"
+                            >
+                              <option value="">Sin asignar</option>
+                              {clientDogs.map(d => (
+                                <option key={d.id} value={d.id}>Para {d.name}{d.weight ? ` (${d.weight} kg)` : ''}</option>
+                              ))}
+                            </select>
+                          )}
                         </div>
                         <div className="flex items-center gap-3">
                           <div className="flex items-center border-2 border-gray-200 dark:border-gray-600 rounded-lg">
                             <button
-                              onClick={() => updateQuantity(item.product_id, item.quantity - 1)}
+                              onClick={() => updateQuantity(index, item.quantity - 1)}
                               className="px-3 py-1 hover:bg-gray-100 dark:hover:bg-gray-600"
                             >
                               -
                             </button>
                             <span className="px-3 py-1 min-w-[40px] text-center">{item.quantity}</span>
                             <button
-                              onClick={() => updateQuantity(item.product_id, item.quantity + 1)}
+                              onClick={() => updateQuantity(index, item.quantity + 1)}
                               className="px-3 py-1 hover:bg-gray-100 dark:hover:bg-gray-600"
                             >
                               +
@@ -697,7 +728,7 @@ const AdminSales = () => {
                           </div>
                           <span className="font-bold w-24 text-right">{formatPrice(item.price * item.quantity)}</span>
                           <button
-                            onClick={() => removeItem(item.product_id)}
+                            onClick={() => removeItem(index)}
                             className="p-1 hover:bg-red-100 dark:hover:bg-red-900/30 rounded text-red-500"
                           >
                             <X className="w-4 h-4" />
