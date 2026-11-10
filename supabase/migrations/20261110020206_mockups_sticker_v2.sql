@@ -1,0 +1,8 @@
+UPDATE public.product_images SET url='/__l5e/assets-v1/e2e4b505-665a-4c67-940d-dc2dcb401b1e/polvo-120-frente-v2.jpg' WHERE url LIKE '%/__l5e/assets-v1/822d3006-b0d0-4d96-a630-178cd8e03d83/polvo-120-frente.jpg%';
+UPDATE public.product_images SET url='/__l5e/assets-v1/7cef31a5-e18b-43ae-abe7-0892588c5ba6/polvo-120-respaldo-v2.jpg' WHERE url LIKE '%/__l5e/assets-v1/0ef80d61-7aa7-4f91-b1aa-2153abca53f3/polvo-120-respaldo.jpg%';
+UPDATE public.product_images SET url='/__l5e/assets-v1/6c5f5918-da17-4945-b184-60d64e8a9fdb/polvo-360-frente-v2.jpg' WHERE url LIKE '%/__l5e/assets-v1/12d60429-bb2d-452a-ad1f-f64011d17da5/polvo-360-frente.jpg%';
+UPDATE public.product_images SET url='/__l5e/assets-v1/491c32c0-824d-484e-bd61-6a51bdf509aa/polvo-360-respaldo-v2.jpg' WHERE url LIKE '%/__l5e/assets-v1/3af9ca3d-e891-4e9e-8af6-f20f6ae0e1db/polvo-360-respaldo.jpg%';
+UPDATE public.product_images SET url='/__l5e/assets-v1/a82795c5-b91b-44de-86c9-dd7b87f5cfc9/snack-30-frente-v2.jpg' WHERE url LIKE '%/__l5e/assets-v1/d8315bb0-8d1d-40e5-9244-45588d19098f/snack-30-frente.jpg%';
+UPDATE public.product_images SET url='/__l5e/assets-v1/90896dba-c83b-4242-9d66-6ede6d4fdf14/snack-30-respaldo-v2.jpg' WHERE url LIKE '%/__l5e/assets-v1/95cc0fd6-8308-401b-a1db-5b6dad1e576e/snack-30-respaldo.jpg%';
+UPDATE public.product_images SET url='/__l5e/assets-v1/8ef2b741-6b71-43d7-93e1-4cefba22199c/snack-90-frente-v2.jpg' WHERE url LIKE '%/__l5e/assets-v1/1956752c-ac33-42e3-bcbd-cc0bb1398974/snack-90-frente.jpg%';
+UPDATE public.product_images SET url='/__l5e/assets-v1/9e6968ff-91a4-4c2c-acf7-3cadb2c2a9c8/snack-90-respaldo-v2.jpg' WHERE url LIKE '%/__l5e/assets-v1/37d97cdd-46ce-42b6-a41d-1524e699debe/snack-90-respaldo.jpg%';
