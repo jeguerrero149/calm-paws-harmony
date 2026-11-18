@@ -235,11 +235,8 @@ export const CartDrawer = () => {
 
                 {step === "cart" ? (
                   <div className="space-y-2">
-                    <Button onClick={() => setStep("shipping")} className="w-full" size="lg">
-                      Pagar en línea
-                    </Button>
-                    <p className="text-xs text-center text-muted-foreground">PSE, Nequi, Daviplata o tarjeta</p>
-                    <Button asChild variant="outline" className="w-full" size="lg">
+                    {/* Pago en línea (Bold) desactivado temporalmente */}
+                    <Button asChild className="w-full" size="lg">
                       <a href={whatsappOrderUrl} target="_blank" rel="noopener noreferrer">
                         Pedir por WhatsApp
                       </a>
